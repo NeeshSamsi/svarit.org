@@ -15,7 +15,7 @@ const nextConfig: NextConfig = {
         permanent: true,
       },
       {
-        source: "*",
+        source: "/:path*",
         destination: "https://instagram.com/svaritorg",
         permanent: true,
       },
