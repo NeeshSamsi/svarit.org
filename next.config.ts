@@ -10,6 +10,11 @@ const nextConfig: NextConfig = {
         permanent: true,
       },
       {
+        source: "/uks",
+        destination: "https://forms.gle/9Nz9JoopR4j7soLe8",
+        permanent: true,
+      },
+      {
         source: "/:path*",
         destination: "https://instagram.com/svaritorg",
         permanent: true,
