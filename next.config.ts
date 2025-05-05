@@ -5,13 +5,8 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       {
-        source: "/DS25",
-        destination: "https://forms.gle/5ymhiMrYK4S2dp8AA",
-        permanent: true,
-      },
-      {
-        source: "/ds25",
-        destination: "https://forms.gle/5ymhiMrYK4S2dp8AA",
+        source: "/UKS",
+        destination: "https://forms.gle/9Nz9JoopR4j7soLe8",
         permanent: true,
       },
       {
