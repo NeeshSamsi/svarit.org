@@ -15,11 +15,11 @@ const nextConfig: NextConfig = {
           "https://docs.google.com/forms/d/e/1FAIpQLScTKRRpb9_VtaYkIZnECzL3Q2sT40oJIuP6sFIn70q_qzHDyA/viewform?usp=header",
         permanent: true,
       },
-      {
-        source: "/:path*",
-        destination: "https://instagram.com/svaritorg",
-        permanent: true,
-      },
+      // {
+      //   source: "/:path*",
+      //   destination: "https://instagram.com/svaritorg",
+      //   permanent: true,
+      // },
     ]
   },
 }
