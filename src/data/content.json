@@ -1,0 +1,65 @@
+{
+  "navigation": [
+    { "label": "About Us", "href": "#about" },
+    { "label": "Initiatives", "href": "#initiatives" },
+    { "label": "Contact Us", "href": "#contact" },
+    { "label": "Dinkar Kaikini", "href": "#dinkar-kaikini" },
+    { "label": "Donate to Svarit", "href": "#donate", "isPrimary": true }
+  ],
+  "hero": {
+    "title": "Promoting & Propogating Hindustani Classical Music",
+    "subtitle": "Svarit is dedicated to the preservation and promotion of Indian classical music through education, performance, and community engagement.",
+    "cta": "Explore Initiatives",
+    "stats": "20+ Volunteers"
+  },
+  "about": {
+    "heading": "Our Mission",
+    "subheading": "Svarit was founded in 2001 with the vision of promoting and propagating the rich tradition of Hindustani Raag Sangeet, as envisioned by the legendary vocalist Pandit Dinkar Kaikini.",
+    "paragraphs": [
+      "The Trust was established to preserve, nurture, and carry forward the glorious musical lineage of the Agra Gharana. Pandit Dinkar Kaikini inherited this musical tradition from his revered Guru S. N. Ratanjankar, Hindustani classical musician and scholar, who was a disciple of Pandit Vishnu Narayan Bhatkhande and also a direct disciple of the legendary Ustad Faiyaz Khan of the Agra Gharana.",
+      "Over the years, Svarit has become an important cultural platform dedicated to music education, artistic collaboration, preservation of classical traditions, and the creation of meaningful performance experiences."
+    ]
+  },
+  "initiatives": {
+    "heading": "Keeping the Tradition Alive for More than 2 Decades",
+    "subheading": "Initiatives & Activities",
+    "tags": ["Workshops", "Events"],
+    "items": [
+      {
+        "date": "4th April 2026",
+        "title": "Dinarang Smriti",
+        "description": "Since 2011, Svarit has presented the annual Dinarag Smriti Festival in memory of Pandit Dinkar Kaikini."
+      },
+      {
+        "date": "4th April 2026",
+        "title": "Samprati - Kathak Festival",
+        "description": "Svarit also supported Samprati, a Kathak dance festival presented in Mumbai by acclaimed kathak dancer Smt Mansi Deshpande."
+      },
+      {
+        "date": "4th April 2026",
+        "title": "Chatur Sujan Dinarang Ek Parampara",
+        "description": "Svarit also supported Samprati, a Kathak dance festival presented in Mumbai by acclaimed kathak dancer Smt Mansi Deshpande."
+      }
+    ]
+  },
+  "donate": {
+    "heading": "Join us in making a difference",
+    "cta": "Donate to Svarit"
+  },
+  "contact": {
+    "heading": "We'd Love to Hear from You",
+    "subheading": "Get in touch",
+    "description": "Svarit was founded in 2001 with the vision of promoting and propagating the rich tradition",
+    "form": {
+      "nameLabel": "Name",
+      "emailLabel": "Email",
+      "messageLabel": "Message"
+    }
+  },
+  "footer": {
+    "address": "Anandashram, 22 Pandita Ramabai Rd, Gamdevi, Mumbai - 400 007",
+    "contact": "svarittrust1@gmail.com | +91 9930759942",
+    "copyright": "© 2026 Svarit. All rights reserved.",
+    "credits": "Made with 💛 by Neesh Samsi"
+  }
+}
