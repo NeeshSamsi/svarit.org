@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "solo": {
+      "url": "http://127.0.0.1:7266/sse",
+      "type": "sse"
+    },
+    "solo-app": {
+      "url": "http://localhost:7266/sse",
+      "type": "sse"
+    }
+  }
+}
