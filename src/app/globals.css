@@ -1,19 +1,13 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@theme {
+  --color-primary: #fef7ed;
+  --color-foreground: #1e1c1a;
+  --color-muted: #f4ede3;
+  --color-accent: #1e1c1a;
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
+  --font-display: "fields-display", serif;
+  --font-body: "fields", sans-serif;
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  --max-w-content: 1032px;
 }
