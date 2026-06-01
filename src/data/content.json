@@ -23,8 +23,7 @@
   "initiatives": {
     "heading": "Keeping the Tradition Alive for More than 2 Decades",
     "subheading": "Initiatives & Activities",
-    "tags": ["Workshops", "Events"],
-    "items": [
+    "events": [
       {
         "date": "4th April 2026",
         "title": "Dinarang Smriti",
@@ -39,6 +38,18 @@
         "date": "4th April 2026",
         "title": "Chatur Sujan Dinarang Ek Parampara",
         "description": "Svarit also supported Samprati, a Kathak dance festival presented in Mumbai by acclaimed kathak dancer Smt Mansi Deshpande."
+      }
+    ],
+    "workshops": [
+      {
+        "date": "June 2026",
+        "title": "Hindustani Vocal Workshop",
+        "description": "An intensive workshop on Hindustani raag sangeet led by senior disciples of the Agra Gharana."
+      },
+      {
+        "date": "August 2026",
+        "title": "Tabla & Rhythm Workshop",
+        "description": "A focused session on rhythm, taal, and tabla accompaniment for classical vocalists."
       }
     ]
   },
