@@ -1,30 +1,36 @@
-import type { Metadata } from "next";
-import "./globals.css";
-import Nav from "@/components/layout/Nav";
-import Footer from "@/components/layout/Footer";
+import type { Metadata } from 'next'
+import './globals.css'
+import Nav from '@/components/layout/Nav'
+import Footer from '@/components/layout/Footer'
+import SmoothScroll from '@/components/providers/SmoothScroll'
 
 export const metadata: Metadata = {
-  title: "Svarit",
-  description: "Hindustani Classical Music nonprofit, founded 2001",
-};
+  title: 'Svarit',
+  description: 'Hindustani Classical Music nonprofit, founded 2001',
+}
 
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className="font-body text-foreground bg-primary antialiased">
+    <html
+      lang="en"
+      className="scroll-pt-24 bg-primary font-body text-foreground antialiased"
+    >
       <head>
         <link rel="stylesheet" href="https://use.typekit.net/yan0qzb.css" />
       </head>
       <body>
         <Nav />
-        <main className="grid grid-cols-12 gap-6 max-w-content mx-auto w-full px-6">
-          {children}
-        </main>
-        <Footer />
+        <SmoothScroll>
+          <main className="max-w-content mx-auto grid w-full grid-cols-12 gap-x-6 gap-y-18 px-6">
+            {children}
+            <Footer />
+          </main>
+        </SmoothScroll>
       </body>
     </html>
-  );
+  )
 }
