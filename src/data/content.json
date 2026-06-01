@@ -4,7 +4,11 @@
     { "label": "Initiatives", "href": "#initiatives" },
     { "label": "Contact Us", "href": "#contact" },
     { "label": "Dinkar Kaikini", "href": "#dinkar-kaikini" },
-    { "label": "Donate to Svarit", "href": "#donate", "isPrimary": true }
+    {
+      "label": "Donate to Svarit",
+      "href": "https://rzp.io/l/svarit",
+      "isPrimary": true
+    }
   ],
   "hero": {
     "title": "Promoting & Propogating Hindustani Classical Music",
