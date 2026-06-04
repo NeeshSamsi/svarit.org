@@ -11,22 +11,22 @@
     }
   ],
   "hero": {
-    "title": "Promoting & Propogating Hindustani Classical Music",
+    "title": "Ushering in the Next Era of Indian Music",
     "subtitle": "Svarit is dedicated to the preservation and promotion of Indian classical music through education, performance, and community engagement.",
     "cta": "Explore Initiatives",
     "stats": "20+ Volunteers"
   },
   "about": {
-    "heading": "Our Mission",
+    "heading": "Our Mission is to Inspire Young & Fresh Perspectives to Reshape Indian Music",
     "subheading": "Svarit was founded in 2001 with the vision of promoting and propagating the rich tradition of Hindustani Raag Sangeet, as envisioned by the legendary vocalist Pandit Dinkar Kaikini.",
     "paragraphs": [
-      "The Trust was established to preserve, nurture, and carry forward the glorious musical lineage of the Agra Gharana. Pandit Dinkar Kaikini inherited this musical tradition from his revered Guru S. N. Ratanjankar, Hindustani classical musician and scholar, who was a disciple of Pandit Vishnu Narayan Bhatkhande and also a direct disciple of the legendary Ustad Faiyaz Khan of the Agra Gharana.",
-      "Over the years, Svarit has become an important cultural platform dedicated to music education, artistic collaboration, preservation of classical traditions, and the creation of meaningful performance experiences."
+      "Svarit, a Sanskrit word meaning “ascending towards the divine”, embodies our belief in music as a pathway to higher artistic and spiritual expression. Founded to preserve and promote the legacy of Indian Music as envisioned by Pandit Dinkar Kaikini, Svarit is rooted in a rich musical lineage that traces through the legacies of the great masters of Hindustani classical music, the likes of Vishnu Narayan Bhatkhande, Ustad Faiyaz Khan, S. N. Ratanjankar, Ustad Allarakha Khan & Ustad Zakir Hussain.",
+      "Today, under the guidance of Pt Yogesh Samsi, Svarit is more than a trust. It is a vibrant cultural platform where tradition meets innovation. Through concerts, festivals, educational initiatives, artist development, and collaborative projects, we nurture excellence while ensuring our country's arts remain relevant, accessible, and inspiring for future generations. Svarit continues to celebrate heritage, foster creativity, and shape the future of Indian Music."
     ]
   },
   "initiatives": {
-    "heading": "Keeping the Tradition Alive for More than 2 Decades",
-    "subheading": "Initiatives & Activities",
+    "heading": "Engaging Through More than 2 Decades of Keeping Tradition Alive",
+    "subheading": "Our Initiatives",
     "events": [
       {
         "date": "4th April 2026",
@@ -58,13 +58,13 @@
     ]
   },
   "donate": {
-    "heading": "Join us in making a difference",
+    "heading": "Join us in shaping the future of Indian Music.",
     "cta": "Donate to Svarit"
   },
   "contact": {
+    "subheading": "Contact Us",
     "heading": "We'd Love to Hear from You",
-    "subheading": "Get in touch",
-    "description": "Svarit was founded in 2001 with the vision of promoting and propagating the rich tradition",
+    "description": "We are a community of dreamers & changemakers. What began as a family endeavour is now expanding to welcome fresh perspectives. If you resonate with our mission, please get in touch.",
     "form": {
       "nameLabel": "Name",
       "emailLabel": "Email",

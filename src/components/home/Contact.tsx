@@ -52,8 +52,7 @@ export default function Contact() {
               </label>
               <input
                 type="text"
-                placeholder="Neesh"
-                className="rounded-full border border-transparent bg-primary px-6 py-3 font-body text-base outline-none hover:border-foreground/20 focus:border-foreground transition-colors"
+                className="rounded-full border border-transparent bg-primary px-6 py-3 font-body text-base transition-colors outline-none hover:border-foreground/20 focus:border-foreground"
               />
             </div>
             <div className="flex flex-col gap-2">
@@ -62,8 +61,7 @@ export default function Contact() {
               </label>
               <input
                 type="email"
-                placeholder="hello@neeshsamsi.com"
-                className="rounded-full border border-transparent bg-primary px-6 py-3 font-body text-base outline-none hover:border-foreground/20 focus:border-foreground transition-colors"
+                className="rounded-full border border-transparent bg-primary px-6 py-3 font-body text-base transition-colors outline-none hover:border-foreground/20 focus:border-foreground"
               />
             </div>
             <div className="flex flex-col gap-2">
@@ -72,8 +70,7 @@ export default function Contact() {
               </label>
               <textarea
                 rows={4}
-                placeholder="I really wanted to reach out because..."
-                className="resize-none rounded-3xl border border-transparent bg-primary px-6 py-4 font-body text-base outline-none hover:border-foreground/20 focus:border-foreground transition-colors"
+                className="resize-none rounded-3xl border border-transparent bg-primary px-6 py-4 font-body text-base transition-colors outline-none hover:border-foreground/20 focus:border-foreground"
               />
             </div>
             <Button className="w-full">Send Message</Button>
