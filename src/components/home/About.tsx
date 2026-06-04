@@ -8,10 +8,19 @@ import { gsap, ScrollTrigger } from '@/lib/gsap'
 export default function About() {
   const { about, hero } = getContent()
   const sectionRef = useRef<HTMLElement>(null)
+  const statsDesktopRef = useRef<HTMLDivElement>(null)
+  const statsMobileRef = useRef<HTMLDivElement>(null)
   const titleRef = useRef<HTMLDivElement>(null)
   const paraRefs = useRef<(HTMLParagraphElement | null)[]>([])
 
   useEffect(() => {
+    gsap.from([statsDesktopRef.current, statsMobileRef.current].filter(Boolean), {
+      y: 20,
+      opacity: 0,
+      duration: 0.4,
+      ease: 'power2.out',
+      scrollTrigger: { trigger: sectionRef.current, start: 'top 80%' },
+    })
     gsap.from(titleRef.current, {
       y: 24,
       opacity: 0,
@@ -36,7 +45,7 @@ export default function About() {
       aria-label="About"
       className="col-span-full grid grid-cols-subgrid"
     >
-      <div className="col-span-4 hidden flex-col gap-3 lg:flex">
+      <div ref={statsDesktopRef} className="col-span-4 hidden flex-col gap-3 lg:flex">
         <span className="font-body text-base text-foreground">
           {hero.stats}
         </span>
@@ -50,7 +59,7 @@ export default function About() {
         </div>
       </div>
       <div className="col-span-full flex flex-col gap-8 lg:col-span-8">
-        <div className="flex flex-col gap-3 lg:hidden">
+        <div ref={statsMobileRef} className="flex flex-col gap-3 lg:hidden">
           <span className="font-body text-base text-foreground">
             {hero.stats}
           </span>
