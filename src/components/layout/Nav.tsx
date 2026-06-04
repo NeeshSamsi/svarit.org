@@ -50,13 +50,14 @@ export default function Nav() {
                 variant="primary"
                 size="sm"
                 href={item.href}
+                target="_blank"
               >
                 {item.label}
               </ButtonLink>
             ))}
           </div>
 
-          <div className="flex items-center gap-3 lg:hidden">
+          <div className="flex items-center gap-1 sm:gap-3 lg:hidden">
             {primary.map((item) => (
               <ButtonLink
                 key={item.label}
