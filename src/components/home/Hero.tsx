@@ -38,13 +38,11 @@ export default function Hero() {
         <h1 className="min-w-0 font-display text-4xl leading-tight font-medium text-foreground md:text-5xl">
           {hero.title}
         </h1>
-        <ButtonLink
-          variant="secondary"
-          href="#about"
-          className="w-fit shrink-0"
-        >
-          Learn more
-        </ButtonLink>
+        <div className="hidden w-fit shrink-0 sm:block">
+          <ButtonLink variant="secondary" href="#about">
+            Learn more
+          </ButtonLink>
+        </div>
       </div>
 
       <div
@@ -54,11 +52,11 @@ export default function Hero() {
 
       <div
         ref={img1Ref}
-        className="col-span-6 aspect-4/3 rounded-3xl bg-muted lg:col-span-2 lg:aspect-square"
+        className="hidden aspect-4/3 rounded-3xl bg-muted sm:col-span-6 sm:block lg:col-span-2 lg:aspect-square"
       />
       <div
         ref={img2Ref}
-        className="col-span-6 aspect-4/3 rounded-3xl bg-muted lg:col-span-8 lg:aspect-video"
+        className="col-span-full aspect-4/3 rounded-3xl bg-muted sm:col-span-6 lg:col-span-8 lg:aspect-video"
       />
     </section>
   )
