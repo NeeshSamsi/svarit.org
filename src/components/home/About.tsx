@@ -3,7 +3,7 @@
 import { useRef, useEffect } from 'react'
 import { getContent } from '@/lib/cms'
 import SectionTitle from '@/components/ui/SectionTitle'
-import { gsap, ScrollTrigger } from '@/lib/gsap'
+import { gsap } from '@/lib/gsap'
 
 export default function About() {
   const { about, hero } = getContent()
