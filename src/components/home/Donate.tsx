@@ -4,7 +4,7 @@ import { useRef, useEffect } from 'react'
 import { getContent } from '@/lib/cms'
 import SectionTitle from '@/components/ui/SectionTitle'
 import ButtonLink from '@/components/ui/ButtonLink'
-import { gsap, ScrollTrigger } from '@/lib/gsap'
+import { gsap } from '@/lib/gsap'
 
 export default function Donate() {
   const { donate } = getContent()
@@ -32,7 +32,7 @@ export default function Donate() {
       <div className="relative w-full">
         <div
           ref={bgRef}
-          className="aspect-4/3 w-full rounded-3xl bg-muted md:aspect-video"
+          className="aspect-2/3 w-full rounded-3xl bg-muted md:aspect-video"
         />
         <div className="absolute inset-0 flex max-w-md items-end p-6">
           <div
@@ -40,7 +40,11 @@ export default function Donate() {
             className="flex w-full flex-col gap-6 rounded-2xl bg-primary p-4 md:w-auto"
           >
             <SectionTitle title={donate.heading} />
-            <ButtonLink variant="primary" href="#contact">
+            <ButtonLink
+              variant="primary"
+              href="https://pages.razorpay.com/svarit"
+              target="_blank"
+            >
               {donate.cta}
             </ButtonLink>
           </div>
