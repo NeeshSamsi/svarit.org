@@ -28,6 +28,8 @@ export default function Initiatives() {
     })
   }
 
+  const isFirstRender = useRef(true)
+
   useEffect(() => {
     gsap.from(headerRef.current, {
       y: 24,
@@ -45,6 +47,15 @@ export default function Initiatives() {
       scrollTrigger: { trigger: sectionRef.current, start: 'top 65%' },
     })
   }, [])
+
+  useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false
+      return
+    }
+    gsap.killTweensOf('.initiative-card')
+    animateCards()
+  }, [activeTab])
 
   return (
     <section
@@ -65,7 +76,6 @@ export default function Initiatives() {
               key={key}
               onClick={() => {
                 setActiveTab(key)
-                animateCards()
               }}
               className={[
                 'cursor-pointer rounded-full px-6 py-2 font-body text-base transition-colors',
