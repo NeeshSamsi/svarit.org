@@ -1,7 +1,13 @@
-# Visit https://soloterm.com to learn more
 name: svarit.org
 icon: null
 processes:
+  Slicemachine Watch:
+    command: npx prismic@latest sync --watch
+    working_dir: null
+    auto_start: true
+    auto_restart: false
+    restart_when_changed: []
+    env: {}
   Next.js:
     command: pnpm run dev
     working_dir: null
