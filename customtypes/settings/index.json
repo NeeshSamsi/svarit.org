@@ -1,0 +1,73 @@
+{
+  "id": "settings",
+  "label": "Site Settings",
+  "repeatable": false,
+  "json": {
+    "Main": {
+      "logo": {
+        "type": "Image",
+        "config": {
+          "label": "Svarit Logo",
+          "constraint": {},
+          "thumbnails": []
+        }
+      },
+      "nav": {
+        "type": "Group",
+        "config": {
+          "label": "Navigation",
+          "repeat": false,
+          "fields": {
+            "links": {
+              "type": "Link",
+              "config": {
+                "label": "Links",
+                "placeholder": "",
+                "select": null,
+                "allowTargetBlank": true,
+                "allowText": true,
+                "repeat": true
+              }
+            }
+          }
+        }
+      },
+      "footer": {
+        "type": "Group",
+        "config": {
+          "label": "Footer",
+          "repeat": false,
+          "fields": {
+            "address": {
+              "type": "Text",
+              "config": {
+                "label": "Address",
+                "placeholder": ""
+              }
+            },
+            "contact": {
+              "type": "Text",
+              "config": {
+                "label": "Contact Details",
+                "placeholder": ""
+              }
+            }
+          }
+        }
+      },
+      "donationLink": {
+        "type": "Link",
+        "config": {
+          "label": "Donation Link",
+          "placeholder": "https://rzp.io/l/svarit",
+          "select": null,
+          "allowTargetBlank": true,
+          "allowText": true,
+          "repeat": true
+        }
+      }
+    }
+  },
+  "status": true,
+  "format": "custom"
+}

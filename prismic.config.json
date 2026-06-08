@@ -1,0 +1,12 @@
+{
+  "repositoryName": "svarit",
+  "libraries": [
+    "./src/slices"
+  ],
+  "routes": [
+    {
+      "type": "page",
+      "path": "/:uid"
+    }
+  ]
+}
