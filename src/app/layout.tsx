@@ -17,7 +17,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className="scroll-pt-24 bg-primary font-body text-foreground antialiased"
+      className="scroll-pt-32 bg-primary font-body text-foreground antialiased"
     >
       <head>
         <link rel="stylesheet" href="https://use.typekit.net/yan0qzb.css" />
