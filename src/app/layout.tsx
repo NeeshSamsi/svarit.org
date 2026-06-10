@@ -3,6 +3,7 @@ import './globals.css'
 import Nav from '@/components/layout/Nav'
 import Footer from '@/components/layout/Footer'
 import SmoothScroll from '@/components/providers/SmoothScroll'
+import Umami from '@/components/analytics/Umami'
 
 export const metadata: Metadata = {
   title: 'Svarit',
@@ -30,6 +31,7 @@ export default function RootLayout({
             <Footer />
           </main>
         </SmoothScroll>
+        <Umami />
       </body>
     </html>
   )
