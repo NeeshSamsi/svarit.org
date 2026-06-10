@@ -22,6 +22,14 @@ const nextConfig: NextConfig = {
       // },
     ]
   },
+  async rewrites() {
+    return [
+      {
+        source: "/u/:path*",
+        destination: "https://umami.neeshsamsi.com/:path*",
+      },
+    ]
+  },
 }
 
 export default nextConfig

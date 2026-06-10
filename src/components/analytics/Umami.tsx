@@ -8,12 +8,12 @@ export default function Umami() {
   return (
     <>
       <Script
-        src="https://umami.neeshsamsi.com/script.js"
+        src="/u/script.js"
         data-website-id={WEBSITE_ID}
         strategy="afterInteractive"
       />
       <Script
-        src="https://umami.neeshsamsi.com/recorder.js"
+        src="/u/recorder.js"
         data-website-id={WEBSITE_ID}
         data-sample-rate="0.15"
         data-mask-level="moderate"
