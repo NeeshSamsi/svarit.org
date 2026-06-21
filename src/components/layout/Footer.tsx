@@ -10,10 +10,10 @@ export default function Footer() {
         <img src="/assets/logo.svg" alt="Svarit" className="h-8 w-auto" />
         <div className="mt-4 flex flex-col gap-2">
           <p className="font-body text-base font-light text-foreground">
-            {footer.address}
+            {footer.contact}
           </p>
           <p className="font-body text-base font-light text-foreground">
-            {footer.contact}
+            {footer.address}
           </p>
         </div>
       </div>
