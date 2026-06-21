@@ -1,9 +1,10 @@
 import contentData from '@/data/content.json'
 
 type InitiativeItem = {
-  date: string
+  date: { date: string; label: string }
   title: string
   description: string
+  image?: string
 }
 
 type ContentData = {
@@ -17,6 +18,11 @@ type ContentData = {
     workshops: InitiativeItem[]
   }
   donate: { heading: string; cta: string }
+  sponsors: {
+    heading: string
+    subheading: string
+    logos: { src: string; alt: string }[]
+  }
   contact: {
     heading: string
     subheading: string

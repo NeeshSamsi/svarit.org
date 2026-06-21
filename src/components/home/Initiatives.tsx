@@ -1,20 +1,35 @@
 'use client'
 
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect, useMemo } from 'react'
 import { getContent } from '@/lib/cms'
 import SectionTitle from '@/components/ui/SectionTitle'
 import { gsap } from '@/lib/gsap'
 
 type Tab = 'events' | 'workshops'
 
+const PAGE_SIZE = 6
+
 export default function Initiatives() {
   const { initiatives } = getContent()
   const [activeTab, setActiveTab] = useState<Tab>('events')
+  const [visibleCount, setVisibleCount] = useState(PAGE_SIZE)
   const sectionRef = useRef<HTMLElement>(null)
   const headerRef = useRef<HTMLDivElement>(null)
 
+  const sortedItems = useMemo(
+    () =>
+      [...initiatives[activeTab]].sort(
+        (a, b) =>
+          new Date(b.date.date).getTime() - new Date(a.date.date).getTime()
+      ),
+    [initiatives, activeTab]
+  )
+  const visibleItems = sortedItems.slice(0, visibleCount)
+  const hasMore = visibleCount < sortedItems.length
+
   const tabs: { key: Tab; label: string }[] = [
-    { key: 'workshops', label: 'Workshops' },
+    // Workshops tab temporarily hidden
+    // { key: 'workshops', label: 'Workshops' },
     { key: 'events', label: 'Events' },
   ]
 
@@ -57,6 +72,23 @@ export default function Initiatives() {
     animateCards()
   }, [activeTab])
 
+  const prevCountRef = useRef(PAGE_SIZE)
+
+  useEffect(() => {
+    if (visibleCount > prevCountRef.current) {
+      const cards = gsap.utils.toArray('.initiative-card') as HTMLElement[]
+      const newCards = cards.slice(prevCountRef.current)
+      gsap.from(newCards, {
+        y: 16,
+        opacity: 0,
+        duration: 0.35,
+        stagger: 0.18,
+        ease: 'power2.out',
+      })
+    }
+    prevCountRef.current = visibleCount
+  }, [visibleCount])
+
   return (
     <section
       ref={sectionRef}
@@ -76,6 +108,7 @@ export default function Initiatives() {
               key={key}
               onClick={() => {
                 setActiveTab(key)
+                setVisibleCount(PAGE_SIZE)
               }}
               className={[
                 'cursor-pointer rounded-full px-6 py-2 font-body text-base transition-colors',
@@ -89,15 +122,21 @@ export default function Initiatives() {
           ))}
         </div>
       </div>
-      {initiatives[activeTab].map((item, index) => (
+      {visibleItems.map((item, index) => (
         <div
           key={index}
           className="initiative-card col-span-full flex flex-col gap-4 sm:col-span-6 lg:col-span-4"
         >
-          <div className="aspect-4/3 w-full rounded-3xl bg-muted" />
+          {item.image && (
+            <img
+              src={item.image}
+              alt={item.title}
+              className="aspect-4/3 w-full rounded-3xl object-cover"
+            />
+          )}
           <div className="flex flex-1 flex-col gap-2">
             <span className="font-body text-base font-light text-foreground">
-              {item.date}
+              {item.date.label}
             </span>
             <h3 className="font-display text-card-title leading-tight font-medium text-foreground">
               {item.title}
@@ -109,6 +148,18 @@ export default function Initiatives() {
           <div className="h-px w-full bg-foreground" />
         </div>
       ))}
+      {hasMore && (
+        <div className="col-span-full flex justify-center">
+          <button
+            onClick={() => setVisibleCount((c) => c + PAGE_SIZE)}
+            className="cursor-pointer rounded-full border border-foreground px-6 py-2 font-body text-base text-foreground transition-colors hover:bg-muted"
+          >
+            {activeTab === 'events'
+              ? 'Show more events'
+              : 'Show more workshops'}
+          </button>
+        </div>
+      )}
     </section>
   )
 }
