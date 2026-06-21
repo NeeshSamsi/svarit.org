@@ -47,17 +47,39 @@ export default function Hero() {
 
       <div
         ref={img3Ref}
-        className="col-span-2 row-span-2 hidden aspect-1/2 rounded-3xl bg-muted lg:block"
-      />
+        className="col-span-2 row-span-2 hidden aspect-1/2 overflow-hidden rounded-3xl bg-muted lg:block"
+      >
+        <video
+          className="h-full w-full object-cover object-center"
+          src="/assets/hero/right.mp4"
+          poster="/assets/hero/right-poster.jpg"
+          preload="metadata"
+          autoPlay
+          muted
+          loop
+          playsInline
+          aria-hidden="true"
+        />
+      </div>
 
       <div
         ref={img1Ref}
-        className="hidden aspect-4/3 rounded-3xl bg-muted sm:col-span-6 sm:block lg:col-span-2 lg:aspect-square"
-      />
+        className="hidden aspect-4/3 overflow-hidden rounded-3xl bg-muted sm:col-span-6 sm:block lg:col-span-2 lg:aspect-square"
+      >
+        <picture>
+          <source srcSet="/assets/hero/left.webp" type="image/webp" />
+          <img src="/assets/hero/left.png" alt="" className="h-full w-full object-cover object-center" />
+        </picture>
+      </div>
       <div
         ref={img2Ref}
-        className="col-span-full aspect-4/3 rounded-3xl bg-muted sm:col-span-6 lg:col-span-8 lg:aspect-video"
-      />
+        className="col-span-full aspect-4/3 overflow-hidden rounded-3xl bg-muted sm:col-span-6 lg:col-span-8 lg:aspect-video"
+      >
+        <picture>
+          <source srcSet="/assets/hero/middle.webp" type="image/webp" />
+          <img src="/assets/hero/middle.png" alt="" className="h-full w-full object-cover object-center" />
+        </picture>
+      </div>
     </section>
   )
 }
