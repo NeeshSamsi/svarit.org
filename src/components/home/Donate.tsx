@@ -32,8 +32,13 @@ export default function Donate() {
       <div className="relative w-full">
         <div
           ref={bgRef}
-          className="aspect-2/3 w-full rounded-3xl bg-muted md:aspect-video"
-        />
+          className="aspect-2/3 w-full overflow-hidden rounded-3xl bg-muted md:aspect-video"
+        >
+          <picture>
+            <source srcSet="/assets/donate/image.webp" type="image/webp" />
+            <img src="/assets/donate/image.png" alt="" className="h-full w-full object-cover object-center" />
+          </picture>
+        </div>
         <div className="absolute inset-0 flex max-w-md items-end p-6">
           <div
             ref={boxRef}
