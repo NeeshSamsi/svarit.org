@@ -44,9 +44,14 @@ export default function Sponsors() {
         duration: 0.4,
         stagger: 0.1,
         ease: 'power2.out',
-        scrollTrigger: { trigger: sectionRef.current, start: 'top 65%', once: true },
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: 'top 65%',
+          once: true,
+        },
         onComplete: () => {
-          if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+          if (window.matchMedia('(prefers-reduced-motion: reduce)').matches)
+            return
           emblaApi?.plugins()?.autoScroll?.play()
         },
       })
@@ -73,7 +78,7 @@ export default function Sponsors() {
             'linear-gradient(to right, transparent 0, black 6%, black 94%, transparent 100%)',
         }}
       >
-        <div className="flex items-center gap-x-[120px]">
+        <div className="flex items-center gap-x-16 sm:gap-x-30">
           {logos.map((logo, i) => {
             const isClone = i >= sponsors.logos.length
             return (
