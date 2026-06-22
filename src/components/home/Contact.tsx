@@ -81,7 +81,7 @@ export default function Contact() {
                   type="text"
                   required
                   aria-invalid={!!state.errors?.name}
-                  className="rounded-full border border-transparent bg-primary px-6 py-3 font-body text-base transition-colors outline-none hover:border-foreground/20 focus:border-foreground"
+                  className="rounded-full border border-foreground/20 bg-primary px-6 py-3 font-body text-base transition-colors outline-none hover:border-foreground focus:border-foreground"
                 />
                 {state.errors?.name && (
                   <span className="font-body text-sm text-red-600">
@@ -102,7 +102,7 @@ export default function Contact() {
                   type="email"
                   required
                   aria-invalid={!!state.errors?.email}
-                  className="rounded-full border border-transparent bg-primary px-6 py-3 font-body text-base transition-colors outline-none hover:border-foreground/20 focus:border-foreground"
+                  className="rounded-full border border-foreground/20 bg-primary px-6 py-3 font-body text-base transition-colors outline-none hover:border-foreground focus:border-foreground"
                 />
                 {state.errors?.email && (
                   <span className="font-body text-sm text-red-600">
@@ -123,7 +123,7 @@ export default function Contact() {
                   rows={4}
                   required
                   aria-invalid={!!state.errors?.message}
-                  className="resize-none rounded-3xl border border-transparent bg-primary px-6 py-4 font-body text-base transition-colors outline-none hover:border-foreground/20 focus:border-foreground"
+                  className="resize-none rounded-3xl border border-foreground/20 bg-primary px-6 py-4 font-body text-base transition-colors outline-none hover:border-foreground focus:border-foreground"
                 />
                 {state.errors?.message && (
                   <span className="font-body text-sm text-red-600">
