@@ -64,7 +64,7 @@ export default function Nav() {
               <a
                 key={item.label}
                 href={item.href}
-                className="font-body text-base font-normal text-foreground transition-opacity hover:opacity-60"
+                className="font-body text-base text-foreground transition-opacity hover:opacity-60"
               >
                 {item.label}
               </a>
@@ -114,7 +114,7 @@ export default function Nav() {
               <a
                 key={item.label}
                 href={item.href}
-                className="mobile-nav-item text-center font-body text-base font-normal text-foreground transition-opacity hover:opacity-60"
+                className="mobile-nav-item text-center font-body text-base text-foreground transition-opacity hover:opacity-60"
                 onClick={() => setMobileOpen(false)}
               >
                 {item.label}

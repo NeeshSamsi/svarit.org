@@ -1,7 +1,13 @@
-import type { NextConfig } from "next"
+import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
   /* config options here */
+  turbopack: {
+    root: __dirname,
+  },
+  images: {
+    formats: ['image/avif', 'image/webp'],
+  },
   async redirects() {
     return [
       // {
@@ -10,9 +16,9 @@ const nextConfig: NextConfig = {
       //   permanent: true,
       // },
       {
-        source: "/singingdinarang",
+        source: '/singingdinarang',
         destination:
-          "https://docs.google.com/forms/d/e/1FAIpQLScTKRRpb9_VtaYkIZnECzL3Q2sT40oJIuP6sFIn70q_qzHDyA/viewform?usp=header",
+          'https://docs.google.com/forms/d/e/1FAIpQLScTKRRpb9_VtaYkIZnECzL3Q2sT40oJIuP6sFIn70q_qzHDyA/viewform?usp=header',
         permanent: true,
       },
       // {
@@ -25,8 +31,8 @@ const nextConfig: NextConfig = {
   async rewrites() {
     return [
       {
-        source: "/u/:path*",
-        destination: "https://umami.neeshsamsi.com/:path*",
+        source: '/u/:path*',
+        destination: 'https://umami.neeshsamsi.com/:path*',
       },
     ]
   },

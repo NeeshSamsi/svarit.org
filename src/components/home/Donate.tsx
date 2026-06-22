@@ -1,6 +1,7 @@
 'use client'
 
 import { useRef, useEffect } from 'react'
+import Image from 'next/image'
 import { getContent } from '@/lib/cms'
 import SectionTitle from '@/components/ui/SectionTitle'
 import ButtonLink from '@/components/ui/ButtonLink'
@@ -32,16 +33,15 @@ export default function Donate() {
       <div className="relative">
         <div
           ref={bgRef}
-          className="aspect-video w-full overflow-hidden rounded-3xl bg-muted"
+          className="relative aspect-video w-full overflow-hidden rounded-3xl bg-muted"
         >
-          <picture>
-            <source srcSet="/assets/donate/image.webp" type="image/webp" />
-            <img
-              src="/assets/donate/image.jpg"
-              alt=""
-              className="h-full w-full object-cover object-bottom"
-            />
-          </picture>
+          <Image
+            src="/assets/donate/image.jpg"
+            alt="An attentive audience enjoying an intimate Hindustani classical music Baithak. In a moment of musical climax, maestros Pandit Yogesh Samsi and Pandit Suresh Talwalkar are seen in the audience with their hands raised in spontaneous approval and enjoyment."
+            fill
+            sizes="100vw"
+            className="object-cover object-bottom"
+          />
         </div>
         <div className="mt-6 flex sm:absolute sm:inset-0 sm:mt-0 sm:max-w-md sm:items-end sm:p-6">
           <div

@@ -2,7 +2,13 @@
 
 ## Sub-Agent Cleanup
 
-This project follows the global sub-agent spawning rules (`~/.claude/CLAUDE.md`). The cleanup policy in particular:
+This project follows the global sub-agent spawning rules (`~/.claude/CLAUDE.md`). Two rules in particular:
+
+**No nested sub-agents — tell every sub-agent so explicitly.** Only the orchestrator may spawn agents. Every spawn prompt MUST instruct the sub-agent: do not spawn sub-agents, set orchestration timers, or delegate — if another agent is genuinely needed, escalate back up to the orchestrator; otherwise do the work yourself with your own tools. (Sub-agents with Solo MCP tools will otherwise try to orchestrate and loop.)
+
+**Bubble up permission prompts.** If a sub-agent stalls asking permission for simple, expected tool calls, surface it to the user so they can enable auto mode within that sub-agent — don't silently work around it.
+
+The cleanup policy in particular:
 
 **Clean up at the START of the next turn, never at the end of the current one.** When a Solo sub-agent finishes its work and goes idle, leave it running. Do NOT close it as the turn wraps up. The next time a sub-agent is needed, make cleanup the first step of that turn (combined with the `mcp__solo__list_processes` + "Reuse over respawn" check):
 

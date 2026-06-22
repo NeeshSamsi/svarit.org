@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useRef, useEffect, useMemo } from 'react'
+import Image from 'next/image'
 import { getContent } from '@/lib/cms'
 import SectionTitle from '@/components/ui/SectionTitle'
 import Button from '@/components/ui/Button'
@@ -112,7 +113,7 @@ export default function Initiatives() {
                 setVisibleCount(PAGE_SIZE)
               }}
               className={[
-                'cursor-pointer rounded-full px-6 py-2 font-body text-base transition-colors',
+                'cursor-pointer rounded-full px-6 py-2 font-body text-base font-medium transition-colors',
                 activeTab === key
                   ? 'border border-foreground bg-muted text-foreground'
                   : 'border border-transparent bg-muted text-foreground hover:border-foreground/20',
@@ -129,11 +130,15 @@ export default function Initiatives() {
           className="initiative-card col-span-full flex flex-col gap-4 sm:col-span-6 lg:col-span-4"
         >
           {item.image && (
-            <img
-              src={item.image}
-              alt={item.title}
-              className="aspect-4/3 w-full rounded-3xl object-cover"
-            />
+            <div className="relative aspect-4/3 w-full overflow-hidden rounded-3xl">
+              <Image
+                src={item.image}
+                alt={item.title}
+                fill
+                sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+                className="object-cover"
+              />
+            </div>
           )}
           <div className="flex flex-1 flex-col gap-2">
             <span className="font-body text-base font-light text-foreground">

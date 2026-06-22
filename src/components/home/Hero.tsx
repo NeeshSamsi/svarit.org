@@ -1,6 +1,7 @@
 'use client'
 
 import { useRef, useEffect } from 'react'
+import Image from 'next/image'
 import { getContent } from '@/lib/cms'
 import ButtonLink from '@/components/ui/ButtonLink'
 import { gsap } from '@/lib/gsap'
@@ -63,7 +64,7 @@ export default function Hero() {
           className="h-full w-full object-cover object-center"
           src="/assets/hero/right.mp4"
           poster="/assets/hero/right-poster.jpg"
-          preload="metadata"
+          preload="none"
           autoPlay
           muted
           loop
@@ -74,21 +75,28 @@ export default function Hero() {
 
       <div
         ref={img1Ref}
-        className="hidden aspect-square overflow-hidden rounded-3xl bg-muted lg:col-span-2 lg:col-start-1 lg:block"
+        className="relative hidden aspect-square overflow-hidden rounded-3xl bg-muted lg:col-span-2 lg:col-start-1 lg:block"
       >
-        <picture>
-          <source srcSet="/assets/hero/left.webp" type="image/webp" />
-          <img src="/assets/hero/left.png" alt="" className="h-full w-full object-cover object-center" />
-        </picture>
+        <Image
+          src="/assets/hero/left.png"
+          alt=""
+          fill
+          sizes="(min-width: 1024px) 17vw, 0px"
+          className="object-cover object-center"
+        />
       </div>
       <div
         ref={img2Ref}
-        className="col-span-8 col-start-1 aspect-4/3 overflow-hidden rounded-3xl bg-muted sm:col-span-9 lg:col-span-8 lg:col-start-3 lg:aspect-video"
+        className="relative col-span-8 col-start-1 aspect-4/3 overflow-hidden rounded-3xl bg-muted sm:col-span-9 lg:col-span-8 lg:col-start-3 lg:aspect-video"
       >
-        <picture>
-          <source srcSet="/assets/hero/middle.webp" type="image/webp" />
-          <img src="/assets/hero/middle.png" alt="" className="h-full w-full object-cover object-center" />
-        </picture>
+        <Image
+          src="/assets/hero/middle.png"
+          alt=""
+          fill
+          priority
+          sizes="(min-width: 1024px) 66vw, 100vw"
+          className="object-cover object-center"
+        />
       </div>
     </section>
   )

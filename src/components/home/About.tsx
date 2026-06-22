@@ -1,6 +1,7 @@
 'use client'
 
 import { useRef, useEffect } from 'react'
+import Image from 'next/image'
 import { getContent } from '@/lib/cms'
 import SectionTitle from '@/components/ui/SectionTitle'
 import { gsap } from '@/lib/gsap'
@@ -14,13 +15,16 @@ export default function About() {
   const paraRefs = useRef<(HTMLParagraphElement | null)[]>([])
 
   useEffect(() => {
-    gsap.from([statsDesktopRef.current, statsMobileRef.current].filter(Boolean), {
-      y: 20,
-      opacity: 0,
-      duration: 0.4,
-      ease: 'power2.out',
-      scrollTrigger: { trigger: sectionRef.current, start: 'top 80%' },
-    })
+    gsap.from(
+      [statsDesktopRef.current, statsMobileRef.current].filter(Boolean),
+      {
+        y: 20,
+        opacity: 0,
+        duration: 0.4,
+        ease: 'power2.out',
+        scrollTrigger: { trigger: sectionRef.current, start: 'top 80%' },
+      }
+    )
     gsap.from(titleRef.current, {
       y: 24,
       opacity: 0,
@@ -45,18 +49,21 @@ export default function About() {
       aria-label="About"
       className="col-span-full grid grid-cols-subgrid"
     >
-      <div ref={statsDesktopRef} className="col-span-4 hidden flex-col gap-3 lg:flex">
+      <div
+        ref={statsDesktopRef}
+        className="col-span-4 hidden flex-col gap-3 lg:flex"
+      >
         <span className="font-body text-base text-foreground">
           {hero.stats}
         </span>
         <div className="flex -space-x-3">
           {volunteers.map((v) => (
-            <img
+            <Image
               key={v.name}
               src={v.image}
               alt={v.name}
-              loading="lazy"
-              decoding="async"
+              width={48}
+              height={48}
               className="h-12 w-12 rounded-full border-2 border-muted bg-muted object-cover"
             />
           ))}
@@ -69,12 +76,12 @@ export default function About() {
           </span>
           <div className="flex -space-x-3">
             {volunteers.map((v) => (
-              <img
+              <Image
                 key={v.name}
                 src={v.image}
                 alt={v.name}
-                loading="lazy"
-                decoding="async"
+                width={48}
+                height={48}
                 className="h-12 w-12 rounded-full border-2 border-muted bg-muted object-cover"
               />
             ))}
