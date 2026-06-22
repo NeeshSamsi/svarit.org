@@ -145,11 +145,13 @@
     "subheading": "Previous Sponsors",
     "heading": "The Champions of Our Mission So Far",
     "logos": [
-      { "src": "/assets/sponsors/indian-oil.png", "alt": "Indian Oil" },
-      { "src": "/assets/sponsors/tata-capital.png", "alt": "Tata Capital" },
-      { "src": "/assets/sponsors/union-bank.png", "alt": "Union Bank of India" },
-      { "src": "/assets/sponsors/rithwik-foundation.png", "alt": "Rithwik Foundation" },
-      { "src": "/assets/sponsors/insync.png", "alt": "Insync" }
+      { "src": "/assets/sponsors/indian-oil.webp", "alt": "Indian Oil" },
+      { "src": "/assets/sponsors/tata-capital.webp", "alt": "Tata Capital" },
+      { "src": "/assets/sponsors/union-bank.webp", "alt": "Union Bank of India" },
+      { "src": "/assets/sponsors/rithwik-foundation.webp", "alt": "Rithwik Foundation" },
+      { "src": "/assets/sponsors/insync.webp", "alt": "Insync" },
+      { "src": "/assets/sponsors/hdfc-bank.webp", "alt": "HDFC Bank" },
+      { "src": "/assets/sponsors/vodafone.webp", "alt": "Vodafone" }
     ]
   },
   "contact": {
