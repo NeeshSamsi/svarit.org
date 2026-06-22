@@ -6,7 +6,7 @@ import SectionTitle from '@/components/ui/SectionTitle'
 import { gsap } from '@/lib/gsap'
 
 export default function About() {
-  const { about, hero } = getContent()
+  const { about, hero, volunteers } = getContent()
   const sectionRef = useRef<HTMLElement>(null)
   const statsDesktopRef = useRef<HTMLDivElement>(null)
   const statsMobileRef = useRef<HTMLDivElement>(null)
@@ -50,10 +50,14 @@ export default function About() {
           {hero.stats}
         </span>
         <div className="flex -space-x-3">
-          {[1, 2, 3, 4].map((i) => (
-            <div
-              key={i}
-              className="h-12 w-12 rounded-full border-2 border-primary bg-muted"
+          {volunteers.map((v) => (
+            <img
+              key={v.name}
+              src={v.image}
+              alt={v.name}
+              loading="lazy"
+              decoding="async"
+              className="h-12 w-12 rounded-full border-2 border-muted bg-muted object-cover"
             />
           ))}
         </div>
@@ -64,10 +68,14 @@ export default function About() {
             {hero.stats}
           </span>
           <div className="flex -space-x-3">
-            {[1, 2, 3, 4].map((i) => (
-              <div
-                key={i}
-                className="h-12 w-12 rounded-full border-2 border-primary bg-muted"
+            {volunteers.map((v) => (
+              <img
+                key={v.name}
+                src={v.image}
+                alt={v.name}
+                loading="lazy"
+                decoding="async"
+                className="h-12 w-12 rounded-full border-2 border-muted bg-muted object-cover"
               />
             ))}
           </div>

@@ -21,6 +21,14 @@
     "cta": "Explore Initiatives",
     "stats": "20+ Volunteers"
   },
+  "volunteers": [
+    { "name": "Utpal", "image": "/assets/volunteers/utpal.webp" },
+    { "name": "Shekhar", "image": "/assets/volunteers/shekhar.webp" },
+    { "name": "Niyu", "image": "/assets/volunteers/niyu.webp" },
+    { "name": "Milind", "image": "/assets/volunteers/milind.webp" },
+    { "name": "Kavita", "image": "/assets/volunteers/kavita.webp" },
+    { "name": "Vinay", "image": "/assets/volunteers/vinay.webp" }
+  ],
   "about": {
     "heading": "Our Mission is to Inspire Young & Fresh Perspectives to Reshape Indian Music",
     "subheading": "Svarit was founded in 2001 with the vision of promoting and propagating the rich tradition of Hindustani Raag Sangeet, as envisioned by the legendary vocalist Pandit Dinkar Kaikini.",

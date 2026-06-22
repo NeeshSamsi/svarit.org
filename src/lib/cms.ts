@@ -11,6 +11,7 @@ type ContentData = {
   navigation: Array<{ label: string; href: string; isPrimary?: boolean }>
   socials: { instagram: string; youtube: string; facebook: string }
   hero: { title: string; subtitle: string; cta: string; stats: string }
+  volunteers: { name: string; image: string }[]
   about: { heading: string; subheading: string; paragraphs: string[] }
   initiatives: {
     heading: string
