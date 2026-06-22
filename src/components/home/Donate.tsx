@@ -29,20 +29,24 @@ export default function Donate() {
 
   return (
     <section ref={sectionRef} aria-label="Donate" className="col-span-full">
-      <div className="relative w-full">
+      <div className="relative">
         <div
           ref={bgRef}
-          className="aspect-2/3 w-full overflow-hidden rounded-3xl bg-muted md:aspect-video"
+          className="aspect-video w-full overflow-hidden rounded-3xl bg-muted"
         >
           <picture>
             <source srcSet="/assets/donate/image.webp" type="image/webp" />
-            <img src="/assets/donate/image.png" alt="" className="h-full w-full object-cover object-center" />
+            <img
+              src="/assets/donate/image.jpg"
+              alt=""
+              className="h-full w-full object-cover object-bottom"
+            />
           </picture>
         </div>
-        <div className="absolute inset-0 flex max-w-md items-end p-6">
+        <div className="mt-6 flex sm:absolute sm:inset-0 sm:mt-0 sm:max-w-md sm:items-end sm:p-6">
           <div
             ref={boxRef}
-            className="flex w-full flex-col gap-6 rounded-2xl bg-primary p-4 md:w-auto"
+            className="flex w-full flex-col gap-6 sm:w-auto sm:rounded-2xl sm:bg-primary sm:p-4"
           >
             <SectionTitle title={donate.heading} />
             <ButtonLink
