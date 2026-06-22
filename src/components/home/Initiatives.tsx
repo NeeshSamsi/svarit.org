@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect, useMemo } from 'react'
 import { getContent } from '@/lib/cms'
 import SectionTitle from '@/components/ui/SectionTitle'
+import Button from '@/components/ui/Button'
 import { gsap } from '@/lib/gsap'
 
 type Tab = 'events' | 'workshops'
@@ -150,14 +151,14 @@ export default function Initiatives() {
       ))}
       {hasMore && (
         <div className="col-span-full flex justify-center">
-          <button
+          <Button
+            variant="secondary"
             onClick={() => setVisibleCount((c) => c + PAGE_SIZE)}
-            className="cursor-pointer rounded-full border border-foreground px-6 py-2 font-body text-base text-foreground transition-colors hover:bg-muted"
           >
             {activeTab === 'events'
               ? 'Show more events'
               : 'Show more workshops'}
-          </button>
+          </Button>
         </div>
       )}
     </section>
