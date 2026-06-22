@@ -55,7 +55,7 @@ export default function Nav() {
       <div className="max-w-content mx-auto">
         <div
           ref={pillRef}
-          className="flex items-center justify-between rounded-full border border-foreground/5 bg-muted/80 px-8 py-4 shadow-lg backdrop-blur-md"
+          className="flex items-center justify-between rounded-full border border-foreground/5 bg-muted/80 px-8 py-4 shadow-lg backdrop-blur-xs"
         >
           <img src="/assets/logo.svg" alt="Svarit" className="h-8 w-auto" />
 
@@ -108,7 +108,7 @@ export default function Nav() {
         {mobileOpen && (
           <div
             ref={menuRef}
-            className="mt-2 flex flex-col gap-3 rounded-3xl border border-foreground/5 bg-muted/80 px-6 py-5 shadow-lg backdrop-blur-md lg:hidden"
+            className="mt-2 flex flex-col gap-3 rounded-3xl border border-foreground/5 bg-muted/80 px-6 py-5 shadow-lg backdrop-blur-xs lg:hidden"
           >
             {links.map((item) => (
               <a
