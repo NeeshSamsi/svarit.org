@@ -11,6 +11,7 @@ export default function Hero() {
   const img1Ref = useRef<HTMLDivElement>(null)
   const img2Ref = useRef<HTMLDivElement>(null)
   const img3Ref = useRef<HTMLDivElement>(null)
+  const videoRef = useRef<HTMLVideoElement>(null)
 
   useEffect(() => {
     const tl = gsap.timeline({ delay: 0.4 })
@@ -26,10 +27,18 @@ export default function Hero() {
     )
   }, [])
 
+  useEffect(() => {
+    const video = videoRef.current
+    if (!video) return
+    video.muted = true
+    const playPromise = video.play()
+    if (playPromise) playPromise.catch(() => {})
+  }, [])
+
   return (
     <section
       aria-label="Hero"
-      className="col-span-full grid grid-cols-subgrid items-start gap-y-6 pt-36 md:pt-44"
+      className="col-span-full grid grid-flow-dense grid-cols-subgrid items-start gap-y-6 pt-36 md:pt-44"
     >
       <div
         ref={titleRef}
@@ -47,9 +56,10 @@ export default function Hero() {
 
       <div
         ref={img3Ref}
-        className="col-span-2 row-span-2 hidden aspect-1/2 overflow-hidden rounded-3xl bg-muted lg:block"
+        className="col-span-4 col-start-9 aspect-1/2 overflow-hidden rounded-3xl bg-muted sm:col-span-3 sm:col-start-10 lg:col-span-2 lg:col-start-11 lg:row-span-2"
       >
         <video
+          ref={videoRef}
           className="h-full w-full object-cover object-center"
           src="/assets/hero/right.mp4"
           poster="/assets/hero/right-poster.jpg"
@@ -64,7 +74,7 @@ export default function Hero() {
 
       <div
         ref={img1Ref}
-        className="hidden aspect-4/3 overflow-hidden rounded-3xl bg-muted sm:col-span-6 sm:block lg:col-span-2 lg:aspect-square"
+        className="hidden aspect-square overflow-hidden rounded-3xl bg-muted lg:col-span-2 lg:col-start-1 lg:block"
       >
         <picture>
           <source srcSet="/assets/hero/left.webp" type="image/webp" />
@@ -73,7 +83,7 @@ export default function Hero() {
       </div>
       <div
         ref={img2Ref}
-        className="col-span-full aspect-4/3 overflow-hidden rounded-3xl bg-muted sm:col-span-6 lg:col-span-8 lg:aspect-video"
+        className="col-span-8 col-start-1 aspect-4/3 overflow-hidden rounded-3xl bg-muted sm:col-span-9 lg:col-span-8 lg:col-start-3 lg:aspect-video"
       >
         <picture>
           <source srcSet="/assets/hero/middle.webp" type="image/webp" />
