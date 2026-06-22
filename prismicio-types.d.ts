@@ -107,6 +107,41 @@ interface PageDocumentData {
 export type PageDocument<Lang extends string = string> = prismic.PrismicDocumentWithUID<Simplify<PageDocumentData>, "page", Lang>;
 
 /**
+ * Item in *Site Settings → Socials*
+ */
+export interface SettingsDocumentDataSocialsItem {
+	/**
+	 * YouTube field in *Site Settings → Socials*
+	 *
+	 * - **Field Type**: Link
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: settings.socials[].youtube
+	 * - **Documentation**: https://prismic.io/docs/fields/link
+	 */
+	youtube: prismic.LinkField<string, string, unknown, prismic.FieldState, never>;
+	
+	/**
+	 * Instagram field in *Site Settings → Socials*
+	 *
+	 * - **Field Type**: Link
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: settings.socials[].instagram
+	 * - **Documentation**: https://prismic.io/docs/fields/link
+	 */
+	instagram: prismic.LinkField<string, string, unknown, prismic.FieldState, never>;
+	
+	/**
+	 * Facebook field in *Site Settings → Socials*
+	 *
+	 * - **Field Type**: Link
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: settings.socials[].facebook
+	 * - **Documentation**: https://prismic.io/docs/fields/link
+	 */
+	facebook: prismic.LinkField<string, string, unknown, prismic.FieldState, never>;
+}
+
+/**
  * Item in *Site Settings → Navigation*
  */
 export interface SettingsDocumentDataNavItem {
@@ -126,16 +161,6 @@ export interface SettingsDocumentDataNavItem {
  */
 export interface SettingsDocumentDataFooterItem {
 	/**
-	 * Address field in *Site Settings → Footer*
-	 *
-	 * - **Field Type**: Text
-	 * - **Placeholder**: *None*
-	 * - **API ID Path**: settings.footer[].address
-	 * - **Documentation**: https://prismic.io/docs/fields/text
-	 */
-	address: prismic.KeyTextField;
-	
-	/**
 	 * Contact Details field in *Site Settings → Footer*
 	 *
 	 * - **Field Type**: Text
@@ -144,6 +169,16 @@ export interface SettingsDocumentDataFooterItem {
 	 * - **Documentation**: https://prismic.io/docs/fields/text
 	 */
 	contact: prismic.KeyTextField;
+	
+	/**
+	 * Address field in *Site Settings → Footer*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: settings.footer[].address
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	address: prismic.KeyTextField;
 }
 
 /**
@@ -160,6 +195,28 @@ interface SettingsDocumentData {
 	 * - **Documentation**: https://prismic.io/docs/fields/image
 	 */
 	logo: prismic.ImageField<never>;
+	
+	/**
+	 * Donation Link field in *Site Settings*
+	 *
+	 * - **Field Type**: Link
+	 * - **Placeholder**: https://rzp.io/l/svarit
+	 * - **API ID Path**: settings.donationLink
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/fields/link
+	 */
+	donationLink: prismic.Repeatable<prismic.LinkField<string, string, unknown, prismic.FieldState, never>>;
+	
+	/**
+	 * Socials field in *Site Settings*
+	 *
+	 * - **Field Type**: Group
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: settings.socials[]
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
+	 */
+	socials: prismic.GroupField<Simplify<SettingsDocumentDataSocialsItem>>;
 	
 	/**
 	 * Navigation field in *Site Settings*
@@ -182,17 +239,6 @@ interface SettingsDocumentData {
 	 * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
 	 */
 	footer: prismic.GroupField<Simplify<SettingsDocumentDataFooterItem>>;
-	
-	/**
-	 * Donation Link field in *Site Settings*
-	 *
-	 * - **Field Type**: Link
-	 * - **Placeholder**: https://rzp.io/l/svarit
-	 * - **API ID Path**: settings.donationLink
-	 * - **Tab**: Main
-	 * - **Documentation**: https://prismic.io/docs/fields/link
-	 */
-	donationLink: prismic.Repeatable<prismic.LinkField<string, string, unknown, prismic.FieldState, never>>;
 }
 
 /**
@@ -228,6 +274,7 @@ declare module "@prismicio/client" {
 			PageDocumentDataSlicesSlice,
 			SettingsDocument,
 			SettingsDocumentData,
+			SettingsDocumentDataSocialsItem,
 			SettingsDocumentDataNavItem,
 			SettingsDocumentDataFooterItem,
 			AllDocumentTypes

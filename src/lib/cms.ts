@@ -9,6 +9,7 @@ type InitiativeItem = {
 
 type ContentData = {
   navigation: Array<{ label: string; href: string; isPrimary?: boolean }>
+  socials: { instagram: string; youtube: string; facebook: string }
   hero: { title: string; subtitle: string; cta: string; stats: string }
   about: { heading: string; subheading: string; paragraphs: string[] }
   initiatives: {

@@ -12,6 +12,59 @@
           "thumbnails": []
         }
       },
+      "donationLink": {
+        "type": "Link",
+        "config": {
+          "label": "Donation Link",
+          "placeholder": "https://rzp.io/l/svarit",
+          "select": null,
+          "allowTargetBlank": true,
+          "allowText": true,
+          "repeat": true
+        }
+      },
+      "socials": {
+        "type": "Group",
+        "config": {
+          "label": "Socials",
+          "repeat": false,
+          "fields": {
+            "youtube": {
+              "type": "Link",
+              "config": {
+                "label": "YouTube",
+                "placeholder": "",
+                "select": null,
+                "allowTargetBlank": true,
+                "allowText": false,
+                "repeat": false
+              }
+            },
+            "instagram": {
+              "type": "Link",
+              "config": {
+                "label": "Instagram",
+                "placeholder": "",
+                "select": null,
+                "allowTargetBlank": true,
+                "allowText": false,
+                "repeat": false
+              }
+            },
+            "facebook": {
+              "type": "Link",
+              "config": {
+                "label": "Facebook",
+                "placeholder": "",
+                "select": null,
+                "allowTargetBlank": true,
+                "allowText": false,
+                "repeat": false
+              }
+            }
+          }
+        }
+      },
       "nav": {
         "type": "Group",
         "config": {
@@ -38,32 +91,21 @@
           "label": "Footer",
           "repeat": false,
           "fields": {
-            "address": {
-              "type": "Text",
-              "config": {
-                "label": "Address",
-                "placeholder": ""
-              }
-            },
             "contact": {
               "type": "Text",
               "config": {
                 "label": "Contact Details",
                 "placeholder": ""
               }
+            },
+            "address": {
+              "type": "Text",
+              "config": {
+                "label": "Address",
+                "placeholder": ""
+              }
             }
           }
-        }
-      },
-      "donationLink": {
-        "type": "Link",
-        "config": {
-          "label": "Donation Link",
-          "placeholder": "https://rzp.io/l/svarit",
-          "select": null,
-          "allowTargetBlank": true,
-          "allowText": true,
-          "repeat": true
         }
       }
     }
