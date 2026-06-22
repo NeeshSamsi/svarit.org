@@ -1,0 +1,186 @@
+{
+  "navigation": [
+    { "label": "About Us", "href": "#about" },
+    { "label": "Initiatives", "href": "#initiatives" },
+    { "label": "Contact Us", "href": "#contact" },
+    { "label": "Dinkar Kaikini", "href": "https://dinkarkaikini.in" },
+    {
+      "label": "Donate to Svarit",
+      "href": "https://rzp.io/l/svarit",
+      "isPrimary": true
+    }
+  ],
+  "socials": {
+    "instagram": "https://instagram.com/svaritorg",
+    "youtube": "https://youtube.com/@svaritorg",
+    "facebook": "https://facebook.com/svaritorg"
+  },
+  "hero": {
+    "title": "Ushering in the Next Era of Indian Music",
+    "subtitle": "Svarit is dedicated to the preservation and promotion of Indian classical music through education, performance, and community engagement.",
+    "cta": "Explore Initiatives",
+    "stats": "20+ Volunteers"
+  },
+  "volunteers": [
+    { "name": "Utpal", "image": "/assets/volunteers/utpal.webp" },
+    { "name": "Shekhar", "image": "/assets/volunteers/shekhar.webp" },
+    { "name": "Niyu", "image": "/assets/volunteers/niyu.webp" },
+    { "name": "Milind", "image": "/assets/volunteers/milind.webp" },
+    { "name": "Kavita", "image": "/assets/volunteers/kavita.webp" },
+    { "name": "Vinay", "image": "/assets/volunteers/vinay.webp" }
+  ],
+  "about": {
+    "heading": "Our Mission is to Inspire Young & Fresh Perspectives to Reshape Indian Music",
+    "subheading": "Svarit was founded in 2001 with the vision of promoting and propagating the rich tradition of Hindustani Raag Sangeet, as envisioned by the legendary vocalist Pandit Dinkar Kaikini.",
+    "paragraphs": [
+      "Svarit, a Sanskrit word meaning “ascending towards the divine”, embodies our belief in music as a pathway to higher artistic and spiritual expression. Founded to preserve and promote the legacy of Indian Music as envisioned by Pandit Dinkar Kaikini, Svarit is rooted in a rich musical lineage that traces through the legacies of the great masters of Hindustani classical music, the likes of Vishnu Narayan Bhatkhande, Ustad Faiyaz Khan, S. N. Ratanjankar, Ustad Allarakha Khan & Ustad Zakir Hussain.",
+      "Today, under the guidance of Pt Yogesh Samsi, Svarit is more than a trust. It is a vibrant cultural platform where tradition meets innovation. Through concerts, festivals, educational initiatives, artist development, and collaborative projects, we nurture excellence while ensuring our country's arts remain relevant, accessible, and inspiring for future generations. Svarit continues to celebrate heritage, foster creativity, and shape the future of Indian Music."
+    ]
+  },
+  "initiatives": {
+    "heading": "Engaging Through More than 2 Decades of Keeping Tradition Alive",
+    "subheading": "Our Initiatives",
+    "events": [
+      {
+        "date": { "date": "2002-11-07", "label": "7th & 8th November 2002" },
+        "title": "Swaramrit",
+        "description": "A 2-day festival featuring vocal recitals by Pt Dinkar Kaikini, Smt Aditi Kaikini Upadhya, Pt Ulhas Kashalkar, and Pt Ajay Chakraborty, concluding with a Santoor solo by Pt Shivkumar Sharma."
+      },
+      {
+        "date": { "date": "2003-11-29", "label": "29th November 2003" },
+        "title": "Chatur Smriti 2003",
+        "description": "An evening of Hindustani music featuring a Flute recital by Pt Hariprasad Chaurasia and a classical vocal performance by Pt Dinkar Kaikini, accompanied by Shri Yogesh Samsi."
+      },
+      {
+        "date": { "date": "2004-11-19", "label": "19th & 20th November 2004" },
+        "title": "Chatur Smriti 2004",
+        "description": "A 2-day event presenting a Sitar recital by Shri Purbayan Chatterjee, Dhrupad by Shri Uday Bhawalkar, and vocal performances by Ustad Rashid Khan and Pt Dinkar Kaikini."
+      },
+      {
+        "date": { "date": "2005-02-26", "label": "26th February 2005" },
+        "title": "Sujan Smriti (Pune)",
+        "description": "Svarit's special Pune edition featuring Kathak by Smt Shama Bhate, a Sitar recital by Shri Kushal Das, and classical vocal by Pt Dinkar Kaikini."
+      },
+      {
+        "date": { "date": "2005-11-10", "label": "10th November 2005" },
+        "title": "Dinarang",
+        "description": "A curated showcase of choral compositions directed by Smt Aditi Kaikini Upadhya, alongside solo vocal performances by Pt Ulhas Kashalkar and Pt Ajay Chakraborty."
+      },
+      {
+        "date": { "date": "2008-11-21", "label": "21st November 2008" },
+        "title": "Chatursmriti 2008",
+        "description": "A classical double-bill featuring a Sitar recital by Pt Kushal Das and a soulful vocal performance by Pt Ajay Chakrabarty, accompanied by Shri Yogesh Samsi."
+      },
+      {
+        "date": { "date": "2009-11-18", "label": "18th & 19th November 2009" },
+        "title": "Chatursmriti 2009",
+        "description": "A 2-day festival featuring legendary Santoor maestro Pt Shivkumar Sharma, alongside recitals by Smt Shubha Mudgal, Shri Rakesh Chaurasia, and Pt Ulhas Kashalkar."
+      },
+      {
+        "date": { "date": "2011-10-01", "label": "1st October 2011" },
+        "title": "“Dinarang” Film Screening",
+        "description": "A special cinematic event hosted by Svarit, presenting a documentary film screening that explores the life, philosophy, and musical legacy of Pandit Dinkar Kaikini."
+      },
+      {
+        "date": { "date": "2011-12-03", "label": "3rd December 2011" },
+        "title": "Chatursmriti 2011",
+        "description": "An evening pairing instrumental and vocal disciplines, featuring a Sitar recital by Shri Purbayan Chatterjee and a classical vocal performance by Smt Aditi Kaikini Upadhya."
+      },
+      {
+        "date": { "date": "2012-01-20", "label": "20th & 21st January 2012" },
+        "title": "Dinarang Smriti 2012",
+        "description": "A 2-day event featuring a Tabla solo by Ustad Zakir Hussain, a Sitar recital by Ustad Shahid Parvez, vocal by Pt Ulhas Kashalkar, and the release of the \"Dinarang\" book translation."
+      },
+      {
+        "date": { "date": "2012-08-12", "label": "12th August 2012" },
+        "title": "Lecture Demonstration on the Punjab Gharana",
+        "description": "An educational lecture demonstration exploring the history and technical complexities of the Punjab Gharana of Tabla, presented by Pt Sushilkumar Jain."
+      },
+      {
+        "date": { "date": "2013-01-12", "label": "12th & 13th January 2013" },
+        "title": "Dinarang Smriti 2013",
+        "description": "A 2-day celebration featuring a percussion ensemble with Shri Ranjit Barot, a violin duet by Ganesh-Kumaresh, and vocal recitals by Smt Ashwini Bhide and Pt Ulhas Kashalkar."
+      },
+      {
+        "date": { "date": "2014-02-14", "label": "14th & 15th February 2014" },
+        "title": "Dinarang Smriti 2014",
+        "description": "A 2-day festival featuring Dhrupad by Pt Uday Bhawalkar, Sitar by Pt Budhaditya Mukherjee, \"Simiran\" Kathak choreography, a Tabla solo by Shri Yogesh Samsi, and vocal by Pt Ulhas Kashalkar."
+      },
+      {
+        "date": { "date": "2015-02-20", "label": "20th February 2015" },
+        "title": "Dinarang Smriti 2015",
+        "description": "A vibrant evening of classical performing arts, showcasing a Kathak dance recital by Shri Rajendra Gangani followed by a Flute solo by maestro Pt Hariprasad Chaurasia."
+      },
+      {
+        "date": { "date": "2016-02-24", "label": "24th & 25th February 2016" },
+        "title": "Dinarang Smriti 2016",
+        "description": "A 2-day event featuring vocal duets by Pt Rajan & Pt Sajan Mishra, solo recitals by Smt Aditi Kaikini Upadhya and Pt Ulhas Kashalkar, and Santoor by Shri Rahul Sharma."
+      },
+      {
+        "date": { "date": "2017-02-24", "label": "24th & 25th February 2017" },
+        "title": "Dinarang Smriti 2017",
+        "description": "A 2-day festival presenting a Violin recital by Dr Smt N Rajam, Sitar by Shri Niladri Kumar, and vocal performances by Shri Raghunandan Panshikar and Pt Ulhas Kashalkar."
+      },
+      {
+        "date": { "date": "2018-02-08", "label": "8th & 9th February 2018" },
+        "title": "Dinarang Smriti 2018",
+        "description": "A 2-day gathering featuring choral works by Pt Dinkar Kaikini, Flute by Shri Ronu Mujumdar, Sarod by Pt Debojyoti Bose, and vocals by Pt Venkatesh Kumar and Pt Ulhas Kashalkar."
+      },
+      {
+        "date": { "date": "2019-03-01", "label": "1st & 2nd March 2019" },
+        "title": "Dinarang Smriti 2019",
+        "description": "A 2-day event highlighting a unique Tabla Jugalbandi by Shri Shubhankar Banerjee and Shri Yogesh Samsi, a Sarod-Violin duet, and vocals by Smt Aditi Kaikini Upadhya and Pt Ulhas Kashalkar."
+      },
+      {
+        "date": { "date": "2020-02-21", "label": "21st February 2020" },
+        "title": "Dinarang Smriti 2020",
+        "description": "A landmark concert featuring an opening vocal recital by Pt Ajay Chakrabarty, followed by an extraordinary duet performance by Pt Shivkumar Sharma and Ustad Zakir Hussain."
+      }
+    ],
+    "workshops": [
+      {
+        "date": { "date": "2026-06-01", "label": "June 2026" },
+        "title": "Hindustani Vocal Workshop",
+        "description": "An intensive workshop on Hindustani raag sangeet led by senior disciples of the Agra Gharana."
+      },
+      {
+        "date": { "date": "2026-08-01", "label": "August 2026" },
+        "title": "Tabla & Rhythm Workshop",
+        "description": "A focused session on rhythm, taal, and tabla accompaniment for classical vocalists."
+      }
+    ]
+  },
+  "donate": {
+    "heading": "Join us in shaping the future of Indian Music.",
+    "cta": "Donate to Svarit"
+  },
+  "sponsors": {
+    "subheading": "Previous Sponsors",
+    "heading": "The Champions of Our Mission So Far",
+    "logos": [
+      { "src": "/assets/sponsors/indian-oil.webp", "alt": "Indian Oil" },
+      { "src": "/assets/sponsors/tata-capital.webp", "alt": "Tata Capital" },
+      { "src": "/assets/sponsors/union-bank.webp", "alt": "Union Bank of India" },
+      { "src": "/assets/sponsors/rithwik-foundation.webp", "alt": "Rithwik Foundation" },
+      { "src": "/assets/sponsors/insync.webp", "alt": "Insync" },
+      { "src": "/assets/sponsors/hdfc-bank.webp", "alt": "HDFC Bank" },
+      { "src": "/assets/sponsors/vodafone.webp", "alt": "Vodafone" }
+    ]
+  },
+  "contact": {
+    "subheading": "Contact Us",
+    "heading": "We'd Love to Hear from You",
+    "description": "We are a community of dreamers & changemakers. What began as a family endeavour is now expanding to welcome fresh perspectives. If you resonate with our mission, please get in touch.",
+    "form": {
+      "nameLabel": "Name",
+      "emailLabel": "Email",
+      "messageLabel": "Message"
+    }
+  },
+  "footer": {
+    "address": "Anandashram, 22 Pandita Ramabai Rd, Gamdevi, Mumbai - 400 007",
+    "contact": "svarittrust1@gmail.com | +91 9930759942",
+    "copyright": "© 2026 Svarit. All rights reserved.",
+    "credits": "Made with 💛 by Neesh Samsi"
+  }
+}
