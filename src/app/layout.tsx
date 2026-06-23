@@ -29,7 +29,7 @@ export const metadata: Metadata = {
     locale: 'en_IN',
     images: [
       {
-        url: '/og/home.png',
+        url: '/og/home.jpg',
         width: 1200,
         height: 630,
         alt: 'Svarit — shaping the future of Indian music, established 2001.',
@@ -41,7 +41,7 @@ export const metadata: Metadata = {
     title: 'Svarit — Shaping the Future of Indian Music',
     description:
       'Founded in 2001, Svarit carries a rich musical legacy into the future — nurturing Indian music through concerts, festivals, education and community.',
-    images: ['/og/home.png'],
+    images: ['/og/home.jpg'],
   },
   robots: {
     index: true,
@@ -65,7 +65,7 @@ const orgSchema = {
   legalName: 'Svarit Trust',
   url: 'https://svarit.org',
   logo: 'https://svarit.org/assets/logo.svg',
-  image: 'https://svarit.org/og/home.png',
+  image: 'https://svarit.org/og/home.jpg',
   description:
     'Founded in 2001, Svarit carries a rich musical legacy into the future — nurturing Indian music through concerts, festivals, education and community.',
   foundingDate: '2001',
