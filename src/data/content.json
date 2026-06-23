@@ -92,11 +92,6 @@
         "description": "A 2-day event featuring a Tabla solo by Ustad Zakir Hussain, a Sitar recital by Ustad Shahid Parvez, vocal recital by Pt. Ulhas Kashalkar, and the release of the \"Dinarang\" book translation."
       },
       {
-        "date": { "date": "2012-08-12", "label": "12th August 2012" },
-        "title": "Lecture Demonstration on the Punjab Gharana",
-        "description": "An educational lecture demonstration exploring the history and technical complexities of the Punjab Gharana of Tabla, presented by Pt. Sushilkumar Jain."
-      },
-      {
         "date": { "date": "2013-01-12", "label": "12th & 13th January 2013" },
         "title": "Dinarang Smriti 2013",
         "description": "A 2-day celebration featuring a percussion ensemble with Shri Ranjit Barot, a violin duet by Ganesh-Kumaresh, and vocal recitals by Smt Ashwini Bhide and Pt. Ulhas Kashalkar."
@@ -139,14 +134,19 @@
     ],
     "workshops": [
       {
-        "date": { "date": "2026-06-01", "label": "June 2026" },
-        "title": "Hindustani Vocal Workshop",
-        "description": "An intensive workshop on Hindustani raag sangeet led by senior disciples of the Agra Gharana."
+        "date": { "date": "2024-01-13", "label": "13th & 14th January 2024" },
+        "title": "Samvāda",
+        "description": "A two-day music workshop on Hindustani classical vocal music conducted by Vidushi Aditi Upadhya."
       },
       {
-        "date": { "date": "2026-08-01", "label": "August 2026" },
-        "title": "Tabla & Rhythm Workshop",
-        "description": "A focused session on rhythm, taal, and tabla accompaniment for classical vocalists."
+        "date": { "date": "2025-04-16", "label": "16th - 20th April 2025" },
+        "title": "Understanding Dinarang Through His Music",
+        "description": "A 5-day residential Hindustani vocal workshop at Anubhav, Wayanad for students and performers by Vidushi Aditi Upadhya."
+      },
+      {
+        "date": { "date": "2026-05-16", "label": "16th & 17th May 2026" },
+        "title": "Riyaaz Shibir",
+        "description": "A 2-day residential shibir at Anubhav, Wayanad for students focusing on various aspects of riyaaz by Vidushi Aditi Upadhya."
       }
     ]
   },
