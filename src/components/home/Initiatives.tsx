@@ -30,8 +30,7 @@ export default function Initiatives() {
   const hasMore = visibleCount < sortedItems.length
 
   const tabs: { key: Tab; label: string }[] = [
-    // Workshops tab temporarily hidden
-    // { key: 'workshops', label: 'Workshops' },
+    { key: 'workshops', label: 'Workshops' },
     { key: 'events', label: 'Events' },
   ]
 
