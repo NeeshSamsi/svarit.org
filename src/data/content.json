@@ -185,7 +185,9 @@
       },
       { "src": "/assets/sponsors/insync.webp", "alt": "Insync" },
       { "src": "/assets/sponsors/hdfc-bank.webp", "alt": "HDFC Bank" },
-      { "src": "/assets/sponsors/vodafone.webp", "alt": "Vodafone" }
+      { "src": "/assets/sponsors/vodafone.webp", "alt": "Vodafone" },
+      { "src": "/assets/sponsors/pest-control-india.webp", "alt": "Pest Control India" },
+      { "src": "/assets/sponsors/triton-valves.webp", "alt": "Triton Valves" }
     ]
   },
   "contact": {
