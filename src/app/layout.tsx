@@ -69,7 +69,7 @@ const orgSchema = {
   description:
     'Founded in 2001, Svarit carries a rich musical legacy into the future — nurturing Indian music through concerts, festivals, education and community.',
   foundingDate: '2001',
-  email: 'svarittrust1@gmail.com',
+  email: 'team@svarit.org',
   telephone: '+91-99307-59942',
   address: {
     '@type': 'PostalAddress',

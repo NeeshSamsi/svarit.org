@@ -186,7 +186,10 @@
       { "src": "/assets/sponsors/insync.webp", "alt": "Insync" },
       { "src": "/assets/sponsors/hdfc-bank.webp", "alt": "HDFC Bank" },
       { "src": "/assets/sponsors/vodafone.webp", "alt": "Vodafone" },
-      { "src": "/assets/sponsors/pest-control-india.webp", "alt": "Pest Control India" },
+      {
+        "src": "/assets/sponsors/pest-control-india.webp",
+        "alt": "Pest Control India"
+      },
       { "src": "/assets/sponsors/triton-valves.webp", "alt": "Triton Valves" }
     ]
   },
@@ -202,7 +205,7 @@
   },
   "footer": {
     "address": "Anandashram, 22 Pandita Ramabai Rd, Gamdevi, Mumbai - 400 007",
-    "contact": "svarittrust1@gmail.com | +91 9930759942",
+    "contact": "team@svarit.org | +91 9930759942",
     "copyright": "© 2026 Svarit. All rights reserved.",
     "credits": "Made with 💛 by Neesh Samsi"
   }
