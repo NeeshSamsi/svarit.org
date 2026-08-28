@@ -43,3 +43,6 @@ next-env.d.ts
 
 # local media masters (not served or committed)
 media-src/
+
+# Prismic content backups
+backups/

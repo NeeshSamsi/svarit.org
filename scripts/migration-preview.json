@@ -1,0 +1,1143 @@
+{
+  "mode": "dry-run",
+  "generatedAt": "2026-08-28T10:34:46.744Z",
+  "repository": "svarit",
+  "lang": "en-us",
+  "withArtists": false,
+  "existingChecked": true,
+  "summary": {
+    "toCreate": 33,
+    "toCreateByType": {
+      "volunteer": 6,
+      "event": 24,
+      "page": 3
+    },
+    "toUpdate": 1,
+    "skipped": 0,
+    "assets": 20
+  },
+  "assets": [
+    {
+      "filename": "utpal.webp",
+      "path": "/assets/volunteers/utpal.webp",
+      "alt": "Utpal, Svarit volunteer"
+    },
+    {
+      "filename": "shekhar.webp",
+      "path": "/assets/volunteers/shekhar.webp",
+      "alt": "Shekhar, Svarit volunteer"
+    },
+    {
+      "filename": "niyu.webp",
+      "path": "/assets/volunteers/niyu.webp",
+      "alt": "Niyu, Svarit volunteer"
+    },
+    {
+      "filename": "milind.webp",
+      "path": "/assets/volunteers/milind.webp",
+      "alt": "Milind, Svarit volunteer"
+    },
+    {
+      "filename": "kavita.webp",
+      "path": "/assets/volunteers/kavita.webp",
+      "alt": "Kavita, Svarit volunteer"
+    },
+    {
+      "filename": "vinay.webp",
+      "path": "/assets/volunteers/vinay.webp",
+      "alt": "Vinay, Svarit volunteer"
+    },
+    {
+      "filename": "left.png",
+      "path": "/assets/hero/left.png",
+      "alt": null
+    },
+    {
+      "filename": "middle.png",
+      "path": "/assets/hero/middle.png",
+      "alt": null
+    },
+    {
+      "filename": "right.mp4",
+      "path": "/assets/hero/right.mp4",
+      "alt": null
+    },
+    {
+      "filename": "right-poster.jpg",
+      "path": "/assets/hero/right-poster.jpg",
+      "alt": "Hero video poster"
+    },
+    {
+      "filename": "indian-oil.webp",
+      "path": "/assets/sponsors/indian-oil.webp",
+      "alt": "Indian Oil logo"
+    },
+    {
+      "filename": "tata-capital.webp",
+      "path": "/assets/sponsors/tata-capital.webp",
+      "alt": "Tata Capital logo"
+    },
+    {
+      "filename": "union-bank.webp",
+      "path": "/assets/sponsors/union-bank.webp",
+      "alt": "Union Bank of India logo"
+    },
+    {
+      "filename": "rithwik-foundation.webp",
+      "path": "/assets/sponsors/rithwik-foundation.webp",
+      "alt": "Rithwik Foundation logo"
+    },
+    {
+      "filename": "insync.webp",
+      "path": "/assets/sponsors/insync.webp",
+      "alt": "Insync logo"
+    },
+    {
+      "filename": "hdfc-bank.webp",
+      "path": "/assets/sponsors/hdfc-bank.webp",
+      "alt": "HDFC Bank logo"
+    },
+    {
+      "filename": "vodafone.webp",
+      "path": "/assets/sponsors/vodafone.webp",
+      "alt": "Vodafone logo"
+    },
+    {
+      "filename": "pest-control-india.webp",
+      "path": "/assets/sponsors/pest-control-india.webp",
+      "alt": "Pest Control India logo"
+    },
+    {
+      "filename": "triton-valves.webp",
+      "path": "/assets/sponsors/triton-valves.webp",
+      "alt": "Triton Valves logo"
+    },
+    {
+      "filename": "image.jpg",
+      "path": "/assets/donate/image.jpg",
+      "alt": null
+    }
+  ],
+  "documents": [
+    {
+      "action": "create",
+      "type": "volunteer",
+      "uid": "utpal",
+      "title": "Utpal",
+      "lang": "en-us",
+      "data": {
+        "uid": "utpal",
+        "name": "Utpal",
+        "photo": {
+          "__asset": "utpal.webp",
+          "path": "/assets/volunteers/utpal.webp",
+          "alt": "Utpal, Svarit volunteer"
+        },
+        "role": ""
+      }
+    },
+    {
+      "action": "create",
+      "type": "volunteer",
+      "uid": "shekhar",
+      "title": "Shekhar",
+      "lang": "en-us",
+      "data": {
+        "uid": "shekhar",
+        "name": "Shekhar",
+        "photo": {
+          "__asset": "shekhar.webp",
+          "path": "/assets/volunteers/shekhar.webp",
+          "alt": "Shekhar, Svarit volunteer"
+        },
+        "role": ""
+      }
+    },
+    {
+      "action": "create",
+      "type": "volunteer",
+      "uid": "niyu",
+      "title": "Niyu",
+      "lang": "en-us",
+      "data": {
+        "uid": "niyu",
+        "name": "Niyu",
+        "photo": {
+          "__asset": "niyu.webp",
+          "path": "/assets/volunteers/niyu.webp",
+          "alt": "Niyu, Svarit volunteer"
+        },
+        "role": ""
+      }
+    },
+    {
+      "action": "create",
+      "type": "volunteer",
+      "uid": "milind",
+      "title": "Milind",
+      "lang": "en-us",
+      "data": {
+        "uid": "milind",
+        "name": "Milind",
+        "photo": {
+          "__asset": "milind.webp",
+          "path": "/assets/volunteers/milind.webp",
+          "alt": "Milind, Svarit volunteer"
+        },
+        "role": ""
+      }
+    },
+    {
+      "action": "create",
+      "type": "volunteer",
+      "uid": "kavita",
+      "title": "Kavita",
+      "lang": "en-us",
+      "data": {
+        "uid": "kavita",
+        "name": "Kavita",
+        "photo": {
+          "__asset": "kavita.webp",
+          "path": "/assets/volunteers/kavita.webp",
+          "alt": "Kavita, Svarit volunteer"
+        },
+        "role": ""
+      }
+    },
+    {
+      "action": "create",
+      "type": "volunteer",
+      "uid": "vinay",
+      "title": "Vinay",
+      "lang": "en-us",
+      "data": {
+        "uid": "vinay",
+        "name": "Vinay",
+        "photo": {
+          "__asset": "vinay.webp",
+          "path": "/assets/volunteers/vinay.webp",
+          "alt": "Vinay, Svarit volunteer"
+        },
+        "role": ""
+      }
+    },
+    {
+      "action": "create",
+      "type": "event",
+      "uid": "swaramrit",
+      "title": "Swaramrit",
+      "lang": "en-us",
+      "data": {
+        "uid": "swaramrit",
+        "title": "Swaramrit",
+        "category": "Event",
+        "start_date": "2002-11-07",
+        "date_label": "7th & 8th November 2002",
+        "description": [
+          {
+            "type": "paragraph",
+            "text": "A 2-day festival featuring vocal recitals by Pt. Dinkar Kaikini, Smt Aditi Kaikini Upadhya, Pt. Ulhas Kashalkar, and Pt. Ajay Chakraborty, concluding with a Santoor solo by Pt. Shivkumar Sharma.",
+            "spans": []
+          }
+        ],
+        "artists": [],
+        "slices": []
+      }
+    },
+    {
+      "action": "create",
+      "type": "event",
+      "uid": "chatur-smriti-2003",
+      "title": "Chatur Smriti 2003",
+      "lang": "en-us",
+      "data": {
+        "uid": "chatur-smriti-2003",
+        "title": "Chatur Smriti 2003",
+        "category": "Event",
+        "start_date": "2003-11-29",
+        "date_label": "29th November 2003",
+        "description": [
+          {
+            "type": "paragraph",
+            "text": "An evening of Hindustani music featuring a Flute recital by Pt. Hariprasad Chaurasia and a classical vocal performance by Pt. Dinkar Kaikini.",
+            "spans": []
+          }
+        ],
+        "artists": [],
+        "slices": []
+      }
+    },
+    {
+      "action": "create",
+      "type": "event",
+      "uid": "chatur-smriti-2004",
+      "title": "Chatur Smriti 2004",
+      "lang": "en-us",
+      "data": {
+        "uid": "chatur-smriti-2004",
+        "title": "Chatur Smriti 2004",
+        "category": "Event",
+        "start_date": "2004-11-19",
+        "date_label": "19th & 20th November 2004",
+        "description": [
+          {
+            "type": "paragraph",
+            "text": "A 2-day event presenting a Sitar recital by Shri Purbayan Chatterjee, Dhrupad by Pt. Uday Bhawalkar and vocal performances by Ustad Rashid Khan and Pt. Dinkar Kaikini.",
+            "spans": []
+          }
+        ],
+        "artists": [],
+        "slices": []
+      }
+    },
+    {
+      "action": "create",
+      "type": "event",
+      "uid": "sujan-smriti-pune",
+      "title": "Sujan Smriti (Pune)",
+      "lang": "en-us",
+      "data": {
+        "uid": "sujan-smriti-pune",
+        "title": "Sujan Smriti (Pune)",
+        "category": "Event",
+        "start_date": "2005-02-26",
+        "date_label": "26th February 2005",
+        "description": [
+          {
+            "type": "paragraph",
+            "text": "Svarit's special Pune edition featuring Kathak by Smt Shama Bhate, a Sitar recital by Shri Kushal Das, and classical vocal by Pt. Dinkar Kaikini.",
+            "spans": []
+          }
+        ],
+        "artists": [],
+        "slices": []
+      }
+    },
+    {
+      "action": "create",
+      "type": "event",
+      "uid": "dinarang",
+      "title": "Dinarang",
+      "lang": "en-us",
+      "data": {
+        "uid": "dinarang",
+        "title": "Dinarang",
+        "category": "Event",
+        "start_date": "2005-11-10",
+        "date_label": "10th November 2005",
+        "description": [
+          {
+            "type": "paragraph",
+            "text": "A curated showcase of choral compositions directed by Smt Aditi Kaikini Upadhya, alongside solo vocal performances by Pt. Ulhas Kashalkar and Pt. Ajay Chakraborty.",
+            "spans": []
+          }
+        ],
+        "artists": [],
+        "slices": []
+      }
+    },
+    {
+      "action": "create",
+      "type": "event",
+      "uid": "chatursmriti-2008",
+      "title": "Chatursmriti 2008",
+      "lang": "en-us",
+      "data": {
+        "uid": "chatursmriti-2008",
+        "title": "Chatursmriti 2008",
+        "category": "Event",
+        "start_date": "2008-11-21",
+        "date_label": "21st November 2008",
+        "description": [
+          {
+            "type": "paragraph",
+            "text": "A classical double-bill featuring a Sitar recital by Pt. Kushal Das and a soulful vocal performance by Pt. Ajay Chakrabarty.",
+            "spans": []
+          }
+        ],
+        "artists": [],
+        "slices": []
+      }
+    },
+    {
+      "action": "create",
+      "type": "event",
+      "uid": "chatursmriti-2009",
+      "title": "Chatursmriti 2009",
+      "lang": "en-us",
+      "data": {
+        "uid": "chatursmriti-2009",
+        "title": "Chatursmriti 2009",
+        "category": "Event",
+        "start_date": "2009-11-18",
+        "date_label": "18th & 19th November 2009",
+        "description": [
+          {
+            "type": "paragraph",
+            "text": "A 2-day festival featuring legendary Santoor maestro Pt. Shivkumar Sharma, alongside recitals by Smt Shubha Mudgal, Shri Rakesh Chaurasia, and Pt. Ulhas Kashalkar.",
+            "spans": []
+          }
+        ],
+        "artists": [],
+        "slices": []
+      }
+    },
+    {
+      "action": "create",
+      "type": "event",
+      "uid": "dinarang-film-screening",
+      "title": "“Dinarang” Film Screening",
+      "lang": "en-us",
+      "data": {
+        "uid": "dinarang-film-screening",
+        "title": "“Dinarang” Film Screening",
+        "category": "Event",
+        "start_date": "2011-10-01",
+        "date_label": "1st October 2011",
+        "description": [
+          {
+            "type": "paragraph",
+            "text": "A special cinematic event hosted by Svarit, presenting a documentary film screening that explores the life, philosophy, and musical legacy of Pandit Dinkar Kaikini.",
+            "spans": []
+          }
+        ],
+        "artists": [],
+        "slices": []
+      }
+    },
+    {
+      "action": "create",
+      "type": "event",
+      "uid": "chatursmriti-2011",
+      "title": "Chatursmriti 2011",
+      "lang": "en-us",
+      "data": {
+        "uid": "chatursmriti-2011",
+        "title": "Chatursmriti 2011",
+        "category": "Event",
+        "start_date": "2011-12-03",
+        "date_label": "3rd December 2011",
+        "description": [
+          {
+            "type": "paragraph",
+            "text": "An evening pairing instrumental and vocal disciplines, featuring a Sitar recital by Shri Purbayan Chatterjee and a classical vocal performance by Smt Aditi Kaikini Upadhya.",
+            "spans": []
+          }
+        ],
+        "artists": [],
+        "slices": []
+      }
+    },
+    {
+      "action": "create",
+      "type": "event",
+      "uid": "dinarang-smriti-2012",
+      "title": "Dinarang Smriti 2012",
+      "lang": "en-us",
+      "data": {
+        "uid": "dinarang-smriti-2012",
+        "title": "Dinarang Smriti 2012",
+        "category": "Event",
+        "start_date": "2012-01-20",
+        "date_label": "20th & 21st January 2012",
+        "description": [
+          {
+            "type": "paragraph",
+            "text": "A 2-day event featuring a Tabla solo by Ustad Zakir Hussain, a Sitar recital by Ustad Shahid Parvez, vocal recital by Pt. Ulhas Kashalkar, and the release of the \"Dinarang\" book translation.",
+            "spans": []
+          }
+        ],
+        "artists": [],
+        "slices": []
+      }
+    },
+    {
+      "action": "create",
+      "type": "event",
+      "uid": "dinarang-smriti-2013",
+      "title": "Dinarang Smriti 2013",
+      "lang": "en-us",
+      "data": {
+        "uid": "dinarang-smriti-2013",
+        "title": "Dinarang Smriti 2013",
+        "category": "Event",
+        "start_date": "2013-01-12",
+        "date_label": "12th & 13th January 2013",
+        "description": [
+          {
+            "type": "paragraph",
+            "text": "A 2-day celebration featuring a percussion ensemble with Shri Ranjit Barot, a violin duet by Ganesh-Kumaresh, and vocal recitals by Smt Ashwini Bhide and Pt. Ulhas Kashalkar.",
+            "spans": []
+          }
+        ],
+        "artists": [],
+        "slices": []
+      }
+    },
+    {
+      "action": "create",
+      "type": "event",
+      "uid": "dinarang-smriti-2014",
+      "title": "Dinarang Smriti 2014",
+      "lang": "en-us",
+      "data": {
+        "uid": "dinarang-smriti-2014",
+        "title": "Dinarang Smriti 2014",
+        "category": "Event",
+        "start_date": "2014-02-14",
+        "date_label": "14th & 15th February 2014",
+        "description": [
+          {
+            "type": "paragraph",
+            "text": "A 2-day festival featuring Dhrupad by Pt. Uday Bhawalkar, Sitar by Pt. Budhaditya Mukherjee, \"Sumiran\" a Kathak choreography, a Tabla solo by Pt. Yogesh Samsi, and vocal recital by Pt. Ulhas Kashalkar.",
+            "spans": []
+          }
+        ],
+        "artists": [],
+        "slices": []
+      }
+    },
+    {
+      "action": "create",
+      "type": "event",
+      "uid": "dinarang-smriti-2015",
+      "title": "Dinarang Smriti 2015",
+      "lang": "en-us",
+      "data": {
+        "uid": "dinarang-smriti-2015",
+        "title": "Dinarang Smriti 2015",
+        "category": "Event",
+        "start_date": "2015-02-20",
+        "date_label": "20th February 2015",
+        "description": [
+          {
+            "type": "paragraph",
+            "text": "A vibrant evening of classical performing arts, showcasing a Kathak dance recital by Pt. Rajendra Gangani followed by a Flute solo by maestro Pt. Hariprasad Chaurasia.",
+            "spans": []
+          }
+        ],
+        "artists": [],
+        "slices": []
+      }
+    },
+    {
+      "action": "create",
+      "type": "event",
+      "uid": "dinarang-smriti-2016",
+      "title": "Dinarang Smriti 2016",
+      "lang": "en-us",
+      "data": {
+        "uid": "dinarang-smriti-2016",
+        "title": "Dinarang Smriti 2016",
+        "category": "Event",
+        "start_date": "2016-02-24",
+        "date_label": "24th & 25th February 2016",
+        "description": [
+          {
+            "type": "paragraph",
+            "text": "A 2-day event featuring a vocal duet by Pt. Rajan & Pt. Sajan Mishra, solo recitals by Smt Aditi Kaikini Upadhya and Pt. Ulhas Kashalkar, and Santoor recital by Shri Rahul Sharma.",
+            "spans": []
+          }
+        ],
+        "artists": [],
+        "slices": []
+      }
+    },
+    {
+      "action": "create",
+      "type": "event",
+      "uid": "dinarang-smriti-2017",
+      "title": "Dinarang Smriti 2017",
+      "lang": "en-us",
+      "data": {
+        "uid": "dinarang-smriti-2017",
+        "title": "Dinarang Smriti 2017",
+        "category": "Event",
+        "start_date": "2017-02-24",
+        "date_label": "24th & 25th February 2017",
+        "description": [
+          {
+            "type": "paragraph",
+            "text": "A 2-day festival presenting a Violin recital by Dr Smt N Rajam, Sitar by Shri Niladri Kumar, and vocal performances by Pt. Raghunandan Panshikar and Pt. Ulhas Kashalkar.",
+            "spans": []
+          }
+        ],
+        "artists": [],
+        "slices": []
+      }
+    },
+    {
+      "action": "create",
+      "type": "event",
+      "uid": "dinarang-smriti-2018",
+      "title": "Dinarang Smriti 2018",
+      "lang": "en-us",
+      "data": {
+        "uid": "dinarang-smriti-2018",
+        "title": "Dinarang Smriti 2018",
+        "category": "Event",
+        "start_date": "2018-02-08",
+        "date_label": "8th & 9th February 2018",
+        "description": [
+          {
+            "type": "paragraph",
+            "text": "A 2-day gathering featuring choral works by Pt. Dinkar Kaikini, Flute by Pt. Ronu Majumdar, Sarod by Pt. Debojyoti Bose, and vocal recital by Pt. Venkatesh Kumar and Pt. Ulhas Kashalkar.",
+            "spans": []
+          }
+        ],
+        "artists": [],
+        "slices": []
+      }
+    },
+    {
+      "action": "create",
+      "type": "event",
+      "uid": "dinarang-smriti-2019",
+      "title": "Dinarang Smriti 2019",
+      "lang": "en-us",
+      "data": {
+        "uid": "dinarang-smriti-2019",
+        "title": "Dinarang Smriti 2019",
+        "category": "Event",
+        "start_date": "2019-03-01",
+        "date_label": "1st & 2nd March 2019",
+        "description": [
+          {
+            "type": "paragraph",
+            "text": "A 2-day event highlighting a unique Tabla Jugalbandi by Pt. Shubhankar Banerjee and Pt. Yogesh Samsi, a Sarod-Violin duet, and vocal recital by Smt Aditi Kaikini Upadhya and Pt. Ulhas Kashalkar.",
+            "spans": []
+          }
+        ],
+        "artists": [],
+        "slices": []
+      }
+    },
+    {
+      "action": "create",
+      "type": "event",
+      "uid": "dinarang-smriti-2020",
+      "title": "Dinarang Smriti 2020",
+      "lang": "en-us",
+      "data": {
+        "uid": "dinarang-smriti-2020",
+        "title": "Dinarang Smriti 2020",
+        "category": "Event",
+        "start_date": "2020-02-21",
+        "date_label": "21st February 2020",
+        "description": [
+          {
+            "type": "paragraph",
+            "text": "A landmark concert featuring an opening vocal recital by Pt. Ajay Chakrabarty, followed by an extraordinary performance by Pt. Shivkumar Sharma accompained by Ustad Zakir Hussain.",
+            "spans": []
+          }
+        ],
+        "artists": [],
+        "slices": []
+      }
+    },
+    {
+      "action": "create",
+      "type": "event",
+      "uid": "samvada",
+      "title": "Samvāda",
+      "lang": "en-us",
+      "data": {
+        "uid": "samvada",
+        "title": "Samvāda",
+        "category": "Workshop",
+        "start_date": "2024-01-13",
+        "date_label": "13th & 14th January 2024",
+        "description": [
+          {
+            "type": "paragraph",
+            "text": "A two-day music workshop on Hindustani classical vocal music conducted by Vidushi Aditi Upadhya.",
+            "spans": []
+          }
+        ],
+        "artists": [],
+        "slices": []
+      }
+    },
+    {
+      "action": "create",
+      "type": "event",
+      "uid": "understanding-dinarang-through-his-music",
+      "title": "Understanding Dinarang Through His Music",
+      "lang": "en-us",
+      "data": {
+        "uid": "understanding-dinarang-through-his-music",
+        "title": "Understanding Dinarang Through His Music",
+        "category": "Workshop",
+        "start_date": "2025-04-16",
+        "date_label": "16th-20th April 2025",
+        "description": [
+          {
+            "type": "paragraph",
+            "text": "A 5-day residential Hindustani vocal workshop at Anubhav, Wayanad for students and performers by Vidushi Aditi Upadhya.",
+            "spans": []
+          }
+        ],
+        "artists": [],
+        "slices": []
+      }
+    },
+    {
+      "action": "create",
+      "type": "event",
+      "uid": "riyaaz-shibir",
+      "title": "Riyaaz Shibir",
+      "lang": "en-us",
+      "data": {
+        "uid": "riyaaz-shibir",
+        "title": "Riyaaz Shibir",
+        "category": "Workshop",
+        "start_date": "2026-05-16",
+        "date_label": "16th & 17th May 2026",
+        "description": [
+          {
+            "type": "paragraph",
+            "text": "A 2-day residential shibir at Anubhav, Wayanad for students focusing on various aspects of riyaaz by Vidushi Aditi Upadhya.",
+            "spans": []
+          }
+        ],
+        "artists": [],
+        "slices": []
+      }
+    },
+    {
+      "action": "create",
+      "type": "event",
+      "uid": "lecture-demonstration-on-the-punjab-gharana",
+      "title": "Lecture Demonstration on the Punjab Gharana",
+      "lang": "en-us",
+      "data": {
+        "uid": "lecture-demonstration-on-the-punjab-gharana",
+        "title": "Lecture Demonstration on the Punjab Gharana",
+        "category": "Workshop",
+        "start_date": "2012-08-12",
+        "date_label": "12th August 2012",
+        "description": [
+          {
+            "type": "paragraph",
+            "text": "An educational lecture demonstration exploring the history and technical complexities of the Punjab Gharana of Tabla, presented by Pt. Sushilkumar Jain.",
+            "spans": []
+          }
+        ],
+        "artists": [],
+        "slices": []
+      }
+    },
+    {
+      "action": "create",
+      "type": "event",
+      "uid": "workshop-with-vidwan-karaikudi-mani-iyer",
+      "title": "Workshop with Vidwan Karaikudi Mani Iyer",
+      "lang": "en-us",
+      "data": {
+        "uid": "workshop-with-vidwan-karaikudi-mani-iyer",
+        "title": "Workshop with Vidwan Karaikudi Mani Iyer",
+        "category": "Workshop",
+        "start_date": "2018-08-01",
+        "date_label": "August 2018",
+        "description": [
+          {
+            "type": "paragraph",
+            "text": "A mridangam workshop with the eminent maestro Vidwan Karaikudi Mani Iyer.",
+            "spans": []
+          }
+        ],
+        "artists": [],
+        "slices": []
+      }
+    },
+    {
+      "action": "create",
+      "type": "event",
+      "uid": "an-evening-with-vidwan-umayalpuram-k-sivaraman",
+      "title": "An Evening with Vidwan Umayalpuram K Sivaraman",
+      "lang": "en-us",
+      "data": {
+        "uid": "an-evening-with-vidwan-umayalpuram-k-sivaraman",
+        "title": "An Evening with Vidwan Umayalpuram K Sivaraman",
+        "category": "Workshop",
+        "start_date": "2025-06-10",
+        "date_label": "10th June 2025",
+        "description": [
+          {
+            "type": "paragraph",
+            "text": "An evening of interaction, learning and experience with the legendary mridangam maestro Padma Vibhushan Vidwan Umayalpuram K Sivaraman, hosted by Ranjit Barot and Yogesh Samsi at Bhartiya Vidya Bhavan, Chowpatty, Mumbai.",
+            "spans": []
+          }
+        ],
+        "artists": [],
+        "slices": []
+      }
+    },
+    {
+      "action": "create",
+      "type": "page",
+      "uid": "home",
+      "title": "Home",
+      "lang": "en-us",
+      "data": {
+        "uid": "home",
+        "slices": [
+          {
+            "slice_type": "hero",
+            "variation": "default",
+            "items": [],
+            "primary": {
+              "title": "Ushering in the Next Era of Indian Music",
+              "subtitle": [
+                {
+                  "type": "paragraph",
+                  "text": "Svarit is dedicated to the preservation and promotion of Indian classical music through education, performance, and community engagement.",
+                  "spans": []
+                }
+              ],
+              "cta_label": "Learn more",
+              "cta_link": {
+                "link_type": "Web",
+                "url": "#about"
+              },
+              "stats": "20+ Volunteers",
+              "images": [
+                {
+                  "image": {
+                    "__asset": "left.png",
+                    "path": "/assets/hero/left.png",
+                    "alt": null
+                  }
+                },
+                {
+                  "image": {
+                    "__asset": "middle.png",
+                    "path": "/assets/hero/middle.png",
+                    "alt": null
+                  }
+                }
+              ],
+              "video": {
+                "link_type": "Media",
+                "id": {
+                  "__asset": "right.mp4",
+                  "path": "/assets/hero/right.mp4",
+                  "alt": null
+                }
+              }
+            }
+          },
+          {
+            "slice_type": "sponsors",
+            "variation": "default",
+            "items": [],
+            "primary": {
+              "heading": "The Champions of Our Mission So Far",
+              "subheading": "Previous Sponsors",
+              "logos": [
+                {
+                  "logo": {
+                    "__asset": "indian-oil.webp",
+                    "path": "/assets/sponsors/indian-oil.webp",
+                    "alt": "Indian Oil logo"
+                  },
+                  "name": "Indian Oil"
+                },
+                {
+                  "logo": {
+                    "__asset": "tata-capital.webp",
+                    "path": "/assets/sponsors/tata-capital.webp",
+                    "alt": "Tata Capital logo"
+                  },
+                  "name": "Tata Capital"
+                },
+                {
+                  "logo": {
+                    "__asset": "union-bank.webp",
+                    "path": "/assets/sponsors/union-bank.webp",
+                    "alt": "Union Bank of India logo"
+                  },
+                  "name": "Union Bank of India"
+                },
+                {
+                  "logo": {
+                    "__asset": "rithwik-foundation.webp",
+                    "path": "/assets/sponsors/rithwik-foundation.webp",
+                    "alt": "Rithwik Foundation logo"
+                  },
+                  "name": "Rithwik Foundation"
+                },
+                {
+                  "logo": {
+                    "__asset": "insync.webp",
+                    "path": "/assets/sponsors/insync.webp",
+                    "alt": "Insync logo"
+                  },
+                  "name": "Insync"
+                },
+                {
+                  "logo": {
+                    "__asset": "hdfc-bank.webp",
+                    "path": "/assets/sponsors/hdfc-bank.webp",
+                    "alt": "HDFC Bank logo"
+                  },
+                  "name": "HDFC Bank"
+                },
+                {
+                  "logo": {
+                    "__asset": "vodafone.webp",
+                    "path": "/assets/sponsors/vodafone.webp",
+                    "alt": "Vodafone logo"
+                  },
+                  "name": "Vodafone"
+                },
+                {
+                  "logo": {
+                    "__asset": "pest-control-india.webp",
+                    "path": "/assets/sponsors/pest-control-india.webp",
+                    "alt": "Pest Control India logo"
+                  },
+                  "name": "Pest Control India"
+                },
+                {
+                  "logo": {
+                    "__asset": "triton-valves.webp",
+                    "path": "/assets/sponsors/triton-valves.webp",
+                    "alt": "Triton Valves logo"
+                  },
+                  "name": "Triton Valves"
+                }
+              ]
+            }
+          },
+          {
+            "slice_type": "about",
+            "variation": "default",
+            "items": [],
+            "primary": {
+              "heading": "Our Mission is to Inspire Young & Fresh Perspectives to Reshape Indian Music",
+              "subheading": "Svarit was founded in 2001 with the vision of promoting and propagating the rich tradition of Hindustani Raag Sangeet, as envisioned by the legendary vocalist Pandit Dinkar Kaikini.",
+              "body": [
+                {
+                  "type": "paragraph",
+                  "text": "Svarit, a Sanskrit word meaning “ascending towards the divine”, embodies our belief in music as a pathway to higher artistic and spiritual expression. Founded to preserve and promote the legacy of Indian Music as envisioned by Pandit Dinkar Kaikini, Svarit is rooted in a rich musical lineage that traces through the legacies of the great masters of Hindustani classical music, the likes of Pt. Vishnu Narayan Bhatkhande, Ustad Faiyaz Khan, Padma Bhushan Acharya S. N. Ratanjankar, Ustad Allarakha & Ustad Zakir Hussain.",
+                  "spans": []
+                },
+                {
+                  "type": "paragraph",
+                  "text": "Today, under the guidance of Pt. Yogesh Samsi and Smt. Aditi Kaikini Upadhya, Svarit is more than a trust. It is a vibrant cultural platform where tradition meets innovation. Through concerts, festivals, educational initiatives, artist development, and collaborative projects, we nurture excellence while ensuring our country's arts remain relevant, accessible, and inspiring for future generations. Svarit continues to celebrate heritage, foster creativity, and shape the future of Indian Music.",
+                  "spans": []
+                }
+              ],
+              "stats": "20+ Volunteers"
+            }
+          },
+          {
+            "slice_type": "event_list",
+            "variation": "default",
+            "items": [],
+            "primary": {
+              "heading": "Engaging Through More than 2 Decades of Keeping Tradition Alive",
+              "subheading": "Our Initiatives",
+              "page_size": 6
+            }
+          },
+          {
+            "slice_type": "donate",
+            "variation": "default",
+            "items": [],
+            "primary": {
+              "heading": "Join us in shaping the future of Indian Music.",
+              "cta_label": "Donate to Svarit",
+              "cta_link": {
+                "link_type": "Web",
+                "url": "https://pages.razorpay.com/svarit"
+              },
+              "background_image": {
+                "__asset": "image.jpg",
+                "path": "/assets/donate/image.jpg",
+                "alt": null
+              }
+            }
+          },
+          {
+            "slice_type": "contact",
+            "variation": "default",
+            "items": [],
+            "primary": {
+              "heading": "We'd Love to Hear from You",
+              "subheading": "Contact Us",
+              "description": [
+                {
+                  "type": "paragraph",
+                  "text": "We are a community of dreamers & changemakers. What began as a family endeavour is now expanding to welcome fresh perspectives. If you resonate with our mission, please get in touch.",
+                  "spans": []
+                }
+              ],
+              "name_label": "Name",
+              "email_label": "Email",
+              "message_label": "Message",
+              "submit_label": "Send Message"
+            }
+          }
+        ],
+        "meta_title": "Svarit: Honouring Legacy, Shaping the Future of Indian Music",
+        "meta_description": "Founded in 2001, Svarit carries a rich musical legacy into the future, nurturing Indian music through concerts, festivals, education and community."
+      }
+    },
+    {
+      "action": "create",
+      "type": "page",
+      "uid": "events",
+      "title": "Events",
+      "lang": "en-us",
+      "data": {
+        "uid": "events",
+        "slices": [
+          {
+            "slice_type": "event_list",
+            "variation": "grid",
+            "items": [],
+            "primary": {
+              "heading": "Everything Svarit Has Presented Since 2001",
+              "subheading": "Events and Workshops",
+              "category": "All",
+              "page_size": 12
+            }
+          }
+        ],
+        "meta_title": "Events and Workshops",
+        "meta_description": "Every concert, festival and workshop Svarit has presented since 2001."
+      }
+    },
+    {
+      "action": "create",
+      "type": "page",
+      "uid": "artists",
+      "title": "Artists",
+      "lang": "en-us",
+      "data": {
+        "uid": "artists",
+        "slices": [
+          {
+            "slice_type": "artist_list",
+            "variation": "default",
+            "items": [],
+            "primary": {
+              "heading": "The Artists Who Have Shaped Svarit",
+              "subheading": "Artists"
+            }
+          }
+        ],
+        "meta_title": "Artists",
+        "meta_description": "The musicians who have performed and taught at Svarit since 2001."
+      }
+    },
+    {
+      "action": "update",
+      "type": "settings",
+      "uid": null,
+      "title": "Site Settings",
+      "lang": "en-us",
+      "data": {
+        "logo": {
+          "dimensions": {
+            "width": 71,
+            "height": 32
+          },
+          "alt": "Svarit Logo",
+          "copyright": null,
+          "url": "https://svarit.cdn.prismic.io/svarit/aiZpKweQX7-eW87n_logo.svg",
+          "id": "aiZpKweQX7-eW87n",
+          "edit": {
+            "x": 0,
+            "y": 0,
+            "zoom": 1,
+            "background": "transparent"
+          }
+        },
+        "donationLink": [
+          {
+            "link_type": "Web",
+            "key": "c4e79a78-d14d-4bf9-aa58-fb050bb686b0",
+            "url": "https://pages.razorpay.com/svarit",
+            "target": "_blank",
+            "text": "Join the mission"
+          }
+        ],
+        "socials": [
+          {
+            "youtube": {
+              "link_type": "Web",
+              "key": "b9424dbe-ba4c-4d00-bdd6-1f4c5481e7ab",
+              "url": "https://youtube.com/@svaritorg",
+              "target": "_blank"
+            },
+            "instagram": {
+              "link_type": "Web",
+              "key": "fd105332-b564-473d-96ff-7aef01a97e15",
+              "url": "https://instagram.com/svaritorg",
+              "target": "_blank"
+            },
+            "facebook": {
+              "link_type": "Web",
+              "key": "cd06e48d-904a-4111-80d1-e79aff53be26",
+              "url": "https://facebook.com/svaritorg",
+              "target": "_blank"
+            }
+          }
+        ],
+        "nav": [
+          {
+            "links": [
+              {
+                "link_type": "Web",
+                "key": "011b9f58-00b5-4282-bc25-15f05132f208",
+                "url": "#about",
+                "text": "About Us"
+              },
+              {
+                "link_type": "Web",
+                "key": "d515562b-53c3-4aa2-8565-efd4e2fd7e68",
+                "url": "#initiatives",
+                "text": "Initiatives"
+              },
+              {
+                "link_type": "Web",
+                "key": "75d1baa6-bc00-4347-9df7-e4bd94befe35",
+                "url": "#contact",
+                "text": "Contact Us"
+              },
+              {
+                "link_type": "Web",
+                "key": "172ea324-c06c-4647-89ee-1e8234ed3888",
+                "url": "https://dinkarkaikini.in",
+                "target": "_blank",
+                "text": "Dinkar Kaikini"
+              }
+            ]
+          }
+        ],
+        "footer": [
+          {
+            "contact": "team@svarit.org | +91 9930759942",
+            "address": "Anandashram, 22 Pandita Ramabai Rd, Gamdevi, Mumbai - 400 007",
+            "copyright": "© 2026 Svarit. All rights reserved.",
+            "credits": [
+              {
+                "type": "paragraph",
+                "text": "Made with 💛 by Neesh Samsi",
+                "spans": []
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "skipped": [],
+  "warnings": [
+    "settings.donationLink was force-updated to https://pages.razorpay.com/svarit, replacing https://rzp.io/l/svarit. This overwrites existing content on purpose.",
+    "settings.footer.contact was force-updated to \"team@svarit.org | +91 9930759942\", replacing \"svarittrust1@gmail.com | +91 9930759942\". This overwrites existing content on purpose."
+  ]
+}
