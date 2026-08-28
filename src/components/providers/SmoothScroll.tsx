@@ -30,7 +30,22 @@ export default function SmoothScroll({
     }
     document.addEventListener('click', handleAnchorClick)
 
+    // Images and webfonts change the document height after first paint, which
+    // leaves every ScrollTrigger holding start and end positions measured
+    // against a shorter page. Recompute them once each has settled.
+    let alive = true
+    const refresh = () => {
+      if (alive) ScrollTrigger.refresh()
+    }
+
+    if (document.readyState === 'complete') refresh()
+    else window.addEventListener('load', refresh)
+
+    document.fonts?.ready.then(refresh)
+
     return () => {
+      alive = false
+      window.removeEventListener('load', refresh)
       document.removeEventListener('click', handleAnchorClick)
       gsap.ticker.remove(rafCb)
       lenis.destroy()

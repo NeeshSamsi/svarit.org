@@ -1,6 +1,6 @@
 'use client'
 
-import { useRef, useEffect, useCallback } from 'react'
+import { useState, useRef, useEffect, useCallback } from 'react'
 import useEmblaCarousel from 'embla-carousel-react'
 import AutoScroll from 'embla-carousel-auto-scroll'
 import type { Content } from '@prismicio/client'
@@ -12,6 +12,10 @@ import { gsap, ScrollTrigger } from '@/lib/gsap'
 export type SponsorsProps = SliceComponentProps<Content.SponsorsSlice>
 
 export default function Sponsors({ slice }: SponsorsProps) {
+  // The marquee starts once the reveal has finished AND Embla is ready.
+  // Calling play() straight from the stagger's onComplete relied on Embla
+  // having initialised first, and silently did nothing when it had not.
+  const [revealDone, setRevealDone] = useState(false)
   const sectionRef = useRef<HTMLElement>(null)
   const titleRef = useRef<HTMLDivElement>(null)
   const viewportRef = useRef<HTMLDivElement | null>(null)
@@ -93,14 +97,19 @@ export default function Sponsors({ slice }: SponsorsProps) {
             stagger: 0.1,
             ease: 'power2.out',
             onComplete: () => {
-              emblaApi?.plugins()?.autoScroll?.play()
+              setRevealDone(true)
             },
           })
         },
       })
     }, sectionRef)
     return () => ctx.revert()
-  }, [emblaApi])
+  }, [])
+
+  useEffect(() => {
+    if (!revealDone || !emblaApi) return
+    emblaApi.plugins()?.autoScroll?.play()
+  }, [revealDone, emblaApi])
 
   useEffect(() => {
     if (!emblaApi) return
