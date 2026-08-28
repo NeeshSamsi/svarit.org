@@ -1,0 +1,146 @@
+{
+  "id": "event",
+  "label": "Event",
+  "repeatable": true,
+  "json": {
+    "Main": {
+      "uid": {
+        "type": "UID",
+        "config": {
+          "label": "UID"
+        }
+      },
+      "title": {
+        "type": "Text",
+        "config": {
+          "label": "Title",
+          "placeholder": ""
+        }
+      },
+      "category": {
+        "type": "Select",
+        "config": {
+          "label": "Category",
+          "placeholder": "",
+          "options": [
+            "Event",
+            "Workshop"
+          ],
+          "default_value": "Event"
+        }
+      },
+      "start_date": {
+        "type": "Date",
+        "config": {
+          "label": "Start Date",
+          "placeholder": ""
+        }
+      },
+      "end_date": {
+        "type": "Date",
+        "config": {
+          "label": "End Date",
+          "placeholder": ""
+        }
+      },
+      "date_label": {
+        "type": "Text",
+        "config": {
+          "label": "Date Label",
+          "placeholder": "7th & 8th November 2002"
+        }
+      },
+      "description": {
+        "type": "StructuredText",
+        "config": {
+          "label": "Description",
+          "placeholder": "",
+          "multi": "paragraph,strong,em,hyperlink"
+        }
+      },
+      "hero_image": {
+        "type": "Image",
+        "config": {
+          "label": "Hero Image",
+          "constraint": {},
+          "thumbnails": []
+        }
+      },
+      "venue": {
+        "type": "Text",
+        "config": {
+          "label": "Venue",
+          "placeholder": ""
+        }
+      },
+      "artists": {
+        "type": "Group",
+        "config": {
+          "label": "Artists",
+          "repeat": true,
+          "fields": {
+            "artist": {
+              "type": "Link",
+              "config": {
+                "label": "Artist",
+                "placeholder": "",
+                "select": "document",
+                "customtypes": [
+                  "artist"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "Body": {
+      "slices": {
+        "type": "Slices",
+        "fieldset": "Slice Zone",
+        "config": {
+          "choices": {
+            "rich_text": {
+              "type": "SharedSlice"
+            },
+            "image_gallery": {
+              "type": "SharedSlice"
+            },
+            "quote": {
+              "type": "SharedSlice"
+            }
+          }
+        }
+      }
+    },
+    "SEO & Metadata": {
+      "meta_title": {
+        "type": "Text",
+        "config": {
+          "label": "Meta Title",
+          "placeholder": "A title of the page used for social media and search engines"
+        }
+      },
+      "meta_description": {
+        "type": "Text",
+        "config": {
+          "label": "Meta Description",
+          "placeholder": "A brief summary of the page"
+        }
+      },
+      "meta_image": {
+        "type": "Image",
+        "config": {
+          "label": "Meta Image",
+          "constraint": {
+            "width": 2400,
+            "height": 1260
+          },
+          "thumbnails": []
+        }
+      }
+    }
+  },
+  "status": true,
+  "format": "page"
+}

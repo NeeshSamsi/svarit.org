@@ -6,6 +6,19 @@
   "routes": [
     {
       "type": "page",
+      "uid": "home",
+      "path": "/"
+    },
+    {
+      "type": "event",
+      "path": "/events/:uid"
+    },
+    {
+      "type": "artist",
+      "path": "/artists/:uid"
+    },
+    {
+      "type": "page",
       "path": "/:uid"
     }
   ]

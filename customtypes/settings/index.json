@@ -104,6 +104,21 @@
                 "label": "Address",
                 "placeholder": ""
               }
+            },
+            "copyright": {
+              "type": "Text",
+              "config": {
+                "label": "Copyright",
+                "placeholder": ""
+              }
+            },
+            "credits": {
+              "type": "StructuredText",
+              "config": {
+                "label": "Credits",
+                "placeholder": "",
+                "multi": "paragraph,strong,em,hyperlink"
+              }
             }
           }
         }
