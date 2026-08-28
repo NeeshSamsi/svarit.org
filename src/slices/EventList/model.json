@@ -26,12 +26,13 @@
             "placeholder": "Our Initiatives"
           }
         },
-        "page_size": {
-          "type": "Number",
+        "limit": {
+          "type": "Boolean",
           "config": {
-            "label": "Page Size",
-            "placeholder": "6",
-            "min": 1
+            "label": "Limit",
+            "placeholder_false": "Show every event",
+            "placeholder_true": "Show 6 at a time",
+            "default_value": true
           }
         }
       }
@@ -65,14 +66,6 @@
             "placeholder": "",
             "options": ["All", "Event", "Workshop"],
             "default_value": "All"
-          }
-        },
-        "page_size": {
-          "type": "Number",
-          "config": {
-            "label": "Page Size",
-            "placeholder": "12",
-            "min": 1
           }
         }
       }

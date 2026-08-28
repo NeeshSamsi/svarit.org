@@ -1,9 +1,8 @@
 'use client'
 
-import { useState, useRef, useEffect, useMemo } from 'react'
+import { useRef, useEffect, useMemo } from 'react'
 import type { Content } from '@prismicio/client'
 import SectionTitle from '@/components/ui/SectionTitle'
-import Button from '@/components/ui/Button'
 import { gsap } from '@/lib/gsap'
 import type { EventDocument } from '../../../prismicio-types'
 import EventCard from './EventCard'
@@ -15,13 +14,11 @@ export default function EventListGrid({
   slice: Extract<Content.EventListSlice, { variation: 'grid' }>
   events: EventDocument[]
 }) {
-  const pageSize = slice.primary.page_size ?? 12
   const category = slice.primary.category ?? 'All'
-  const [visibleCount, setVisibleCount] = useState(pageSize)
   const sectionRef = useRef<HTMLElement>(null)
   const headerRef = useRef<HTMLDivElement>(null)
 
-  const sortedItems = useMemo(
+  const visibleItems = useMemo(
     () =>
       events
         .filter(
@@ -34,8 +31,6 @@ export default function EventListGrid({
         ),
     [events, category]
   )
-  const visibleItems = sortedItems.slice(0, visibleCount)
-  const hasMore = visibleCount < sortedItems.length
 
   useEffect(() => {
     gsap.from(headerRef.current, {
@@ -55,23 +50,6 @@ export default function EventListGrid({
     })
   }, [])
 
-  const prevCountRef = useRef(pageSize)
-
-  useEffect(() => {
-    if (visibleCount > prevCountRef.current) {
-      const cards = gsap.utils.toArray('.initiative-card') as HTMLElement[]
-      const newCards = cards.slice(prevCountRef.current)
-      gsap.from(newCards, {
-        y: 16,
-        opacity: 0,
-        duration: 0.35,
-        stagger: 0.18,
-        ease: 'power2.out',
-      })
-    }
-    prevCountRef.current = visibleCount
-  }, [visibleCount])
-
   return (
     <section
       ref={sectionRef}
@@ -89,16 +67,6 @@ export default function EventListGrid({
       {visibleItems.map((event) => (
         <EventCard key={event.id} event={event} linked />
       ))}
-      {hasMore && (
-        <div className="col-span-full flex justify-center">
-          <Button
-            variant="secondary"
-            onClick={() => setVisibleCount((c) => c + pageSize)}
-          >
-            Show more
-          </Button>
-        </div>
-      )}
     </section>
   )
 }

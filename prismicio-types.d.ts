@@ -71,13 +71,7 @@ export interface ArtistDocumentDataLinksItem {
 	link: prismic.LinkField<string, string, unknown, prismic.FieldState, never>;
 }
 
-/**
- * Slice union for *Artist → Body → Slice Zone*
- *
- * Filled in by the slices library.
- */
-type ArtistDocumentDataSlicesSlice =
-	RichTextSlice | ImageGallerySlice | QuoteSlice
+type ArtistDocumentDataSlicesSlice = RichTextSlice | ImageGallerySlice | QuoteSlice
 
 /**
  * Content for Artist documents
@@ -136,9 +130,7 @@ interface ArtistDocumentData {
 	 * - **Tab**: Main
 	 * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
 	 */
-	links: prismic.GroupField<Simplify<ArtistDocumentDataLinksItem>>;
-	
-	/**
+	links: prismic.GroupField<Simplify<ArtistDocumentDataLinksItem>>;/**
 	 * Slice Zone field in *Artist*
 	 *
 	 * - **Field Type**: Slice Zone
@@ -147,9 +139,7 @@ interface ArtistDocumentData {
 	 * - **Tab**: Body
 	 * - **Documentation**: https://prismic.io/docs/slices
 	 */
-	slices: prismic.SliceZone<ArtistDocumentDataSlicesSlice>;
-	
-	/**
+	slices: prismic.SliceZone<ArtistDocumentDataSlicesSlice>;/**
 	 * Meta Title field in *Artist*
 	 *
 	 * - **Field Type**: Text
@@ -194,7 +184,6 @@ interface ArtistDocumentData {
  */
 export type ArtistDocument<Lang extends string = string> = prismic.PrismicDocumentWithUID<Simplify<ArtistDocumentData>, "artist", Lang>;
 
-
 /**
  * Item in *Event → Artists*
  */
@@ -210,13 +199,7 @@ export interface EventDocumentDataArtistsItem {
 	artist: prismic.ContentRelationshipField<"artist">;
 }
 
-/**
- * Slice union for *Event → Body → Slice Zone*
- *
- * Filled in by the slices library.
- */
-type EventDocumentDataSlicesSlice =
-	RichTextSlice | ImageGallerySlice | QuoteSlice
+type EventDocumentDataSlicesSlice = RichTextSlice | ImageGallerySlice | QuoteSlice
 
 /**
  * Content for Event documents
@@ -320,9 +303,7 @@ interface EventDocumentData {
 	 * - **Tab**: Main
 	 * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
 	 */
-	artists: prismic.GroupField<Simplify<EventDocumentDataArtistsItem>>;
-	
-	/**
+	artists: prismic.GroupField<Simplify<EventDocumentDataArtistsItem>>;/**
 	 * Slice Zone field in *Event*
 	 *
 	 * - **Field Type**: Slice Zone
@@ -331,9 +312,7 @@ interface EventDocumentData {
 	 * - **Tab**: Body
 	 * - **Documentation**: https://prismic.io/docs/slices
 	 */
-	slices: prismic.SliceZone<EventDocumentDataSlicesSlice>;
-	
-	/**
+	slices: prismic.SliceZone<EventDocumentDataSlicesSlice>;/**
 	 * Meta Title field in *Event*
 	 *
 	 * - **Field Type**: Text
@@ -378,16 +357,7 @@ interface EventDocumentData {
  */
 export type EventDocument<Lang extends string = string> = prismic.PrismicDocumentWithUID<Simplify<EventDocumentData>, "event", Lang>;
 
-
-/**
- * Slice union for *Page → Main → Slice Zone*
- *
- * Filled in by the slices library. `page` is the universal container, so this
- * union covers all eleven page-level slices: hero, sponsors, about, event_list,
- * donate, contact, artist_list, volunteers, rich_text, image_gallery, quote.
- */
-type PageDocumentDataSlicesSlice =
-	HeroSlice | SponsorsSlice | AboutSlice | EventListSlice | DonateSlice | ContactSlice | ArtistListSlice | VolunteersSlice | RichTextSlice | ImageGallerySlice | QuoteSlice
+type PageDocumentDataSlicesSlice = HeroSlice | SponsorsSlice | AboutSlice | EventListSlice | DonateSlice | ContactSlice | ArtistListSlice | VolunteersSlice | RichTextSlice | ImageGallerySlice | QuoteSlice
 
 /**
  * Content for Page documents
@@ -541,7 +511,6 @@ export interface SettingsDocumentDataFooterItem {
 	 */
 	credits: prismic.RichTextField;
 }
-
 
 /**
  * Content for Site Settings documents
@@ -703,7 +672,7 @@ export interface AboutSliceDefaultPrimary {
 	 * Stats field in *About → Default → Primary*
 	 *
 	 * - **Field Type**: Text
-	 * - **Placeholder**: *None*
+	 * - **Placeholder**: 20+ Volunteers
 	 * - **API ID Path**: about.default.primary.stats
 	 * - **Documentation**: https://prismic.io/docs/fields/text
 	 */
@@ -722,13 +691,13 @@ export type AboutSliceDefault = prismic.SharedSliceVariation<"default", Simplify
 /**
  * Slice variation for *About*
  */
-type AboutSliceVariation = AboutSliceDefault;
+type AboutSliceVariation = AboutSliceDefault
 
 /**
  * About Shared Slice
  *
  * - **API ID**: `about`
- * - **Description**: About
+ * - **Description**: Mission statement with the volunteer avatars pulled from Site Settings.
  * - **Documentation**: https://prismic.io/docs/slices
  */
 export type AboutSlice = prismic.SharedSlice<"about", AboutSliceVariation>;
@@ -770,13 +739,13 @@ export type ArtistListSliceDefault = prismic.SharedSliceVariation<"default", Sim
 /**
  * Slice variation for *ArtistList*
  */
-type ArtistListSliceVariation = ArtistListSliceDefault;
+type ArtistListSliceVariation = ArtistListSliceDefault
 
 /**
  * ArtistList Shared Slice
  *
  * - **API ID**: `artist_list`
- * - **Description**: ArtistList
+ * - **Description**: A grid of every Artist document, each card linking to its page.
  * - **Documentation**: https://prismic.io/docs/slices
  */
 export type ArtistListSlice = prismic.SharedSlice<"artist_list", ArtistListSliceVariation>;
@@ -789,7 +758,7 @@ export interface ContactSliceDefaultPrimary {
 	 * Heading field in *Contact → Default → Primary*
 	 *
 	 * - **Field Type**: Text
-	 * - **Placeholder**: *None*
+	 * - **Placeholder**: We'd Love to Hear from You
 	 * - **API ID Path**: contact.default.primary.heading
 	 * - **Documentation**: https://prismic.io/docs/fields/text
 	 */
@@ -799,7 +768,7 @@ export interface ContactSliceDefaultPrimary {
 	 * Subheading field in *Contact → Default → Primary*
 	 *
 	 * - **Field Type**: Text
-	 * - **Placeholder**: *None*
+	 * - **Placeholder**: Contact Us
 	 * - **API ID Path**: contact.default.primary.subheading
 	 * - **Documentation**: https://prismic.io/docs/fields/text
 	 */
@@ -819,7 +788,7 @@ export interface ContactSliceDefaultPrimary {
 	 * Name Label field in *Contact → Default → Primary*
 	 *
 	 * - **Field Type**: Text
-	 * - **Placeholder**: *None*
+	 * - **Placeholder**: Name
 	 * - **API ID Path**: contact.default.primary.name_label
 	 * - **Documentation**: https://prismic.io/docs/fields/text
 	 */
@@ -829,7 +798,7 @@ export interface ContactSliceDefaultPrimary {
 	 * Email Label field in *Contact → Default → Primary*
 	 *
 	 * - **Field Type**: Text
-	 * - **Placeholder**: *None*
+	 * - **Placeholder**: Email
 	 * - **API ID Path**: contact.default.primary.email_label
 	 * - **Documentation**: https://prismic.io/docs/fields/text
 	 */
@@ -839,7 +808,7 @@ export interface ContactSliceDefaultPrimary {
 	 * Message Label field in *Contact → Default → Primary*
 	 *
 	 * - **Field Type**: Text
-	 * - **Placeholder**: *None*
+	 * - **Placeholder**: Message
 	 * - **API ID Path**: contact.default.primary.message_label
 	 * - **Documentation**: https://prismic.io/docs/fields/text
 	 */
@@ -849,7 +818,7 @@ export interface ContactSliceDefaultPrimary {
 	 * Submit Label field in *Contact → Default → Primary*
 	 *
 	 * - **Field Type**: Text
-	 * - **Placeholder**: *None*
+	 * - **Placeholder**: Send Message
 	 * - **API ID Path**: contact.default.primary.submit_label
 	 * - **Documentation**: https://prismic.io/docs/fields/text
 	 */
@@ -868,13 +837,13 @@ export type ContactSliceDefault = prismic.SharedSliceVariation<"default", Simpli
 /**
  * Slice variation for *Contact*
  */
-type ContactSliceVariation = ContactSliceDefault;
+type ContactSliceVariation = ContactSliceDefault
 
 /**
  * Contact Shared Slice
  *
  * - **API ID**: `contact`
- * - **Description**: Contact
+ * - **Description**: Contact form with an introduction alongside it.
  * - **Documentation**: https://prismic.io/docs/slices
  */
 export type ContactSlice = prismic.SharedSlice<"contact", ContactSliceVariation>;
@@ -887,7 +856,7 @@ export interface DonateSliceDefaultPrimary {
 	 * Heading field in *Donate → Default → Primary*
 	 *
 	 * - **Field Type**: Text
-	 * - **Placeholder**: *None*
+	 * - **Placeholder**: Join us in shaping the future of Indian Music.
 	 * - **API ID Path**: donate.default.primary.heading
 	 * - **Documentation**: https://prismic.io/docs/fields/text
 	 */
@@ -897,7 +866,7 @@ export interface DonateSliceDefaultPrimary {
 	 * CTA Label field in *Donate → Default → Primary*
 	 *
 	 * - **Field Type**: Text
-	 * - **Placeholder**: *None*
+	 * - **Placeholder**: Donate to Svarit
 	 * - **API ID Path**: donate.default.primary.cta_label
 	 * - **Documentation**: https://prismic.io/docs/fields/text
 	 */
@@ -936,13 +905,13 @@ export type DonateSliceDefault = prismic.SharedSliceVariation<"default", Simplif
 /**
  * Slice variation for *Donate*
  */
-type DonateSliceVariation = DonateSliceDefault;
+type DonateSliceVariation = DonateSliceDefault
 
 /**
  * Donate Shared Slice
  *
  * - **API ID**: `donate`
- * - **Description**: Donate
+ * - **Description**: Full width image with a donation call to action floating over it.
  * - **Documentation**: https://prismic.io/docs/slices
  */
 export type DonateSlice = prismic.SharedSlice<"donate", DonateSliceVariation>;
@@ -965,28 +934,29 @@ export interface EventListSliceDefaultPrimary {
 	 * Subheading field in *EventList → Tabs → Primary*
 	 *
 	 * - **Field Type**: Text
-	 * - **Placeholder**: *None*
+	 * - **Placeholder**: Our Initiatives
 	 * - **API ID Path**: event_list.default.primary.subheading
 	 * - **Documentation**: https://prismic.io/docs/fields/text
 	 */
 	subheading: prismic.KeyTextField;
 	
 	/**
-	 * Page Size field in *EventList → Tabs → Primary*
+	 * Limit field in *EventList → Tabs → Primary*
 	 *
-	 * - **Field Type**: Number
+	 * - **Field Type**: Boolean
 	 * - **Placeholder**: *None*
-	 * - **API ID Path**: event_list.default.primary.page_size
-	 * - **Documentation**: https://prismic.io/docs/fields/number
+	 * - **Default Value**: true
+	 * - **API ID Path**: event_list.default.primary.limit
+	 * - **Documentation**: https://prismic.io/docs/fields/boolean
 	 */
-	page_size: prismic.NumberField;
+	limit: prismic.BooleanField;
 }
 
 /**
  * Tabs variation for EventList Slice
  *
  * - **API ID**: `default`
- * - **Description**: Default
+ * - **Description**: Events and Workshops tabs with load more
  * - **Documentation**: https://prismic.io/docs/slices
  */
 export type EventListSliceDefault = prismic.SharedSliceVariation<"default", Simplify<EventListSliceDefaultPrimary>, never>;
@@ -1025,23 +995,13 @@ export interface EventListSliceGridPrimary {
 	 * - **Documentation**: https://prismic.io/docs/fields/select
 	 */
 	category: prismic.SelectField<"All" | "Event" | "Workshop", "filled">;
-	
-	/**
-	 * Page Size field in *EventList → Grid → Primary*
-	 *
-	 * - **Field Type**: Number
-	 * - **Placeholder**: *None*
-	 * - **API ID Path**: event_list.grid.primary.page_size
-	 * - **Documentation**: https://prismic.io/docs/fields/number
-	 */
-	page_size: prismic.NumberField;
 }
 
 /**
  * Grid variation for EventList Slice
  *
  * - **API ID**: `grid`
- * - **Description**: Default
+ * - **Description**: One flat grid of event cards, filtered by category
  * - **Documentation**: https://prismic.io/docs/slices
  */
 export type EventListSliceGrid = prismic.SharedSliceVariation<"grid", Simplify<EventListSliceGridPrimary>, never>;
@@ -1049,13 +1009,13 @@ export type EventListSliceGrid = prismic.SharedSliceVariation<"grid", Simplify<E
 /**
  * Slice variation for *EventList*
  */
-type EventListSliceVariation = EventListSliceDefault | EventListSliceGrid;
+type EventListSliceVariation = EventListSliceDefault | EventListSliceGrid
 
 /**
  * EventList Shared Slice
  *
  * - **API ID**: `event_list`
- * - **Description**: EventList
+ * - **Description**: Lists Event documents. Tabs splits them into Events and Workshops, Grid shows one flat filtered grid.
  * - **Documentation**: https://prismic.io/docs/slices
  */
 export type EventListSlice = prismic.SharedSlice<"event_list", EventListSliceVariation>;
@@ -1083,7 +1043,7 @@ export interface HeroSliceDefaultPrimary {
 	 * Title field in *Hero → Default → Primary*
 	 *
 	 * - **Field Type**: Text
-	 * - **Placeholder**: *None*
+	 * - **Placeholder**: Ushering in the Next Era of Indian Music
 	 * - **API ID Path**: hero.default.primary.title
 	 * - **Documentation**: https://prismic.io/docs/fields/text
 	 */
@@ -1103,7 +1063,7 @@ export interface HeroSliceDefaultPrimary {
 	 * CTA Label field in *Hero → Default → Primary*
 	 *
 	 * - **Field Type**: Text
-	 * - **Placeholder**: *None*
+	 * - **Placeholder**: Learn more
 	 * - **API ID Path**: hero.default.primary.cta_label
 	 * - **Documentation**: https://prismic.io/docs/fields/text
 	 */
@@ -1123,7 +1083,7 @@ export interface HeroSliceDefaultPrimary {
 	 * Stats field in *Hero → Default → Primary*
 	 *
 	 * - **Field Type**: Text
-	 * - **Placeholder**: *None*
+	 * - **Placeholder**: 20+ Volunteers
 	 * - **API ID Path**: hero.default.primary.stats
 	 * - **Documentation**: https://prismic.io/docs/fields/text
 	 */
@@ -1162,13 +1122,13 @@ export type HeroSliceDefault = prismic.SharedSliceVariation<"default", Simplify<
 /**
  * Slice variation for *Hero*
  */
-type HeroSliceVariation = HeroSliceDefault;
+type HeroSliceVariation = HeroSliceDefault
 
 /**
  * Hero Shared Slice
  *
  * - **API ID**: `hero`
- * - **Description**: Hero
+ * - **Description**: Opening section of the homepage: headline, call to action and a trio of media panels.
  * - **Documentation**: https://prismic.io/docs/slices
  */
 export type HeroSlice = prismic.SharedSlice<"hero", HeroSliceVariation>;
@@ -1235,13 +1195,13 @@ export type ImageGallerySliceDefault = prismic.SharedSliceVariation<"default", S
 /**
  * Slice variation for *ImageGallery*
  */
-type ImageGallerySliceVariation = ImageGallerySliceDefault;
+type ImageGallerySliceVariation = ImageGallerySliceDefault
 
 /**
  * ImageGallery Shared Slice
  *
  * - **API ID**: `image_gallery`
- * - **Description**: ImageGallery
+ * - **Description**: A grid of captioned images for event and artist pages.
  * - **Documentation**: https://prismic.io/docs/slices
  */
 export type ImageGallerySlice = prismic.SharedSlice<"image_gallery", ImageGallerySliceVariation>;
@@ -1283,13 +1243,13 @@ export type QuoteSliceDefault = prismic.SharedSliceVariation<"default", Simplify
 /**
  * Slice variation for *Quote*
  */
-type QuoteSliceVariation = QuoteSliceDefault;
+type QuoteSliceVariation = QuoteSliceDefault
 
 /**
  * Quote Shared Slice
  *
  * - **API ID**: `quote`
- * - **Description**: Quote
+ * - **Description**: A pulled quote with an attribution.
  * - **Documentation**: https://prismic.io/docs/slices
  */
 export type QuoteSlice = prismic.SharedSlice<"quote", QuoteSliceVariation>;
@@ -1321,13 +1281,13 @@ export type RichTextSliceDefault = prismic.SharedSliceVariation<"default", Simpl
 /**
  * Slice variation for *RichText*
  */
-type RichTextSliceVariation = RichTextSliceDefault;
+type RichTextSliceVariation = RichTextSliceDefault
 
 /**
  * RichText Shared Slice
  *
  * - **API ID**: `rich_text`
- * - **Description**: RichText
+ * - **Description**: A block of formatted copy for event and artist pages.
  * - **Documentation**: https://prismic.io/docs/slices
  */
 export type RichTextSlice = prismic.SharedSlice<"rich_text", RichTextSliceVariation>;
@@ -1365,7 +1325,7 @@ export interface SponsorsSliceDefaultPrimary {
 	 * Heading field in *Sponsors → Default → Primary*
 	 *
 	 * - **Field Type**: Text
-	 * - **Placeholder**: *None*
+	 * - **Placeholder**: The Champions of Our Mission So Far
 	 * - **API ID Path**: sponsors.default.primary.heading
 	 * - **Documentation**: https://prismic.io/docs/fields/text
 	 */
@@ -1375,7 +1335,7 @@ export interface SponsorsSliceDefaultPrimary {
 	 * Subheading field in *Sponsors → Default → Primary*
 	 *
 	 * - **Field Type**: Text
-	 * - **Placeholder**: *None*
+	 * - **Placeholder**: Previous Sponsors
 	 * - **API ID Path**: sponsors.default.primary.subheading
 	 * - **Documentation**: https://prismic.io/docs/fields/text
 	 */
@@ -1404,13 +1364,13 @@ export type SponsorsSliceDefault = prismic.SharedSliceVariation<"default", Simpl
 /**
  * Slice variation for *Sponsors*
  */
-type SponsorsSliceVariation = SponsorsSliceDefault;
+type SponsorsSliceVariation = SponsorsSliceDefault
 
 /**
  * Sponsors Shared Slice
  *
  * - **API ID**: `sponsors`
- * - **Description**: Sponsors
+ * - **Description**: Auto scrolling marquee of sponsor logos.
  * - **Documentation**: https://prismic.io/docs/slices
  */
 export type SponsorsSlice = prismic.SharedSlice<"sponsors", SponsorsSliceVariation>;
@@ -1452,13 +1412,13 @@ export type VolunteersSliceDefault = prismic.SharedSliceVariation<"default", Sim
 /**
  * Slice variation for *Volunteers*
  */
-type VolunteersSliceVariation = VolunteersSliceDefault;
+type VolunteersSliceVariation = VolunteersSliceDefault
 
 /**
  * Volunteers Shared Slice
  *
  * - **API ID**: `volunteers`
- * - **Description**: Volunteers
+ * - **Description**: A full grid of every Volunteer document.
  * - **Documentation**: https://prismic.io/docs/slices
  */
 export type VolunteersSlice = prismic.SharedSlice<"volunteers", VolunteersSliceVariation>;
@@ -1497,53 +1457,53 @@ declare module "@prismicio/client" {
 			VolunteerDocument,
 			VolunteerDocumentData,
 			AllDocumentTypes,
-			AboutSliceDefaultPrimary,
 			AboutSlice,
+			AboutSliceDefaultPrimary,
 			AboutSliceVariation,
 			AboutSliceDefault,
-			ArtistListSliceDefaultPrimary,
 			ArtistListSlice,
+			ArtistListSliceDefaultPrimary,
 			ArtistListSliceVariation,
 			ArtistListSliceDefault,
-			ContactSliceDefaultPrimary,
 			ContactSlice,
+			ContactSliceDefaultPrimary,
 			ContactSliceVariation,
 			ContactSliceDefault,
-			DonateSliceDefaultPrimary,
 			DonateSlice,
+			DonateSliceDefaultPrimary,
 			DonateSliceVariation,
 			DonateSliceDefault,
+			EventListSlice,
 			EventListSliceDefaultPrimary,
 			EventListSliceGridPrimary,
-			EventListSlice,
 			EventListSliceVariation,
 			EventListSliceDefault,
 			EventListSliceGrid,
+			HeroSlice,
 			HeroSliceDefaultPrimaryImagesItem,
 			HeroSliceDefaultPrimary,
-			HeroSlice,
 			HeroSliceVariation,
 			HeroSliceDefault,
+			ImageGallerySlice,
 			ImageGallerySliceDefaultPrimaryImagesItem,
 			ImageGallerySliceDefaultPrimary,
-			ImageGallerySlice,
 			ImageGallerySliceVariation,
 			ImageGallerySliceDefault,
-			QuoteSliceDefaultPrimary,
 			QuoteSlice,
+			QuoteSliceDefaultPrimary,
 			QuoteSliceVariation,
 			QuoteSliceDefault,
-			RichTextSliceDefaultPrimary,
 			RichTextSlice,
+			RichTextSliceDefaultPrimary,
 			RichTextSliceVariation,
 			RichTextSliceDefault,
+			SponsorsSlice,
 			SponsorsSliceDefaultPrimaryLogosItem,
 			SponsorsSliceDefaultPrimary,
-			SponsorsSlice,
 			SponsorsSliceVariation,
 			SponsorsSliceDefault,
-			VolunteersSliceDefaultPrimary,
 			VolunteersSlice,
+			VolunteersSliceDefaultPrimary,
 			VolunteersSliceVariation,
 			VolunteersSliceDefault
 		}

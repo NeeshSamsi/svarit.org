@@ -10,6 +10,9 @@ import EventCard from './EventCard'
 
 type Tab = 'events' | 'workshops'
 
+/** How many cards a limited tab shows, and how many each click adds. */
+const BATCH_SIZE = 6
+
 export default function EventListTabs({
   slice,
   events,
@@ -17,9 +20,12 @@ export default function EventListTabs({
   slice: Extract<Content.EventListSlice, { variation: 'default' }>
   events: EventDocument[]
 }) {
-  const pageSize = slice.primary.page_size ?? 6
+  // Documents saved before `limit` existed have no value for it, which
+  // arrives as undefined rather than as the model's `true` default.
+  // An editor who deliberately switches it off still sends false.
+  const limit = slice.primary.limit ?? true
   const [activeTab, setActiveTab] = useState<Tab>('events')
-  const [visibleCount, setVisibleCount] = useState(pageSize)
+  const [visibleCount, setVisibleCount] = useState(BATCH_SIZE)
   const sectionRef = useRef<HTMLElement>(null)
   const headerRef = useRef<HTMLDivElement>(null)
 
@@ -33,8 +39,8 @@ export default function EventListTabs({
           new Date(a.data.start_date ?? 0).getTime()
       )
   }, [events, activeTab])
-  const visibleItems = sortedItems.slice(0, visibleCount)
-  const hasMore = visibleCount < sortedItems.length
+  const visibleItems = limit ? sortedItems.slice(0, visibleCount) : sortedItems
+  const hasMore = limit && visibleCount < sortedItems.length
 
   const tabs: { key: Tab; label: string }[] = [
     { key: 'workshops', label: 'Workshops' },
@@ -80,7 +86,7 @@ export default function EventListTabs({
     animateCards()
   }, [activeTab])
 
-  const prevCountRef = useRef(pageSize)
+  const prevCountRef = useRef(BATCH_SIZE)
 
   useEffect(() => {
     if (visibleCount > prevCountRef.current) {
@@ -118,7 +124,7 @@ export default function EventListTabs({
               key={key}
               onClick={() => {
                 setActiveTab(key)
-                setVisibleCount(pageSize)
+                setVisibleCount(BATCH_SIZE)
               }}
               className={[
                 'cursor-pointer rounded-full px-6 py-2 font-body text-base font-medium transition-colors',
@@ -139,7 +145,7 @@ export default function EventListTabs({
         <div className="col-span-full flex justify-center">
           <Button
             variant="secondary"
-            onClick={() => setVisibleCount((c) => c + pageSize)}
+            onClick={() => setVisibleCount((c) => c + BATCH_SIZE)}
           >
             {activeTab === 'events'
               ? 'Show more events'
