@@ -10,6 +10,10 @@ export const CONTENT_PATH = new URL(
 )
 export const CONFIG_PATH = new URL('../../prismic.config.json', import.meta.url)
 export const DRAFT_PATH = new URL('../artists.draft.json', import.meta.url)
+export const OVERRIDES_PATH = new URL(
+  '../artist-overrides.json',
+  import.meta.url
+)
 export const PREVIEW_PATH = new URL(
   '../migration-preview.json',
   import.meta.url
