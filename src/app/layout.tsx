@@ -4,6 +4,8 @@ import Nav from '@/components/layout/Nav'
 import Footer from '@/components/layout/Footer'
 import SmoothScroll from '@/components/providers/SmoothScroll'
 import Umami from '@/components/analytics/Umami'
+import { PrismicPreview } from '@prismicio/next'
+import { repositoryName } from '@/prismicio'
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://svarit.org'),
@@ -119,6 +121,7 @@ export default function RootLayout({
           </main>
         </SmoothScroll>
         <Umami />
+        <PrismicPreview repositoryName={repositoryName} />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(orgSchema) }}
