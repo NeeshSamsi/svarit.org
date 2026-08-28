@@ -46,31 +46,6 @@ type ContentRelationshipFieldWithData<
 		>
 }[Exclude<TCustomType[number], string>["id"]];
 
-/**
- * Item in *Artist → Links*
- */
-export interface ArtistDocumentDataLinksItem {
-	/**
-	 * Label field in *Artist → Links*
-	 *
-	 * - **Field Type**: Text
-	 * - **Placeholder**: *None*
-	 * - **API ID Path**: artist.links[].label
-	 * - **Documentation**: https://prismic.io/docs/fields/text
-	 */
-	label: prismic.KeyTextField;
-	
-	/**
-	 * Link field in *Artist → Links*
-	 *
-	 * - **Field Type**: Link
-	 * - **Placeholder**: *None*
-	 * - **API ID Path**: artist.links[].link
-	 * - **Documentation**: https://prismic.io/docs/fields/link
-	 */
-	link: prismic.LinkField<string, string, unknown, prismic.FieldState, never>;
-}
-
 type ArtistDocumentDataSlicesSlice = RichTextSlice | ImageGallerySlice | QuoteSlice
 
 /**
@@ -113,24 +88,35 @@ interface ArtistDocumentData {
 	/**
 	 * Bio field in *Artist*
 	 *
-	 * - **Field Type**: Rich Text
+	 * - **Field Type**: Text
 	 * - **Placeholder**: *None*
 	 * - **API ID Path**: artist.bio
 	 * - **Tab**: Main
-	 * - **Documentation**: https://prismic.io/docs/fields/rich-text
+	 * - **Documentation**: https://prismic.io/docs/fields/text
 	 */
-	bio: prismic.RichTextField;
+	bio: prismic.KeyTextField;
 	
 	/**
-	 * Links field in *Artist*
+	 * Instagram field in *Artist*
 	 *
-	 * - **Field Type**: Group
+	 * - **Field Type**: Link
 	 * - **Placeholder**: *None*
-	 * - **API ID Path**: artist.links[]
+	 * - **API ID Path**: artist.instagram
 	 * - **Tab**: Main
-	 * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
+	 * - **Documentation**: https://prismic.io/docs/fields/link
 	 */
-	links: prismic.GroupField<Simplify<ArtistDocumentDataLinksItem>>;/**
+	instagram: prismic.LinkField<string, string, unknown, prismic.FieldState, never>;
+	
+	/**
+	 * YouTube field in *Artist*
+	 *
+	 * - **Field Type**: Link
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: artist.youtube
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/fields/link
+	 */
+	youtube: prismic.LinkField<string, string, unknown, prismic.FieldState, never>;/**
 	 * Slice Zone field in *Artist*
 	 *
 	 * - **Field Type**: Slice Zone
@@ -1120,9 +1106,43 @@ export interface HeroSliceDefaultPrimary {
 export type HeroSliceDefault = prismic.SharedSliceVariation<"default", Simplify<HeroSliceDefaultPrimary>, never>;
 
 /**
+ * Primary content in *Hero → Page Header → Primary*
+ */
+export interface HeroSlicePageHeaderPrimary {
+	/**
+	 * Title field in *Hero → Page Header → Primary*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: hero.page_header.primary.title
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	title: prismic.KeyTextField;
+	
+	/**
+	 * Description field in *Hero → Page Header → Primary*
+	 *
+	 * - **Field Type**: Rich Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: hero.page_header.primary.description
+	 * - **Documentation**: https://prismic.io/docs/fields/rich-text
+	 */
+	description: prismic.RichTextField;
+}
+
+/**
+ * Page Header variation for Hero Slice
+ *
+ * - **API ID**: `page_header`
+ * - **Description**: Title and a short lead paragraph for the top of an interior page.
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type HeroSlicePageHeader = prismic.SharedSliceVariation<"page_header", Simplify<HeroSlicePageHeaderPrimary>, never>;
+
+/**
  * Slice variation for *Hero*
  */
-type HeroSliceVariation = HeroSliceDefault
+type HeroSliceVariation = HeroSliceDefault | HeroSlicePageHeader
 
 /**
  * Hero Shared Slice
@@ -1440,7 +1460,6 @@ declare module "@prismicio/client" {
 		export type {
 			ArtistDocument,
 			ArtistDocumentData,
-			ArtistDocumentDataLinksItem,
 			ArtistDocumentDataSlicesSlice,
 			EventDocument,
 			EventDocumentData,
@@ -1482,8 +1501,10 @@ declare module "@prismicio/client" {
 			HeroSlice,
 			HeroSliceDefaultPrimaryImagesItem,
 			HeroSliceDefaultPrimary,
+			HeroSlicePageHeaderPrimary,
 			HeroSliceVariation,
 			HeroSliceDefault,
+			HeroSlicePageHeader,
 			ImageGallerySlice,
 			ImageGallerySliceDefaultPrimaryImagesItem,
 			ImageGallerySliceDefaultPrimary,

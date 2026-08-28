@@ -81,6 +81,31 @@
           }
         }
       }
+    },
+    {
+      "id": "page_header",
+      "name": "Page Header",
+      "docURL": "...",
+      "version": "initial",
+      "description": "Title and a short lead paragraph for the top of an interior page.",
+      "imageUrl": "",
+      "primary": {
+        "title": {
+          "type": "Text",
+          "config": {
+            "label": "Title",
+            "placeholder": ""
+          }
+        },
+        "description": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Description",
+            "placeholder": "",
+            "multi": "paragraph"
+          }
+        }
+      }
     }
   ]
 }

@@ -33,38 +33,32 @@
         }
       },
       "bio": {
-        "type": "StructuredText",
+        "type": "Text",
         "config": {
           "label": "Bio",
-          "placeholder": "",
-          "multi": "paragraph,strong,em,hyperlink"
+          "placeholder": ""
         }
       },
-      "links": {
-        "type": "Group",
+      "instagram": {
+        "type": "Link",
         "config": {
-          "label": "Links",
-          "repeat": true,
-          "fields": {
-            "label": {
-              "type": "Text",
-              "config": {
-                "label": "Label",
-                "placeholder": ""
-              }
-            },
-            "link": {
-              "type": "Link",
-              "config": {
-                "label": "Link",
-                "placeholder": "",
-                "select": null,
-                "allowTargetBlank": true,
-                "allowText": false,
-                "repeat": false
-              }
-            }
-          }
+          "label": "Instagram",
+          "placeholder": "",
+          "select": "web",
+          "allowTargetBlank": true,
+          "allowText": false,
+          "repeat": false
+        }
+      },
+      "youtube": {
+        "type": "Link",
+        "config": {
+          "label": "YouTube",
+          "placeholder": "",
+          "select": "web",
+          "allowTargetBlank": true,
+          "allowText": false,
+          "repeat": false
         }
       }
     },

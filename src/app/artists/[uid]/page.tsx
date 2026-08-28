@@ -2,11 +2,12 @@ import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import * as prismic from '@prismicio/client'
 import { PrismicNextImage, PrismicNextLink } from '@prismicio/next'
-import { PrismicRichText, SliceZone } from '@prismicio/react'
+import { SliceZone } from '@prismicio/react'
 import { createClient } from '@/prismicio'
 import { components } from '@/slices'
 import EventCard from '@/components/events/EventCard'
 import SectionTitle from '@/components/ui/SectionTitle'
+import { InstagramIcon, YouTubeIcon } from '@/components/ui/social-icons'
 
 type Props = {
   params: Promise<{ uid: string }>
@@ -24,9 +25,10 @@ export default async function ArtistPage({ params }: Props) {
     orderings: [{ field: 'my.event.start_date', direction: 'desc' }],
   })
 
-  const links = artist.data.links.filter((item) =>
-    prismic.isFilled.link(item.link)
-  )
+  const socials = [
+    { field: artist.data.instagram, label: 'Instagram', Icon: InstagramIcon },
+    { field: artist.data.youtube, label: 'YouTube', Icon: YouTubeIcon },
+  ].filter(({ field }) => prismic.isFilled.link(field))
 
   return (
     <article className="col-span-full grid grid-cols-subgrid gap-y-12 pt-36 md:pt-44">
@@ -54,21 +56,24 @@ export default async function ArtistPage({ params }: Props) {
             {artist.data.name}
           </h1>
 
-          {prismic.isFilled.richText(artist.data.bio) && (
-            <div className="flex flex-col gap-4 font-body text-xl font-light text-foreground [&_a]:underline [&_strong]:font-medium">
-              <PrismicRichText field={artist.data.bio} />
-            </div>
+          {prismic.isFilled.keyText(artist.data.bio) && (
+            <p className="font-body text-xl font-light text-foreground">
+              {artist.data.bio}
+            </p>
           )}
 
-          {links.length > 0 && (
+          {socials.length > 0 && (
             <ul className="mt-2 flex flex-wrap gap-3">
-              {links.map((item, index) => (
-                <li key={index}>
+              {socials.map(({ field, label, Icon }) => (
+                <li key={label}>
                   <PrismicNextLink
-                    field={item.link}
-                    className="inline-flex items-center rounded-full border border-foreground bg-muted px-4 py-2 font-body text-base font-medium text-foreground transition-opacity hover:opacity-60"
+                    field={field}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`${artist.data.name} on ${label}`}
+                    className="inline-flex items-center rounded-[12px] border border-foreground bg-muted p-3 text-foreground transition-opacity hover:opacity-60"
                   >
-                    {item.label || 'Visit'}
+                    <Icon className="size-6" />
                   </PrismicNextLink>
                 </li>
               ))}
@@ -139,7 +144,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   const title = artist.data.meta_title || artist.data.name || undefined
   const description =
-    artist.data.meta_description || prismic.asText(artist.data.bio) || undefined
+    artist.data.meta_description || artist.data.bio || undefined
   const image =
     prismic.asImageSrc(artist.data.meta_image) ||
     prismic.asImageSrc(artist.data.photo) ||
