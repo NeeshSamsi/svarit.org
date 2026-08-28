@@ -1,0 +1,32 @@
+{
+  "id": "artist_list",
+  "type": "SharedSlice",
+  "name": "ArtistList",
+  "description": "A grid of every Artist document, each card linking to its page.",
+  "variations": [
+    {
+      "id": "default",
+      "name": "Default",
+      "docURL": "...",
+      "version": "initial",
+      "description": "Default",
+      "imageUrl": "",
+      "primary": {
+        "heading": {
+          "type": "Text",
+          "config": {
+            "label": "Heading",
+            "placeholder": ""
+          }
+        },
+        "subheading": {
+          "type": "Text",
+          "config": {
+            "label": "Subheading",
+            "placeholder": ""
+          }
+        }
+      }
+    }
+  ]
+}

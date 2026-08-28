@@ -1,0 +1,47 @@
+{
+  "id": "about",
+  "type": "SharedSlice",
+  "name": "About",
+  "description": "Mission statement with the volunteer avatars pulled from Site Settings.",
+  "variations": [
+    {
+      "id": "default",
+      "name": "Default",
+      "docURL": "...",
+      "version": "initial",
+      "description": "Default",
+      "imageUrl": "",
+      "primary": {
+        "heading": {
+          "type": "Text",
+          "config": {
+            "label": "Heading",
+            "placeholder": ""
+          }
+        },
+        "subheading": {
+          "type": "Text",
+          "config": {
+            "label": "Subheading",
+            "placeholder": ""
+          }
+        },
+        "body": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Body",
+            "placeholder": "",
+            "multi": "paragraph,strong,em,hyperlink"
+          }
+        },
+        "stats": {
+          "type": "Text",
+          "config": {
+            "label": "Stats",
+            "placeholder": "20+ Volunteers"
+          }
+        }
+      }
+    }
+  ]
+}

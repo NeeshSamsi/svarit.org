@@ -1,0 +1,81 @@
+{
+  "id": "event_list",
+  "type": "SharedSlice",
+  "name": "EventList",
+  "description": "Lists Event documents. Tabs splits them into Events and Workshops, Grid shows one flat filtered grid.",
+  "variations": [
+    {
+      "id": "default",
+      "name": "Tabs",
+      "docURL": "...",
+      "version": "initial",
+      "description": "Events and Workshops tabs with load more",
+      "imageUrl": "",
+      "primary": {
+        "heading": {
+          "type": "Text",
+          "config": {
+            "label": "Heading",
+            "placeholder": ""
+          }
+        },
+        "subheading": {
+          "type": "Text",
+          "config": {
+            "label": "Subheading",
+            "placeholder": "Our Initiatives"
+          }
+        },
+        "page_size": {
+          "type": "Number",
+          "config": {
+            "label": "Page Size",
+            "placeholder": "6",
+            "min": 1
+          }
+        }
+      }
+    },
+    {
+      "id": "grid",
+      "name": "Grid",
+      "docURL": "...",
+      "version": "initial",
+      "description": "One flat grid of event cards, filtered by category",
+      "imageUrl": "",
+      "primary": {
+        "heading": {
+          "type": "Text",
+          "config": {
+            "label": "Heading",
+            "placeholder": ""
+          }
+        },
+        "subheading": {
+          "type": "Text",
+          "config": {
+            "label": "Subheading",
+            "placeholder": ""
+          }
+        },
+        "category": {
+          "type": "Select",
+          "config": {
+            "label": "Category",
+            "placeholder": "",
+            "options": ["All", "Event", "Workshop"],
+            "default_value": "All"
+          }
+        },
+        "page_size": {
+          "type": "Number",
+          "config": {
+            "label": "Page Size",
+            "placeholder": "12",
+            "min": 1
+          }
+        }
+      }
+    }
+  ]
+}
