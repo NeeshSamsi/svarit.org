@@ -2,7 +2,7 @@
  * Artist name extraction.
  *
  * content.json has no artist records. Names appear only inside event description prose,
- * e.g. "vocal recitals by Pt. Dinkar Kaikini, Smt Aditi Kaikini Upadhya". Everything here is
+ * e.g. "vocal recitals by Pt. Dinkar Kaikini, Smt Aditi Upadhya". Everything here is
  * pure so `scripts/artists.test.ts` can pin the behaviour down.
  */
 
@@ -28,6 +28,8 @@ export type DraftArtist = {
   events: string[]
   mentions: number
   confidence: 'high' | 'low'
+  /** True when the entry came from a hand-maintained override rather than the parser alone. */
+  verified?: boolean
   review: string[]
 }
 
@@ -273,6 +275,46 @@ export function buildDraft(mentions: Mention[]): DraftArtist[] {
     counts.sort((a, b) => b[1] - a[1])
     artist.honorific = counts[0]?.[0] ?? ''
     artist.honorificVariants = counts.map(([honorific]) => honorific)
+  }
+
+  const artists = [...byName.values()]
+
+  annotateReview(artists)
+  sortArtists(artists)
+
+  // uids must be unique even before the user edits names.
+  const seen = new Map<string, number>()
+  for (const artist of artists) {
+    const base = artist.uid
+    const count = seen.get(base) ?? 0
+    seen.set(base, count + 1)
+    if (count > 0) artist.uid = `${base}-${count + 1}`
+  }
+
+  return artists
+}
+
+function sortArtists(artists: DraftArtist[]): void {
+  artists.sort(
+    (a, b) => b.mentions - a.mentions || a.name.localeCompare(b.name)
+  )
+}
+
+/**
+ * Recomputes every `review` note from scratch.
+ *
+ * Entries the user has corrected in `artist-overrides.json` are treated as verified and are
+ * not flagged. For the pairwise duplicate check, one verified side is enough to suppress the
+ * flag on both: "Rajan Mishra" and "Sajan Mishra" are one edit apart and are two real people,
+ * and the user confirming one of them settles the pair.
+ */
+export function annotateReview(
+  artists: DraftArtist[],
+  verified: ReadonlySet<string> = new Set()
+): void {
+  for (const artist of artists) {
+    artist.review = []
+    if (verified.has(artist.uid)) continue
 
     if (artist.name.split(/[ -]/).length < 2) {
       artist.review.push(
@@ -289,13 +331,13 @@ export function buildDraft(mentions: Mention[]): DraftArtist[] {
     }
   }
 
-  const artists = [...byName.values()]
-
   // Flag near duplicates, e.g. Chakraborty vs Chakrabarty, or Aditi Upadhya vs
   // Aditi Kaikini Upadhya. A shared surname alone is not enough, or every Sharma would
   // flag every other Sharma.
   for (let i = 0; i < artists.length; i++) {
     for (let j = i + 1; j < artists.length; j++) {
+      if (verified.has(artists[i].uid) || verified.has(artists[j].uid)) continue
+
       const a = normaliseName(artists[i].name)
       const b = normaliseName(artists[j].name)
       const aTokens = new Set(a.split(' '))
@@ -312,19 +354,175 @@ export function buildDraft(mentions: Mention[]): DraftArtist[] {
       artists[j].review.push(`Possible duplicate of "${artists[i].name}".`)
     }
   }
+}
 
-  artists.sort(
-    (a, b) => b.mentions - a.mentions || a.name.localeCompare(b.name)
-  )
+// -----------------------------------------------------------------------------------------
+// Hand-maintained corrections
+//
+// The draft is regenerated from prose on every run, so the user's corrections have to live
+// outside it. `scripts/artist-overrides.json` holds them declaratively and this pass applies
+// them, which keeps `pnpm extract:artists` idempotent.
+// -----------------------------------------------------------------------------------------
 
-  // uids must be unique even before the user edits names.
-  const seen = new Map<string, number>()
-  for (const artist of artists) {
-    const base = artist.uid
-    const count = seen.get(base) ?? 0
-    seen.set(base, count + 1)
-    if (count > 0) artist.uid = `${base}-${count + 1}`
+export type ArtistTarget = {
+  uid: string
+  name: string
+  discipline?: string
+}
+
+export type ArtistOverrides = {
+  /** One extracted uid becomes one corrected artist. */
+  renames?: { from: string; to: ArtistTarget }[]
+  /** Several extracted uids are the same person. Their events are unioned. */
+  merges?: { from: string[]; into: ArtistTarget }[]
+  /** One extracted entry is really several people. Each inherits the events. */
+  splits?: { from: string; into: ArtistTarget[] }[]
+  /** uid to discipline, for entries the prose did not describe. */
+  disciplines?: Record<string, string>
+}
+
+function unionEvents(sources: DraftArtist[]): string[] {
+  const events: string[] = []
+  for (const source of sources) {
+    for (const title of source.events) {
+      if (!events.includes(title)) events.push(title)
+    }
+  }
+  return events
+}
+
+function targetFrom(sources: DraftArtist[], target: ArtistTarget): DraftArtist {
+  const honorificVariants: string[] = []
+  for (const source of sources) {
+    for (const honorific of source.honorificVariants) {
+      if (!honorificVariants.includes(honorific)) {
+        honorificVariants.push(honorific)
+      }
+    }
   }
 
-  return artists
+  return {
+    uid: target.uid,
+    name: target.name,
+    honorific: sources.find((source) => source.honorific)?.honorific ?? '',
+    honorificVariants,
+    discipline:
+      target.discipline ??
+      sources.find((source) => source.discipline)?.discipline ??
+      '',
+    bio: sources.find((source) => source.bio)?.bio ?? '',
+    events: unionEvents(sources),
+    mentions: Math.max(...sources.map((source) => source.mentions)),
+    confidence: 'high',
+    verified: true,
+    review: [],
+  }
+}
+
+/**
+ * Applies the hand-maintained corrections to a freshly extracted draft.
+ *
+ * Returns a new array. An override throws when none of the uids it names exist, so a
+ * correction can never be silently lost when the source prose changes.
+ *
+ * Overrides are tolerant of a source uid having already disappeared, because correcting a
+ * misspelling in `content.json` removes the very entry the override was written against.
+ * A merge applies to whichever of its uids the extractor actually produced, and a rename or
+ * split that has already taken effect at source is re-applied to the target instead. Running
+ * the extractor before and after such a fix produces the same draft either way.
+ */
+export function applyOverrides(
+  artists: DraftArtist[],
+  overrides: ArtistOverrides
+): DraftArtist[] {
+  const byUid = new Map(artists.map((artist) => [artist.uid, { ...artist }]))
+  const verified = new Set<string>()
+
+  const missing = (what: string, uids: string[]): Error =>
+    new Error(
+      `artist-overrides.json ${what} references ${uids.map((uid) => `"${uid}"`).join(', ')}, ` +
+        'none of which the extractor produced. The source prose may have changed. Update ' +
+        'the override or remove it.'
+    )
+
+  /** Replaces `remove` with `insert`, keeping the position of the first removed entry. */
+  const replace = (remove: string[], insert: DraftArtist[]): void => {
+    const keys = [...byUid.keys()]
+    const positions = remove
+      .map((uid) => keys.indexOf(uid))
+      .filter((index) => index >= 0)
+    const insertion = positions.length > 0 ? Math.min(...positions) : byUid.size
+
+    for (const uid of remove) byUid.delete(uid)
+
+    const entries = [...byUid.entries()]
+    entries.splice(
+      insertion,
+      0,
+      ...insert.map((artist): [string, DraftArtist] => [artist.uid, artist])
+    )
+    byUid.clear()
+    for (const [uid, artist] of entries) byUid.set(uid, artist)
+
+    for (const artist of insert) verified.add(artist.uid)
+  }
+
+  // Merges first: several uids collapse into one. The target uid counts as a candidate, so
+  // a merge still applies once the prose has been corrected to use the right spelling.
+  for (const merge of overrides.merges ?? []) {
+    const candidates = [...new Set([...merge.from, merge.into.uid])]
+    const sources = candidates
+      .map((uid) => byUid.get(uid))
+      .filter((artist): artist is DraftArtist => artist !== undefined)
+
+    if (sources.length === 0) throw missing('merge', candidates)
+
+    replace(candidates, [targetFrom(sources, merge.into)])
+  }
+
+  // Splits: one uid becomes several.
+  for (const split of overrides.splits ?? []) {
+    const source = byUid.get(split.from)
+    const created = split.into.map((target) => {
+      const existing = source ?? byUid.get(target.uid)
+      if (!existing) {
+        throw missing('split', [split.from, ...split.into.map((t) => t.uid)])
+      }
+      return targetFrom([existing], target)
+    })
+
+    replace([split.from, ...split.into.map((target) => target.uid)], created)
+  }
+
+  // Renames: same person, corrected uid, name and optionally discipline.
+  for (const rename of overrides.renames ?? []) {
+    const source = byUid.get(rename.from) ?? byUid.get(rename.to.uid)
+    if (!source) throw missing('rename', [rename.from, rename.to.uid])
+
+    replace([rename.from, rename.to.uid], [targetFrom([source], rename.to)])
+  }
+
+  // Disciplines: fill in what the prose never named.
+  for (const [uid, discipline] of Object.entries(overrides.disciplines ?? {})) {
+    const artist = byUid.get(uid)
+    if (!artist) throw missing('disciplines', [uid])
+    artist.discipline = discipline
+    artist.verified = true
+    verified.add(uid)
+  }
+
+  const result = [...byUid.values()]
+
+  const uids = result.map((artist) => artist.uid)
+  const duplicates = uids.filter((uid, index) => uids.indexOf(uid) !== index)
+  if (duplicates.length > 0) {
+    throw new Error(
+      `artist-overrides.json produced duplicate uids: ${[...new Set(duplicates)].join(', ')}.`
+    )
+  }
+
+  annotateReview(result, verified)
+  sortArtists(result)
+
+  return result
 }

@@ -1,24 +1,26 @@
 {
-  "approved": false,
-  "generatedAt": "2026-08-28T09:25:01.903Z",
+  "approved": true,
+  "generatedAt": "2026-08-28T11:30:54.487Z",
   "source": "src/data/content.json (initiatives.events + initiatives.workshops)",
   "instructions": [
     "These names were parsed out of event description prose. Nothing is authoritative.",
     "Fix names, merge duplicates, delete anything that is not a person, fill in disciplines.",
     "uid must be unique, lowercase, and hyphenated. Changing a name does not change its uid.",
     "The artist custom type has no honorific field, so honorific is kept here for reference only and is not migrated.",
+    "This file is REGENERATED on every run. Put lasting corrections in scripts/artist-overrides.json instead.",
+    "Entries marked \"verified\": true came from that overrides file and are not re-flagged.",
     "Set \"approved\" to true once the list is correct, then run: pnpm migrate:preview --with-artists"
   ],
   "eventsScanned": 24,
   "mentionsFound": 68,
+  "extractedCount": 34,
+  "overridesApplied": true,
   "artists": [
     {
       "uid": "ulhas-kashalkar",
       "name": "Ulhas Kashalkar",
       "honorific": "Pt.",
-      "honorificVariants": [
-        "Pt."
-      ],
+      "honorificVariants": ["Pt."],
       "discipline": "Hindustani Vocal",
       "bio": "",
       "events": [
@@ -38,13 +40,32 @@
       "review": []
     },
     {
+      "uid": "aditi-upadhya",
+      "name": "Aditi Upadhya",
+      "honorific": "Smt",
+      "honorificVariants": ["Smt", "Vidushi"],
+      "discipline": "Hindustani Vocal",
+      "bio": "",
+      "events": [
+        "Swaramrit",
+        "Dinarang",
+        "Chatursmriti 2011",
+        "Dinarang Smriti 2016",
+        "Dinarang Smriti 2019",
+        "Samvāda",
+        "Understanding Dinarang Through His Music",
+        "Riyaaz Shibir"
+      ],
+      "mentions": 8,
+      "confidence": "high",
+      "verified": true,
+      "review": []
+    },
+    {
       "uid": "dinkar-kaikini",
       "name": "Dinkar Kaikini",
       "honorific": "Pt.",
-      "honorificVariants": [
-        "Pt.",
-        "Pandit"
-      ],
+      "honorificVariants": ["Pt.", "Pandit"],
       "discipline": "Hindustani Vocal",
       "bio": "",
       "events": [
@@ -60,61 +81,31 @@
       "review": []
     },
     {
-      "uid": "aditi-kaikini-upadhya",
-      "name": "Aditi Kaikini Upadhya",
-      "honorific": "Smt",
-      "honorificVariants": [
-        "Smt"
-      ],
+      "uid": "ajoy-chakrabarty",
+      "name": "Ajoy Chakrabarty",
+      "honorific": "Pt.",
+      "honorificVariants": ["Pt."],
       "discipline": "Hindustani Vocal",
       "bio": "",
       "events": [
         "Swaramrit",
         "Dinarang",
-        "Chatursmriti 2011",
-        "Dinarang Smriti 2016",
-        "Dinarang Smriti 2019"
+        "Chatursmriti 2008",
+        "Dinarang Smriti 2020"
       ],
-      "mentions": 5,
+      "mentions": 4,
       "confidence": "high",
-      "review": [
-        "Possible duplicate of \"Aditi Upadhya\"."
-      ]
-    },
-    {
-      "uid": "aditi-upadhya",
-      "name": "Aditi Upadhya",
-      "honorific": "Vidushi",
-      "honorificVariants": [
-        "Vidushi"
-      ],
-      "discipline": "Hindustani Vocal",
-      "bio": "",
-      "events": [
-        "Samvāda",
-        "Understanding Dinarang Through His Music",
-        "Riyaaz Shibir"
-      ],
-      "mentions": 3,
-      "confidence": "high",
-      "review": [
-        "Possible duplicate of \"Aditi Kaikini Upadhya\"."
-      ]
+      "verified": true,
+      "review": []
     },
     {
       "uid": "shivkumar-sharma",
       "name": "Shivkumar Sharma",
       "honorific": "Pt.",
-      "honorificVariants": [
-        "Pt."
-      ],
+      "honorificVariants": ["Pt."],
       "discipline": "Santoor",
       "bio": "",
-      "events": [
-        "Swaramrit",
-        "Chatursmriti 2009",
-        "Dinarang Smriti 2020"
-      ],
+      "events": ["Swaramrit", "Chatursmriti 2009", "Dinarang Smriti 2020"],
       "mentions": 3,
       "confidence": "high",
       "review": []
@@ -123,9 +114,7 @@
       "uid": "yogesh-samsi",
       "name": "Yogesh Samsi",
       "honorific": "Pt.",
-      "honorificVariants": [
-        "Pt."
-      ],
+      "honorificVariants": ["Pt."],
       "discipline": "Tabla",
       "bio": "",
       "events": [
@@ -138,56 +127,13 @@
       "review": []
     },
     {
-      "uid": "ajay-chakrabarty",
-      "name": "Ajay Chakrabarty",
-      "honorific": "Pt.",
-      "honorificVariants": [
-        "Pt."
-      ],
-      "discipline": "Hindustani Vocal",
-      "bio": "",
-      "events": [
-        "Chatursmriti 2008",
-        "Dinarang Smriti 2020"
-      ],
-      "mentions": 2,
-      "confidence": "high",
-      "review": [
-        "Possible duplicate of \"Ajay Chakraborty\"."
-      ]
-    },
-    {
-      "uid": "ajay-chakraborty",
-      "name": "Ajay Chakraborty",
-      "honorific": "Pt.",
-      "honorificVariants": [
-        "Pt."
-      ],
-      "discipline": "Hindustani Vocal",
-      "bio": "",
-      "events": [
-        "Swaramrit",
-        "Dinarang"
-      ],
-      "mentions": 2,
-      "confidence": "high",
-      "review": [
-        "Possible duplicate of \"Ajay Chakrabarty\"."
-      ]
-    },
-    {
       "uid": "hariprasad-chaurasia",
       "name": "Hariprasad Chaurasia",
       "honorific": "Pt.",
-      "honorificVariants": [
-        "Pt."
-      ],
+      "honorificVariants": ["Pt."],
       "discipline": "Flute",
       "bio": "",
-      "events": [
-        "Chatur Smriti 2003",
-        "Dinarang Smriti 2015"
-      ],
+      "events": ["Chatur Smriti 2003", "Dinarang Smriti 2015"],
       "mentions": 2,
       "confidence": "high",
       "review": []
@@ -196,16 +142,10 @@
       "uid": "kushal-das",
       "name": "Kushal Das",
       "honorific": "Shri",
-      "honorificVariants": [
-        "Shri",
-        "Pt."
-      ],
+      "honorificVariants": ["Shri", "Pt."],
       "discipline": "Sitar",
       "bio": "",
-      "events": [
-        "Sujan Smriti (Pune)",
-        "Chatursmriti 2008"
-      ],
+      "events": ["Sujan Smriti (Pune)", "Chatursmriti 2008"],
       "mentions": 2,
       "confidence": "high",
       "review": []
@@ -214,15 +154,10 @@
       "uid": "purbayan-chatterjee",
       "name": "Purbayan Chatterjee",
       "honorific": "Shri",
-      "honorificVariants": [
-        "Shri"
-      ],
+      "honorificVariants": ["Shri"],
       "discipline": "Sitar",
       "bio": "",
-      "events": [
-        "Chatur Smriti 2004",
-        "Chatursmriti 2011"
-      ],
+      "events": ["Chatur Smriti 2004", "Chatursmriti 2011"],
       "mentions": 2,
       "confidence": "high",
       "review": []
@@ -231,9 +166,7 @@
       "uid": "ranjit-barot",
       "name": "Ranjit Barot",
       "honorific": "Shri",
-      "honorificVariants": [
-        "Shri"
-      ],
+      "honorificVariants": ["Shri"],
       "discipline": "Percussion",
       "bio": "",
       "events": [
@@ -248,15 +181,10 @@
       "uid": "uday-bhawalkar",
       "name": "Uday Bhawalkar",
       "honorific": "Pt.",
-      "honorificVariants": [
-        "Pt."
-      ],
+      "honorificVariants": ["Pt."],
       "discipline": "Hindustani Vocal",
       "bio": "",
-      "events": [
-        "Chatur Smriti 2004",
-        "Dinarang Smriti 2014"
-      ],
+      "events": ["Chatur Smriti 2004", "Dinarang Smriti 2014"],
       "mentions": 2,
       "confidence": "high",
       "review": []
@@ -265,15 +193,10 @@
       "uid": "zakir-hussain",
       "name": "Zakir Hussain",
       "honorific": "Ustad",
-      "honorificVariants": [
-        "Ustad"
-      ],
+      "honorificVariants": ["Ustad"],
       "discipline": "Tabla",
       "bio": "",
-      "events": [
-        "Dinarang Smriti 2012",
-        "Dinarang Smriti 2020"
-      ],
+      "events": ["Dinarang Smriti 2012", "Dinarang Smriti 2020"],
       "mentions": 2,
       "confidence": "high",
       "review": []
@@ -282,14 +205,10 @@
       "uid": "ashwini-bhide",
       "name": "Ashwini Bhide",
       "honorific": "Smt",
-      "honorificVariants": [
-        "Smt"
-      ],
+      "honorificVariants": ["Smt"],
       "discipline": "Hindustani Vocal",
       "bio": "",
-      "events": [
-        "Dinarang Smriti 2013"
-      ],
+      "events": ["Dinarang Smriti 2013"],
       "mentions": 1,
       "confidence": "high",
       "review": []
@@ -298,14 +217,10 @@
       "uid": "budhaditya-mukherjee",
       "name": "Budhaditya Mukherjee",
       "honorific": "Pt.",
-      "honorificVariants": [
-        "Pt."
-      ],
+      "honorificVariants": ["Pt."],
       "discipline": "Sitar",
       "bio": "",
-      "events": [
-        "Dinarang Smriti 2014"
-      ],
+      "events": ["Dinarang Smriti 2014"],
       "mentions": 1,
       "confidence": "high",
       "review": []
@@ -314,62 +229,60 @@
       "uid": "debojyoti-bose",
       "name": "Debojyoti Bose",
       "honorific": "Pt.",
-      "honorificVariants": [
-        "Pt."
-      ],
+      "honorificVariants": ["Pt."],
       "discipline": "Sarod",
       "bio": "",
-      "events": [
-        "Dinarang Smriti 2018"
-      ],
+      "events": ["Dinarang Smriti 2018"],
       "mentions": 1,
       "confidence": "high",
       "review": []
     },
     {
-      "uid": "ganesh-kumaresh",
-      "name": "Ganesh-Kumaresh",
+      "uid": "ganesh-rajagopalan",
+      "name": "Ganesh Rajagopalan",
       "honorific": "",
       "honorificVariants": [],
       "discipline": "Violin",
       "bio": "",
-      "events": [
-        "Dinarang Smriti 2013"
-      ],
+      "events": ["Dinarang Smriti 2013"],
       "mentions": 1,
-      "confidence": "low",
-      "review": [
-        "No honorific preceded this name, so it may not be a person at all."
-      ]
+      "confidence": "high",
+      "verified": true,
+      "review": []
     },
     {
       "uid": "karaikudi-mani-iyer",
       "name": "Karaikudi Mani Iyer",
       "honorific": "Vidwan",
-      "honorificVariants": [
-        "Vidwan"
-      ],
+      "honorificVariants": ["Vidwan"],
       "discipline": "Mridangam",
       "bio": "",
-      "events": [
-        "Workshop with Vidwan Karaikudi Mani Iyer"
-      ],
+      "events": ["Workshop with Vidwan Karaikudi Mani Iyer"],
       "mentions": 1,
       "confidence": "high",
+      "review": []
+    },
+    {
+      "uid": "kumaresh-rajagopalan",
+      "name": "Kumaresh Rajagopalan",
+      "honorific": "",
+      "honorificVariants": [],
+      "discipline": "Violin",
+      "bio": "",
+      "events": ["Dinarang Smriti 2013"],
+      "mentions": 1,
+      "confidence": "high",
+      "verified": true,
       "review": []
     },
     {
       "uid": "n-rajam",
       "name": "N Rajam",
       "honorific": "Dr Smt",
-      "honorificVariants": [
-        "Dr Smt"
-      ],
+      "honorificVariants": ["Dr Smt"],
       "discipline": "Violin",
       "bio": "",
-      "events": [
-        "Dinarang Smriti 2017"
-      ],
+      "events": ["Dinarang Smriti 2017"],
       "mentions": 1,
       "confidence": "high",
       "review": []
@@ -378,14 +291,10 @@
       "uid": "niladri-kumar",
       "name": "Niladri Kumar",
       "honorific": "Shri",
-      "honorificVariants": [
-        "Shri"
-      ],
+      "honorificVariants": ["Shri"],
       "discipline": "Sitar",
       "bio": "",
-      "events": [
-        "Dinarang Smriti 2017"
-      ],
+      "events": ["Dinarang Smriti 2017"],
       "mentions": 1,
       "confidence": "high",
       "review": []
@@ -394,14 +303,10 @@
       "uid": "raghunandan-panshikar",
       "name": "Raghunandan Panshikar",
       "honorific": "Pt.",
-      "honorificVariants": [
-        "Pt."
-      ],
+      "honorificVariants": ["Pt."],
       "discipline": "Hindustani Vocal",
       "bio": "",
-      "events": [
-        "Dinarang Smriti 2017"
-      ],
+      "events": ["Dinarang Smriti 2017"],
       "mentions": 1,
       "confidence": "high",
       "review": []
@@ -410,48 +315,35 @@
       "uid": "rahul-sharma",
       "name": "Rahul Sharma",
       "honorific": "Shri",
-      "honorificVariants": [
-        "Shri"
-      ],
+      "honorificVariants": ["Shri"],
       "discipline": "Santoor",
       "bio": "",
-      "events": [
-        "Dinarang Smriti 2016"
-      ],
+      "events": ["Dinarang Smriti 2016"],
       "mentions": 1,
       "confidence": "high",
       "review": []
     },
     {
-      "uid": "rajan",
-      "name": "Rajan",
+      "uid": "rajan-mishra",
+      "name": "Rajan Mishra",
       "honorific": "Pt.",
-      "honorificVariants": [
-        "Pt."
-      ],
+      "honorificVariants": ["Pt."],
       "discipline": "Hindustani Vocal",
       "bio": "",
-      "events": [
-        "Dinarang Smriti 2016"
-      ],
+      "events": ["Dinarang Smriti 2016"],
       "mentions": 1,
       "confidence": "high",
-      "review": [
-        "Only one name token was captured. The surname is probably in the prose right after it."
-      ]
+      "verified": true,
+      "review": []
     },
     {
       "uid": "rajendra-gangani",
       "name": "Rajendra Gangani",
       "honorific": "Pt.",
-      "honorificVariants": [
-        "Pt."
-      ],
+      "honorificVariants": ["Pt."],
       "discipline": "Kathak",
       "bio": "",
-      "events": [
-        "Dinarang Smriti 2015"
-      ],
+      "events": ["Dinarang Smriti 2015"],
       "mentions": 1,
       "confidence": "high",
       "review": []
@@ -460,32 +352,23 @@
       "uid": "rakesh-chaurasia",
       "name": "Rakesh Chaurasia",
       "honorific": "Shri",
-      "honorificVariants": [
-        "Shri"
-      ],
-      "discipline": "",
+      "honorificVariants": ["Shri"],
+      "discipline": "Flute",
       "bio": "",
-      "events": [
-        "Chatursmriti 2009"
-      ],
+      "events": ["Chatursmriti 2009"],
       "mentions": 1,
       "confidence": "high",
-      "review": [
-        "No instrument or form was named near the mention."
-      ]
+      "review": [],
+      "verified": true
     },
     {
       "uid": "rashid-khan",
       "name": "Rashid Khan",
       "honorific": "Ustad",
-      "honorificVariants": [
-        "Ustad"
-      ],
+      "honorificVariants": ["Ustad"],
       "discipline": "Hindustani Vocal",
       "bio": "",
-      "events": [
-        "Chatur Smriti 2004"
-      ],
+      "events": ["Chatur Smriti 2004"],
       "mentions": 1,
       "confidence": "high",
       "review": []
@@ -494,14 +377,10 @@
       "uid": "ronu-majumdar",
       "name": "Ronu Majumdar",
       "honorific": "Pt.",
-      "honorificVariants": [
-        "Pt."
-      ],
+      "honorificVariants": ["Pt."],
       "discipline": "Flute",
       "bio": "",
-      "events": [
-        "Dinarang Smriti 2018"
-      ],
+      "events": ["Dinarang Smriti 2018"],
       "mentions": 1,
       "confidence": "high",
       "review": []
@@ -510,14 +389,10 @@
       "uid": "sajan-mishra",
       "name": "Sajan Mishra",
       "honorific": "Pt.",
-      "honorificVariants": [
-        "Pt."
-      ],
+      "honorificVariants": ["Pt."],
       "discipline": "Hindustani Vocal",
       "bio": "",
-      "events": [
-        "Dinarang Smriti 2016"
-      ],
+      "events": ["Dinarang Smriti 2016"],
       "mentions": 1,
       "confidence": "high",
       "review": []
@@ -526,14 +401,10 @@
       "uid": "shahid-parvez",
       "name": "Shahid Parvez",
       "honorific": "Ustad",
-      "honorificVariants": [
-        "Ustad"
-      ],
+      "honorificVariants": ["Ustad"],
       "discipline": "Sitar",
       "bio": "",
-      "events": [
-        "Dinarang Smriti 2012"
-      ],
+      "events": ["Dinarang Smriti 2012"],
       "mentions": 1,
       "confidence": "high",
       "review": []
@@ -542,14 +413,10 @@
       "uid": "shama-bhate",
       "name": "Shama Bhate",
       "honorific": "Smt",
-      "honorificVariants": [
-        "Smt"
-      ],
+      "honorificVariants": ["Smt"],
       "discipline": "Kathak",
       "bio": "",
-      "events": [
-        "Sujan Smriti (Pune)"
-      ],
+      "events": ["Sujan Smriti (Pune)"],
       "mentions": 1,
       "confidence": "high",
       "review": []
@@ -558,32 +425,23 @@
       "uid": "shubha-mudgal",
       "name": "Shubha Mudgal",
       "honorific": "Smt",
-      "honorificVariants": [
-        "Smt"
-      ],
-      "discipline": "",
+      "honorificVariants": ["Smt"],
+      "discipline": "Hindustani Vocal",
       "bio": "",
-      "events": [
-        "Chatursmriti 2009"
-      ],
+      "events": ["Chatursmriti 2009"],
       "mentions": 1,
       "confidence": "high",
-      "review": [
-        "No instrument or form was named near the mention."
-      ]
+      "review": [],
+      "verified": true
     },
     {
       "uid": "shubhankar-banerjee",
       "name": "Shubhankar Banerjee",
       "honorific": "Pt.",
-      "honorificVariants": [
-        "Pt."
-      ],
+      "honorificVariants": ["Pt."],
       "discipline": "Tabla",
       "bio": "",
-      "events": [
-        "Dinarang Smriti 2019"
-      ],
+      "events": ["Dinarang Smriti 2019"],
       "mentions": 1,
       "confidence": "high",
       "review": []
@@ -592,14 +450,10 @@
       "uid": "sushilkumar-jain",
       "name": "Sushilkumar Jain",
       "honorific": "Pt.",
-      "honorificVariants": [
-        "Pt."
-      ],
+      "honorificVariants": ["Pt."],
       "discipline": "Tabla",
       "bio": "",
-      "events": [
-        "Lecture Demonstration on the Punjab Gharana"
-      ],
+      "events": ["Lecture Demonstration on the Punjab Gharana"],
       "mentions": 1,
       "confidence": "high",
       "review": []
@@ -608,14 +462,10 @@
       "uid": "umayalpuram-k-sivaraman",
       "name": "Umayalpuram K Sivaraman",
       "honorific": "Padma Vibhushan Vidwan",
-      "honorificVariants": [
-        "Padma Vibhushan Vidwan"
-      ],
+      "honorificVariants": ["Padma Vibhushan Vidwan"],
       "discipline": "Mridangam",
       "bio": "",
-      "events": [
-        "An Evening with Vidwan Umayalpuram K Sivaraman"
-      ],
+      "events": ["An Evening with Vidwan Umayalpuram K Sivaraman"],
       "mentions": 1,
       "confidence": "high",
       "review": []
@@ -624,14 +474,10 @@
       "uid": "venkatesh-kumar",
       "name": "Venkatesh Kumar",
       "honorific": "Pt.",
-      "honorificVariants": [
-        "Pt."
-      ],
+      "honorificVariants": ["Pt."],
       "discipline": "Hindustani Vocal",
       "bio": "",
-      "events": [
-        "Dinarang Smriti 2018"
-      ],
+      "events": ["Dinarang Smriti 2018"],
       "mentions": 1,
       "confidence": "high",
       "review": []

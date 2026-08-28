@@ -1,10 +1,12 @@
 import assert from 'node:assert/strict'
 import { describe, it } from 'node:test'
 import {
+  applyOverrides,
   buildDraft,
   collectMentions,
   levenshtein,
   normaliseName,
+  type DraftArtist,
 } from './lib/artists.ts'
 import type { ContentEvent } from './lib/content.ts'
 
@@ -281,5 +283,272 @@ describe('levenshtein', () => {
 
   it('counts insertions', () => {
     assert.equal(levenshtein('rajam', 'rajaram'), 2)
+  })
+})
+
+describe('override pass', () => {
+  function draft(
+    entries: Partial<DraftArtist>[]
+  ): ReturnType<typeof buildDraft> {
+    return entries.map((entry) => ({
+      uid: 'x',
+      name: 'X',
+      honorific: '',
+      honorificVariants: [],
+      discipline: '',
+      bio: '',
+      events: [],
+      mentions: 1,
+      confidence: 'high' as const,
+      review: [],
+      ...entry,
+    }))
+  }
+
+  it('renames an entry, changing uid, name and discipline', () => {
+    const result = applyOverrides(
+      draft([
+        { uid: 'rajan', name: 'Rajan', events: ['Dinarang Smriti 2016'] },
+      ]),
+      {
+        renames: [
+          {
+            from: 'rajan',
+            to: {
+              uid: 'rajan-mishra',
+              name: 'Rajan Mishra',
+              discipline: 'Hindustani Vocal',
+            },
+          },
+        ],
+      }
+    )
+
+    assert.equal(result.length, 1)
+    assert.equal(result[0].uid, 'rajan-mishra')
+    assert.equal(result[0].name, 'Rajan Mishra')
+    assert.equal(result[0].discipline, 'Hindustani Vocal')
+    assert.deepEqual(result[0].events, ['Dinarang Smriti 2016'])
+    assert.equal(result[0].verified, true)
+  })
+
+  it('merges entries, unions their events and drops the losing uid', () => {
+    const result = applyOverrides(
+      draft([
+        {
+          uid: 'aditi-kaikini-upadhya',
+          name: 'Aditi Kaikini Upadhya',
+          events: ['Swaramrit', 'Dinarang'],
+          mentions: 5,
+        },
+        {
+          uid: 'aditi-upadhya',
+          name: 'Aditi Upadhya',
+          events: ['Dinarang', 'Riyaaz Shibir'],
+          mentions: 3,
+        },
+      ]),
+      {
+        merges: [
+          {
+            from: ['aditi-kaikini-upadhya', 'aditi-upadhya'],
+            into: {
+              uid: 'aditi-upadhya',
+              name: 'Aditi Upadhya',
+              discipline: 'Hindustani Vocal',
+            },
+          },
+        ],
+      }
+    )
+
+    assert.equal(result.length, 1)
+    assert.equal(result[0].uid, 'aditi-upadhya')
+    assert.deepEqual(result[0].events, [
+      'Swaramrit',
+      'Dinarang',
+      'Riyaaz Shibir',
+    ])
+    assert.equal(
+      result.some((artist) => artist.uid === 'aditi-kaikini-upadhya'),
+      false
+    )
+  })
+
+  it('splits one entry into several, each inheriting the events', () => {
+    const result = applyOverrides(
+      draft([
+        {
+          uid: 'ganesh-kumaresh',
+          name: 'Ganesh-Kumaresh',
+          events: ['Dinarang Smriti 2013'],
+          confidence: 'low',
+        },
+      ]),
+      {
+        splits: [
+          {
+            from: 'ganesh-kumaresh',
+            into: [
+              {
+                uid: 'ganesh-rajagopalan',
+                name: 'Ganesh Rajagopalan',
+                discipline: 'Violin',
+              },
+              {
+                uid: 'kumaresh-rajagopalan',
+                name: 'Kumaresh Rajagopalan',
+                discipline: 'Violin',
+              },
+            ],
+          },
+        ],
+      }
+    )
+
+    assert.equal(result.length, 2)
+    assert.deepEqual(result.map((artist) => artist.uid).sort(), [
+      'ganesh-rajagopalan',
+      'kumaresh-rajagopalan',
+    ])
+    for (const artist of result) {
+      assert.deepEqual(artist.events, ['Dinarang Smriti 2013'])
+      assert.equal(artist.discipline, 'Violin')
+      assert.equal(artist.confidence, 'high')
+    }
+    assert.equal(
+      result.some((artist) => artist.uid === 'ganesh-kumaresh'),
+      false
+    )
+  })
+
+  it('sets a discipline the prose never named', () => {
+    const result = applyOverrides(
+      draft([{ uid: 'rakesh-chaurasia', name: 'Rakesh Chaurasia' }]),
+      { disciplines: { 'rakesh-chaurasia': 'Flute' } }
+    )
+    assert.equal(result[0].discipline, 'Flute')
+    assert.equal(result[0].verified, true)
+  })
+
+  it('clears the review flags on everything it corrected', () => {
+    const result = applyOverrides(
+      draft([{ uid: 'shubha-mudgal', name: 'Shubha Mudgal' }]),
+      { disciplines: { 'shubha-mudgal': 'Hindustani Vocal' } }
+    )
+    assert.deepEqual(result[0].review, [])
+  })
+
+  it('suppresses a duplicate flag when one side is verified', () => {
+    const result = applyOverrides(
+      draft([
+        { uid: 'rajan', name: 'Rajan', discipline: 'Hindustani Vocal' },
+        {
+          uid: 'sajan-mishra',
+          name: 'Sajan Mishra',
+          discipline: 'Hindustani Vocal',
+        },
+      ]),
+      {
+        renames: [
+          {
+            from: 'rajan',
+            to: { uid: 'rajan-mishra', name: 'Rajan Mishra' },
+          },
+        ],
+      }
+    )
+
+    assert.equal(result.length, 2)
+    for (const artist of result) assert.deepEqual(artist.review, [])
+  })
+
+  it('still flags entries it did not touch', () => {
+    const result = applyOverrides(
+      draft([
+        { uid: 'rakesh-chaurasia', name: 'Rakesh Chaurasia' },
+        { uid: 'unknown-person', name: 'Unknown Person' },
+      ]),
+      { disciplines: { 'rakesh-chaurasia': 'Flute' } }
+    )
+    const untouched = result.find((a) => a.uid === 'unknown-person')
+    assert.ok(untouched?.review.some((note) => note.includes('No instrument')))
+  })
+
+  it('is idempotent once the source prose itself has been corrected', () => {
+    // The merge names two uids the extractor no longer produces, because content.json was
+    // fixed. The target uid is enough for the override to still apply.
+    const result = applyOverrides(
+      draft([
+        {
+          uid: 'ajoy-chakrabarty',
+          name: 'Ajoy Chakrabarty',
+          events: ['Swaramrit'],
+        },
+      ]),
+      {
+        merges: [
+          {
+            from: ['ajay-chakrabarty', 'ajay-chakraborty'],
+            into: {
+              uid: 'ajoy-chakrabarty',
+              name: 'Ajoy Chakrabarty',
+              discipline: 'Hindustani Vocal',
+            },
+          },
+        ],
+      }
+    )
+
+    assert.equal(result.length, 1)
+    assert.equal(result[0].uid, 'ajoy-chakrabarty')
+    assert.equal(result[0].discipline, 'Hindustani Vocal')
+    assert.deepEqual(result[0].events, ['Swaramrit'])
+  })
+
+  it('throws when an override matches nothing at all', () => {
+    assert.throws(
+      () =>
+        applyOverrides(draft([{ uid: 'someone', name: 'Someone' }]), {
+          renames: [
+            { from: 'ghost', to: { uid: 'ghost-corrected', name: 'Ghost' } },
+          ],
+        }),
+      /none of which the extractor produced/
+    )
+  })
+
+  it('throws when a discipline override names a uid that is gone', () => {
+    assert.throws(
+      () =>
+        applyOverrides(draft([{ uid: 'someone', name: 'Someone' }]), {
+          disciplines: { ghost: 'Flute' },
+        }),
+      /none of which the extractor produced/
+    )
+  })
+
+  it('does not mutate the draft it was handed', () => {
+    const input = draft([{ uid: 'rajan', name: 'Rajan' }])
+    const snapshot = structuredClone(input)
+    applyOverrides(input, {
+      renames: [
+        {
+          from: 'rajan',
+          to: { uid: 'rajan-mishra', name: 'Rajan Mishra' },
+        },
+      ],
+    })
+    assert.deepEqual(input, snapshot)
+  })
+
+  it('returns the draft untouched when there are no overrides', () => {
+    const input = draft([
+      { uid: 'a', name: 'A A', discipline: 'Tabla' },
+      { uid: 'b', name: 'B B', discipline: 'Sitar' },
+    ])
+    const result = applyOverrides(input, {})
+    assert.equal(result.length, 2)
+    assert.deepEqual(result.map((artist) => artist.uid).sort(), ['a', 'b'])
   })
 })

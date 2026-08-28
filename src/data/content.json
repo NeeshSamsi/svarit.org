@@ -34,7 +34,7 @@
     "subheading": "Svarit was founded in 2001 with the vision of promoting and propagating the rich tradition of Hindustani Raag Sangeet, as envisioned by the legendary vocalist Pandit Dinkar Kaikini.",
     "paragraphs": [
       "Svarit, a Sanskrit word meaning “ascending towards the divine”, embodies our belief in music as a pathway to higher artistic and spiritual expression. Founded to preserve and promote the legacy of Indian Music as envisioned by Pandit Dinkar Kaikini, Svarit is rooted in a rich musical lineage that traces through the legacies of the great masters of Hindustani classical music, the likes of Pt. Vishnu Narayan Bhatkhande, Ustad Faiyaz Khan, Padma Bhushan Acharya S. N. Ratanjankar, Ustad Allarakha & Ustad Zakir Hussain.",
-      "Today, under the guidance of Pt. Yogesh Samsi and Smt. Aditi Kaikini Upadhya, Svarit is more than a trust. It is a vibrant cultural platform where tradition meets innovation. Through concerts, festivals, educational initiatives, artist development, and collaborative projects, we nurture excellence while ensuring our country's arts remain relevant, accessible, and inspiring for future generations. Svarit continues to celebrate heritage, foster creativity, and shape the future of Indian Music."
+      "Today, under the guidance of Pt. Yogesh Samsi and Smt. Aditi Upadhya, Svarit is more than a trust. It is a vibrant cultural platform where tradition meets innovation. Through concerts, festivals, educational initiatives, artist development, and collaborative projects, we nurture excellence while ensuring our country's arts remain relevant, accessible, and inspiring for future generations. Svarit continues to celebrate heritage, foster creativity, and shape the future of Indian Music."
     ]
   },
   "initiatives": {
@@ -44,7 +44,7 @@
       {
         "date": { "date": "2002-11-07", "label": "7th & 8th November 2002" },
         "title": "Swaramrit",
-        "description": "A 2-day festival featuring vocal recitals by Pt. Dinkar Kaikini, Smt Aditi Kaikini Upadhya, Pt. Ulhas Kashalkar, and Pt. Ajay Chakraborty, concluding with a Santoor solo by Pt. Shivkumar Sharma."
+        "description": "A 2-day festival featuring vocal recitals by Pt. Dinkar Kaikini, Smt Aditi Upadhya, Pt. Ulhas Kashalkar, and Pt. Ajoy Chakrabarty, concluding with a Santoor solo by Pt. Shivkumar Sharma."
       },
       {
         "date": { "date": "2003-11-29", "label": "29th November 2003" },
@@ -64,12 +64,12 @@
       {
         "date": { "date": "2005-11-10", "label": "10th November 2005" },
         "title": "Dinarang",
-        "description": "A curated showcase of choral compositions directed by Smt Aditi Kaikini Upadhya, alongside solo vocal performances by Pt. Ulhas Kashalkar and Pt. Ajay Chakraborty."
+        "description": "A curated showcase of choral compositions directed by Smt Aditi Upadhya, alongside solo vocal performances by Pt. Ulhas Kashalkar and Pt. Ajoy Chakrabarty."
       },
       {
         "date": { "date": "2008-11-21", "label": "21st November 2008" },
         "title": "Chatursmriti 2008",
-        "description": "A classical double-bill featuring a Sitar recital by Pt. Kushal Das and a soulful vocal performance by Pt. Ajay Chakrabarty."
+        "description": "A classical double-bill featuring a Sitar recital by Pt. Kushal Das and a soulful vocal performance by Pt. Ajoy Chakrabarty."
       },
       {
         "date": { "date": "2009-11-18", "label": "18th & 19th November 2009" },
@@ -84,7 +84,7 @@
       {
         "date": { "date": "2011-12-03", "label": "3rd December 2011" },
         "title": "Chatursmriti 2011",
-        "description": "An evening pairing instrumental and vocal disciplines, featuring a Sitar recital by Shri Purbayan Chatterjee and a classical vocal performance by Smt Aditi Kaikini Upadhya."
+        "description": "An evening pairing instrumental and vocal disciplines, featuring a Sitar recital by Shri Purbayan Chatterjee and a classical vocal performance by Smt Aditi Upadhya."
       },
       {
         "date": { "date": "2012-01-20", "label": "20th & 21st January 2012" },
@@ -109,7 +109,7 @@
       {
         "date": { "date": "2016-02-24", "label": "24th & 25th February 2016" },
         "title": "Dinarang Smriti 2016",
-        "description": "A 2-day event featuring a vocal duet by Pt. Rajan & Pt. Sajan Mishra, solo recitals by Smt Aditi Kaikini Upadhya and Pt. Ulhas Kashalkar, and Santoor recital by Shri Rahul Sharma."
+        "description": "A 2-day event featuring a vocal duet by Pt. Rajan & Pt. Sajan Mishra, solo recitals by Smt Aditi Upadhya and Pt. Ulhas Kashalkar, and Santoor recital by Shri Rahul Sharma."
       },
       {
         "date": { "date": "2017-02-24", "label": "24th & 25th February 2017" },
@@ -124,12 +124,12 @@
       {
         "date": { "date": "2019-03-01", "label": "1st & 2nd March 2019" },
         "title": "Dinarang Smriti 2019",
-        "description": "A 2-day event highlighting a unique Tabla Jugalbandi by Pt. Shubhankar Banerjee and Pt. Yogesh Samsi, a Sarod-Violin duet, and vocal recital by Smt Aditi Kaikini Upadhya and Pt. Ulhas Kashalkar."
+        "description": "A 2-day event highlighting a unique Tabla Jugalbandi by Pt. Shubhankar Banerjee and Pt. Yogesh Samsi, a Sarod-Violin duet, and vocal recital by Smt Aditi Upadhya and Pt. Ulhas Kashalkar."
       },
       {
         "date": { "date": "2020-02-21", "label": "21st February 2020" },
         "title": "Dinarang Smriti 2020",
-        "description": "A landmark concert featuring an opening vocal recital by Pt. Ajay Chakrabarty, followed by an extraordinary performance by Pt. Shivkumar Sharma accompained by Ustad Zakir Hussain."
+        "description": "A landmark concert featuring an opening vocal recital by Pt. Ajoy Chakrabarty, followed by an extraordinary performance by Pt. Shivkumar Sharma accompained by Ustad Zakir Hussain."
       }
     ],
     "workshops": [
