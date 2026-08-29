@@ -2,6 +2,9 @@ import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
   /* config options here */
+  // Next blocks dev resources (/_next/hmr) from hosts it does not recognise, so
+  // opening the site on the LAN IP or 127.0.0.1 silently loses hot reload.
+  allowedDevOrigins: ['127.0.0.1', '192.168.29.2'],
   turbopack: {
     root: __dirname,
   },
