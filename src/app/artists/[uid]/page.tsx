@@ -1,13 +1,12 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import * as prismic from '@prismicio/client'
-import { PrismicNextImage, PrismicNextLink } from '@prismicio/next'
 import { SliceZone } from '@prismicio/react'
 import { createClient } from '@/prismicio'
 import { components } from '@/slices'
-import EventCard from '@/components/events/EventCard'
-import SectionTitle from '@/components/ui/SectionTitle'
-import { InstagramIcon, YouTubeIcon } from '@/components/ui/social-icons'
+import ArtistHero from '@/components/artists/ArtistHero'
+import ArtistFeatures from '@/components/artists/ArtistFeatures'
+import { artistBioText } from '@/components/artists/bio'
 
 type Props = {
   params: Promise<{ uid: string }>
@@ -25,85 +24,38 @@ export default async function ArtistPage({ params }: Props) {
     orderings: [{ field: 'my.event.start_date', direction: 'desc' }],
   })
 
-  const socials = [
-    { field: artist.data.instagram, label: 'Instagram', Icon: InstagramIcon },
-    { field: artist.data.youtube, label: 'YouTube', Icon: YouTubeIcon },
-  ].filter(({ field }) => prismic.isFilled.link(field))
+  // The donate block is the same one the home page uses; read it rather than
+  // invent values so a single edit keeps every page in step.
+  const home = await client.getByUID('page', 'home').catch(() => null)
+  const donateSlice = home?.data.slices.find(
+    (slice) => slice.slice_type === 'donate'
+  )
+
+  const featuresTitle =
+    artist.data.features_title ||
+    (artist.data.name ? `${artist.data.name} at Svarit` : 'At Svarit')
+  const featuresEyebrow = artist.data.features_eyebrow || 'Appearances'
 
   return (
-    <article className="col-span-full grid grid-cols-subgrid gap-y-12 pt-36 md:pt-44">
-      <header className="col-span-full grid grid-cols-subgrid gap-y-6">
-        {prismic.isFilled.image(artist.data.photo) && (
-          <div className="relative col-span-full aspect-4/5 overflow-hidden rounded-3xl bg-muted sm:col-span-5 lg:col-span-4">
-            <PrismicNextImage
-              field={artist.data.photo}
-              fill
-              fallbackAlt=""
-              priority
-              sizes="(min-width: 1024px) 33vw, (min-width: 640px) 42vw, 100vw"
-              className="object-cover"
-            />
-          </div>
-        )}
+    <article className="col-span-full grid grid-cols-subgrid gap-y-18 pt-36 md:pt-44">
+      <ArtistHero artist={artist} />
 
-        <div className="col-span-full flex flex-col gap-4 sm:col-span-7 lg:col-span-8">
-          {artist.data.discipline && (
-            <span className="font-body text-base font-light text-foreground">
-              {artist.data.discipline}
-            </span>
-          )}
-          <h1 className="font-display text-4xl leading-tight font-medium text-foreground md:text-5xl">
-            {artist.data.name}
-          </h1>
-
-          {prismic.isFilled.keyText(artist.data.bio) && (
-            <p className="font-body text-xl font-light text-foreground">
-              {artist.data.bio}
-            </p>
-          )}
-
-          {socials.length > 0 && (
-            <ul className="mt-2 flex flex-wrap gap-3">
-              {socials.map(({ field, label, Icon }) => (
-                <li key={label}>
-                  <PrismicNextLink
-                    field={field}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={`${artist.data.name} on ${label}`}
-                    className="inline-flex items-center rounded-[12px] border border-foreground bg-muted p-3 text-foreground transition-opacity hover:opacity-60"
-                  >
-                    <Icon className="size-6" />
-                  </PrismicNextLink>
-                </li>
-              ))}
-            </ul>
-          )}
+      {artist.data.slices.length > 0 && (
+        <div className="col-span-full grid grid-cols-subgrid gap-y-12">
+          <SliceZone slices={artist.data.slices} components={components} />
         </div>
-      </header>
-
-      <div className="col-span-full grid grid-cols-subgrid gap-y-12">
-        <SliceZone slices={artist.data.slices} components={components} />
-      </div>
+      )}
 
       {events.length > 0 && (
-        <section
-          aria-label="Appearances"
-          className="col-span-full grid grid-cols-subgrid gap-y-6"
-        >
-          <SectionTitle
-            eyebrow="Appearances"
-            title={`${artist.data.name} at Svarit`}
-            className="col-span-full md:col-span-8"
-          />
-          {events.map((event) => (
-            <EventCard
-              key={event.id}
-              event={event}
-              className="col-span-full sm:col-span-6 lg:col-span-4"
-            />
-          ))}
-        </section>
+        <ArtistFeatures
+          eyebrow={featuresEyebrow}
+          title={featuresTitle}
+          events={events}
+        />
+      )}
+
+      {donateSlice && (
+        <SliceZone slices={[donateSlice]} components={components} />
       )}
     </article>
   )
@@ -144,7 +96,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   const title = artist.data.meta_title || artist.data.name || undefined
   const description =
-    artist.data.meta_description || artist.data.bio || undefined
+    artist.data.meta_description || artistBioText(artist.data.bio) || undefined
   const image =
     prismic.asImageSrc(artist.data.meta_image) ||
     prismic.asImageSrc(artist.data.photo) ||

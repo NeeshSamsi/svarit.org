@@ -103,9 +103,6 @@
             "rich_text": {
               "type": "SharedSlice"
             },
-            "image_gallery": {
-              "type": "SharedSlice"
-            },
             "quote": {
               "type": "SharedSlice"
             }

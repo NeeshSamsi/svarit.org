@@ -60,6 +60,20 @@
           "allowText": false,
           "repeat": false
         }
+      },
+      "features_eyebrow": {
+        "type": "Text",
+        "config": {
+          "label": "Features Eyebrow",
+          "placeholder": "Appearances"
+        }
+      },
+      "features_title": {
+        "type": "Text",
+        "config": {
+          "label": "Features Title",
+          "placeholder": "{Name} at Svarit"
+        }
       }
     },
     "Body": {
@@ -69,9 +83,6 @@
         "config": {
           "choices": {
             "rich_text": {
-              "type": "SharedSlice"
-            },
-            "image_gallery": {
               "type": "SharedSlice"
             },
             "quote": {

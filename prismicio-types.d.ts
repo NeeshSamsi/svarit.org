@@ -46,7 +46,7 @@ type ContentRelationshipFieldWithData<
 		>
 }[Exclude<TCustomType[number], string>["id"]];
 
-type ArtistDocumentDataSlicesSlice = RichTextSlice | ImageGallerySlice | QuoteSlice
+type ArtistDocumentDataSlicesSlice = RichTextSlice | QuoteSlice
 
 /**
  * Content for Artist documents
@@ -116,7 +116,29 @@ interface ArtistDocumentData {
 	 * - **Tab**: Main
 	 * - **Documentation**: https://prismic.io/docs/fields/link
 	 */
-	youtube: prismic.LinkField<string, string, unknown, prismic.FieldState, never>;/**
+	youtube: prismic.LinkField<string, string, unknown, prismic.FieldState, never>;
+	
+	/**
+	 * Features Eyebrow field in *Artist*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Appearances
+	 * - **API ID Path**: artist.features_eyebrow
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	features_eyebrow: prismic.KeyTextField;
+	
+	/**
+	 * Features Title field in *Artist*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: {Name} at Svarit
+	 * - **API ID Path**: artist.features_title
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	features_title: prismic.KeyTextField;/**
 	 * Slice Zone field in *Artist*
 	 *
 	 * - **Field Type**: Slice Zone
@@ -185,7 +207,7 @@ export interface EventDocumentDataArtistsItem {
 	artist: prismic.ContentRelationshipField<"artist">;
 }
 
-type EventDocumentDataSlicesSlice = RichTextSlice | ImageGallerySlice | QuoteSlice
+type EventDocumentDataSlicesSlice = RichTextSlice | QuoteSlice
 
 /**
  * Content for Event documents
@@ -343,7 +365,7 @@ interface EventDocumentData {
  */
 export type EventDocument<Lang extends string = string> = prismic.PrismicDocumentWithUID<Simplify<EventDocumentData>, "event", Lang>;
 
-type PageDocumentDataSlicesSlice = HeroSlice | SponsorsSlice | AboutSlice | EventListSlice | DonateSlice | ContactSlice | ArtistListSlice | VolunteersSlice | RichTextSlice | ImageGallerySlice | QuoteSlice
+type PageDocumentDataSlicesSlice = HeroSlice | SponsorsSlice | AboutSlice | EventListSlice | DonateSlice | ContactSlice | ArtistListSlice | VolunteersSlice | RichTextSlice | QuoteSlice
 
 /**
  * Content for Page documents
@@ -1154,79 +1176,6 @@ type HeroSliceVariation = HeroSliceDefault | HeroSlicePageHeader
 export type HeroSlice = prismic.SharedSlice<"hero", HeroSliceVariation>;
 
 /**
- * Item in *ImageGallery → Default → Primary → Images*
- */
-export interface ImageGallerySliceDefaultPrimaryImagesItem {
-	/**
-	 * Image field in *ImageGallery → Default → Primary → Images*
-	 *
-	 * - **Field Type**: Image
-	 * - **Placeholder**: *None*
-	 * - **API ID Path**: image_gallery.default.primary.images[].image
-	 * - **Documentation**: https://prismic.io/docs/fields/image
-	 */
-	image: prismic.ImageField<never>;
-	
-	/**
-	 * Caption field in *ImageGallery → Default → Primary → Images*
-	 *
-	 * - **Field Type**: Text
-	 * - **Placeholder**: *None*
-	 * - **API ID Path**: image_gallery.default.primary.images[].caption
-	 * - **Documentation**: https://prismic.io/docs/fields/text
-	 */
-	caption: prismic.KeyTextField;
-}
-
-/**
- * Primary content in *ImageGallery → Default → Primary*
- */
-export interface ImageGallerySliceDefaultPrimary {
-	/**
-	 * Heading field in *ImageGallery → Default → Primary*
-	 *
-	 * - **Field Type**: Text
-	 * - **Placeholder**: *None*
-	 * - **API ID Path**: image_gallery.default.primary.heading
-	 * - **Documentation**: https://prismic.io/docs/fields/text
-	 */
-	heading: prismic.KeyTextField;
-	
-	/**
-	 * Images field in *ImageGallery → Default → Primary*
-	 *
-	 * - **Field Type**: Group
-	 * - **Placeholder**: *None*
-	 * - **API ID Path**: image_gallery.default.primary.images[]
-	 * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
-	 */
-	images: prismic.GroupField<Simplify<ImageGallerySliceDefaultPrimaryImagesItem>>;
-}
-
-/**
- * Default variation for ImageGallery Slice
- *
- * - **API ID**: `default`
- * - **Description**: Default
- * - **Documentation**: https://prismic.io/docs/slices
- */
-export type ImageGallerySliceDefault = prismic.SharedSliceVariation<"default", Simplify<ImageGallerySliceDefaultPrimary>, never>;
-
-/**
- * Slice variation for *ImageGallery*
- */
-type ImageGallerySliceVariation = ImageGallerySliceDefault
-
-/**
- * ImageGallery Shared Slice
- *
- * - **API ID**: `image_gallery`
- * - **Description**: A grid of captioned images for event and artist pages.
- * - **Documentation**: https://prismic.io/docs/slices
- */
-export type ImageGallerySlice = prismic.SharedSlice<"image_gallery", ImageGallerySliceVariation>;
-
-/**
  * Primary content in *Quote → Default → Primary*
  */
 export interface QuoteSliceDefaultPrimary {
@@ -1249,6 +1198,16 @@ export interface QuoteSliceDefaultPrimary {
 	 * - **Documentation**: https://prismic.io/docs/fields/text
 	 */
 	attribution: prismic.KeyTextField;
+	
+	/**
+	 * Supporting paragraph field in *Quote → Default → Primary*
+	 *
+	 * - **Field Type**: Rich Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: quote.default.primary.paragraph
+	 * - **Documentation**: https://prismic.io/docs/fields/rich-text
+	 */
+	paragraph: prismic.RichTextField;
 }
 
 /**
@@ -1269,7 +1228,7 @@ type QuoteSliceVariation = QuoteSliceDefault
  * Quote Shared Slice
  *
  * - **API ID**: `quote`
- * - **Description**: A pulled quote with an attribution.
+ * - **Description**: A pull quote with an optional attribution and an optional supporting paragraph beside it.
  * - **Documentation**: https://prismic.io/docs/slices
  */
 export type QuoteSlice = prismic.SharedSlice<"quote", QuoteSliceVariation>;
@@ -1505,11 +1464,6 @@ declare module "@prismicio/client" {
 			HeroSliceVariation,
 			HeroSliceDefault,
 			HeroSlicePageHeader,
-			ImageGallerySlice,
-			ImageGallerySliceDefaultPrimaryImagesItem,
-			ImageGallerySliceDefaultPrimary,
-			ImageGallerySliceVariation,
-			ImageGallerySliceDefault,
 			QuoteSlice,
 			QuoteSliceDefaultPrimary,
 			QuoteSliceVariation,

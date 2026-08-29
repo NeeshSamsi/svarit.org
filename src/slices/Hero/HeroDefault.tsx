@@ -6,12 +6,14 @@ import { asLink, isFilled, type Content } from '@prismicio/client'
 import { PrismicNextImage } from '@prismicio/next'
 import ButtonLink from '@/components/ui/ButtonLink'
 import { gsap } from '@/lib/gsap'
+import { useIsomorphicLayoutEffect } from '@/lib/useIsomorphicLayoutEffect'
 
 export default function HeroDefault({
   slice,
 }: {
   slice: Extract<Content.HeroSlice, { variation: 'default' }>
 }) {
+  const sectionRef = useRef<HTMLElement>(null)
   const titleRef = useRef<HTMLDivElement>(null)
   const img1Ref = useRef<HTMLDivElement>(null)
   const img2Ref = useRef<HTMLDivElement>(null)
@@ -24,18 +26,28 @@ export default function HeroDefault({
     ? slice.primary.video.url
     : '/assets/hero/right.mp4'
 
-  useEffect(() => {
-    const tl = gsap.timeline({ delay: 0.4 })
-    tl.from(titleRef.current, {
-      y: 24,
-      opacity: 0,
-      duration: 0.5,
-      ease: 'power2.out',
-    }).from(
-      [img1Ref.current, img2Ref.current, img3Ref.current].filter(Boolean),
-      { y: 20, opacity: 0, duration: 0.4, ease: 'power2.out', stagger: 0.18 },
-      '-=0.2'
-    )
+  useIsomorphicLayoutEffect(() => {
+    const ctx = gsap.context(() => {
+      const tl = gsap.timeline({ delay: 0.4 })
+      tl.fromTo(
+        titleRef.current,
+        { y: 24, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.5, ease: 'power2.out' }
+      ).fromTo(
+        [img1Ref.current, img2Ref.current, img3Ref.current].filter(Boolean),
+        { y: 20, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 0.4,
+          ease: 'power2.out',
+          stagger: 0.18,
+        },
+        '-=0.2'
+      )
+    }, sectionRef)
+
+    return () => ctx.revert()
   }, [])
 
   useEffect(() => {
@@ -48,6 +60,7 @@ export default function HeroDefault({
 
   return (
     <section
+      ref={sectionRef}
       data-slice-type={slice.slice_type}
       data-slice-variation={slice.variation}
       aria-label="Hero"
@@ -55,6 +68,8 @@ export default function HeroDefault({
     >
       <div
         ref={titleRef}
+        data-gsap-intro
+        style={{ opacity: 0, transform: 'translateY(24px)' }}
         className="col-span-full flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between lg:col-span-10"
       >
         <h1 className="min-w-0 font-display text-4xl leading-tight font-medium text-foreground md:text-5xl">
@@ -69,6 +84,8 @@ export default function HeroDefault({
 
       <div
         ref={img3Ref}
+        data-gsap-intro
+        style={{ opacity: 0, transform: 'translateY(20px)' }}
         className="col-span-4 col-start-9 aspect-1/2 overflow-hidden rounded-3xl bg-muted sm:col-span-3 sm:col-start-10 lg:col-span-2 lg:col-start-11 lg:row-span-2"
       >
         <video
@@ -87,6 +104,8 @@ export default function HeroDefault({
 
       <div
         ref={img1Ref}
+        data-gsap-intro
+        style={{ opacity: 0, transform: 'translateY(20px)' }}
         className="relative hidden aspect-square overflow-hidden rounded-3xl bg-muted lg:col-span-2 lg:col-start-1 lg:block"
       >
         <PrismicNextImage
@@ -108,6 +127,8 @@ export default function HeroDefault({
       </div>
       <div
         ref={img2Ref}
+        data-gsap-intro
+        style={{ opacity: 0, transform: 'translateY(20px)' }}
         className="relative col-span-8 col-start-1 aspect-4/3 overflow-hidden rounded-3xl bg-muted sm:col-span-9 lg:col-span-8 lg:col-start-3 lg:aspect-video"
       >
         <PrismicNextImage

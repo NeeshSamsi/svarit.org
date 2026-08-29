@@ -1,10 +1,13 @@
 'use client'
 
 import { useState, useRef, useEffect, type ReactNode } from 'react'
+import Link from 'next/link'
 import { asLink, type LinkField } from '@prismicio/client'
 import { PrismicNextLink } from '@prismicio/next'
 import ButtonLink from '@/components/ui/ButtonLink'
+import GsapIntroStyles from '@/components/layout/GsapIntroStyles'
 import { gsap } from '@/lib/gsap'
+import { useIsomorphicLayoutEffect } from '@/lib/useIsomorphicLayoutEffect'
 
 export default function NavClient({
   links,
@@ -20,14 +23,16 @@ export default function NavClient({
   const pillRef = useRef<HTMLDivElement>(null)
   const menuRef = useRef<HTMLDivElement>(null)
 
-  useEffect(() => {
-    gsap.from(pillRef.current, {
-      y: -16,
-      opacity: 0,
-      duration: 0.45,
-      ease: 'power2.out',
-      delay: 0.1,
-    })
+  useIsomorphicLayoutEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.fromTo(
+        pillRef.current,
+        { y: -16, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.45, ease: 'power2.out', delay: 0.1 }
+      )
+    }, pillRef)
+
+    return () => ctx.revert()
   }, [])
 
   useEffect(() => {
@@ -35,35 +40,47 @@ export default function NavClient({
     const items =
       menuRef.current.querySelectorAll<HTMLElement>('.mobile-nav-item')
     if (!items.length) return
-    const tween = gsap.fromTo(
-      items,
-      { opacity: 0, y: 12 },
-      {
-        opacity: 1,
-        y: 0,
-        duration: 0.35,
-        stagger: 0.07,
-        ease: 'power2.out',
-        clearProps: 'opacity,transform',
-        onStart: () => items.forEach((el) => (el.style.transition = 'none')),
-        onComplete: () =>
-          items.forEach((el) => el.style.removeProperty('transition')),
-      }
-    )
+    const ctx = gsap.context(() => {
+      gsap.fromTo(
+        items,
+        { opacity: 0, y: 12 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.35,
+          stagger: 0.07,
+          ease: 'power2.out',
+          clearProps: 'opacity,transform',
+          onStart: () => items.forEach((el) => (el.style.transition = 'none')),
+          onComplete: () =>
+            items.forEach((el) => el.style.removeProperty('transition')),
+        }
+      )
+    }, menuRef)
+
     return () => {
-      tween.kill()
+      ctx.revert()
       items.forEach((el) => el.style.removeProperty('transition'))
     }
   }, [mobileOpen])
 
   return (
     <nav className="fixed top-6 right-0 left-0 z-50 px-6">
-      <div className="max-w-content mx-auto">
+      <GsapIntroStyles />
+      <div className="mx-auto max-w-content">
         <div
           ref={pillRef}
+          data-gsap-intro
+          style={{ opacity: 0, transform: 'translateY(-16px)' }}
           className="flex items-center justify-between rounded-full border border-foreground/5 bg-muted/80 px-8 py-4 shadow-lg backdrop-blur-xs"
         >
-          <img src="/assets/logo.svg" alt="Svarit" className="h-8 w-auto" />
+          <Link
+            href="/"
+            aria-label="Svarit, home"
+            className="flex items-center"
+          >
+            <img src="/assets/logo.svg" alt="Svarit" className="h-8 w-auto" />
+          </Link>
 
           <div className="hidden items-center gap-8 lg:flex">
             {links.map((link, i) => (
