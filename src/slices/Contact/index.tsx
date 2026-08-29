@@ -23,20 +23,24 @@ export default function Contact({ slice }: ContactProps) {
   const tsRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
-    gsap.from(titleRef.current, {
-      y: 24,
-      opacity: 0,
-      duration: 0.5,
-      ease: 'power2.out',
-      scrollTrigger: { trigger: sectionRef.current, start: 'top 70%' },
-    })
-    gsap.from(widgetRef.current, {
-      y: 20,
-      opacity: 0,
-      duration: 0.4,
-      ease: 'power2.out',
-      scrollTrigger: { trigger: sectionRef.current, start: 'top 65%' },
-    })
+    const ctx = gsap.context(() => {
+      gsap.from(titleRef.current, {
+        y: 24,
+        opacity: 0,
+        duration: 0.5,
+        ease: 'power2.out',
+        scrollTrigger: { trigger: sectionRef.current, start: 'top 70%' },
+      })
+      gsap.from(widgetRef.current, {
+        y: 20,
+        opacity: 0,
+        duration: 0.4,
+        ease: 'power2.out',
+        scrollTrigger: { trigger: sectionRef.current, start: 'top 65%' },
+      })
+    }, sectionRef)
+
+    return () => ctx.revert()
   }, [])
 
   useEffect(() => {

@@ -25,18 +25,22 @@ export default function DonateSection({
   const boxRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    const tl = gsap.timeline({
-      scrollTrigger: { trigger: sectionRef.current, start: 'top 70%' },
-    })
-    tl.from(bgRef.current, {
-      opacity: 0,
-      duration: 0.5,
-      ease: 'power2.out',
-    }).from(
-      boxRef.current,
-      { y: 20, opacity: 0, duration: 0.4, ease: 'power2.out' },
-      '-=0.2'
-    )
+    const ctx = gsap.context(() => {
+      const tl = gsap.timeline({
+        scrollTrigger: { trigger: sectionRef.current, start: 'top 70%' },
+      })
+      tl.from(bgRef.current, {
+        opacity: 0,
+        duration: 0.5,
+        ease: 'power2.out',
+      }).from(
+        boxRef.current,
+        { y: 20, opacity: 0, duration: 0.4, ease: 'power2.out' },
+        '-=0.2'
+      )
+    }, sectionRef)
+
+    return () => ctx.revert()
   }, [])
 
   return (
