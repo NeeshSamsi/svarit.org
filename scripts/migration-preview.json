@@ -1,306 +1,53 @@
 {
   "mode": "dry-run",
-  "generatedAt": "2026-08-28T15:28:35.999Z",
+  "generatedAt": "2026-08-28T20:01:10.586Z",
   "repository": "svarit",
   "lang": "en-us",
   "withArtists": false,
   "skipExisting": false,
   "existingChecked": true,
   "summary": {
-    "toCreate": 1,
-    "toCreateByType": {
+    "toCreate": 0,
+    "toCreateByType": {},
+    "toUpdate": 1,
+    "toUpdateByType": {
       "page": 1
     },
-    "toUpdate": 0,
-    "toUpdateByType": {},
     "skipped": 0,
     "assetsToUpload": 0,
-    "assetsReused": 14
+    "assetsReused": 0
   },
   "documents": [
     {
-      "action": "create",
+      "action": "update",
       "type": "page",
-      "uid": "home",
-      "title": "Home",
+      "uid": "artists",
+      "title": "Artists",
       "lang": "en-us",
       "data": {
         "slices": [
           {
             "slice_type": "hero",
-            "variation": "default",
+            "variation": "page_header",
             "items": [],
             "primary": {
-              "title": "Ushering in the Next Era of Indian Music",
-              "subtitle": [
+              "title": "Artists who we have had the pleasure to host",
+              "description": [
                 {
                   "type": "paragraph",
-                  "text": "Svarit is dedicated to the preservation and promotion of Indian classical music through education, performance, and community engagement.",
+                  "text": "Svarit was founded in 2001 with the vision of promoting and propagating the rich tradition of Hindustani Raag Sangeet, as envisioned by the legendary vocalist Pandit Dinkar Kaikini.",
                   "spans": []
-                }
-              ],
-              "cta_label": "Learn more",
-              "cta_link": {
-                "link_type": "Web",
-                "url": "#about"
-              },
-              "stats": "20+ Volunteers",
-              "images": [
-                {
-                  "image": {
-                    "id": "VbKrZyh-NcQIeJ06",
-                    "url": "https://images.prismic.io/svarit/VbKrZyh-NcQIeJ06_left.png?auto=format,compress",
-                    "dimensions": {
-                      "width": 408,
-                      "height": 304
-                    },
-                    "edit": {
-                      "x": 0,
-                      "y": 0,
-                      "zoom": 1,
-                      "background": "transparent"
-                    },
-                    "alt": null,
-                    "copyright": null
-                  }
-                },
-                {
-                  "image": {
-                    "id": "WmMWpeg5K9UOneD6",
-                    "url": "https://images.prismic.io/svarit/WmMWpeg5K9UOneD6_middle.png?auto=format,compress",
-                    "dimensions": {
-                      "width": 1360,
-                      "height": 766
-                    },
-                    "edit": {
-                      "x": 0,
-                      "y": 0,
-                      "zoom": 1,
-                      "background": "transparent"
-                    },
-                    "alt": null,
-                    "copyright": null
-                  }
-                }
-              ],
-              "video": {
-                "link_type": "Media",
-                "id": "VecrdfsOKWmAY5gv"
-              }
-            }
-          },
-          {
-            "slice_type": "sponsors",
-            "variation": "default",
-            "items": [],
-            "primary": {
-              "heading": "The Champions of Our Mission So Far",
-              "subheading": "Previous Sponsors",
-              "logos": [
-                {
-                  "logo": {
-                    "id": "GUwVooBoZlovmAMu",
-                    "url": "https://images.prismic.io/svarit/GUwVooBoZlovmAMu_indian-oil.webp?auto=format,compress",
-                    "dimensions": {
-                      "width": 94,
-                      "height": 112
-                    },
-                    "edit": {
-                      "x": 0,
-                      "y": 0,
-                      "zoom": 1,
-                      "background": "transparent"
-                    },
-                    "alt": "Indian Oil logo",
-                    "copyright": null
-                  },
-                  "name": "Indian Oil"
-                },
-                {
-                  "logo": {
-                    "id": "HVbylMQmFGZByI-N",
-                    "url": "https://images.prismic.io/svarit/HVbylMQmFGZByI-N_tata-capital.webp?auto=format,compress",
-                    "dimensions": {
-                      "width": 142,
-                      "height": 112
-                    },
-                    "edit": {
-                      "x": 0,
-                      "y": 0,
-                      "zoom": 1,
-                      "background": "transparent"
-                    },
-                    "alt": "Tata Capital logo",
-                    "copyright": null
-                  },
-                  "name": "Tata Capital"
-                },
-                {
-                  "logo": {
-                    "id": "4tHs7y83OvQjdKDZ",
-                    "url": "https://images.prismic.io/svarit/4tHs7y83OvQjdKDZ_union-bank.webp?auto=format,compress",
-                    "dimensions": {
-                      "width": 362,
-                      "height": 112
-                    },
-                    "edit": {
-                      "x": 0,
-                      "y": 0,
-                      "zoom": 1,
-                      "background": "transparent"
-                    },
-                    "alt": "Union Bank of India logo",
-                    "copyright": null
-                  },
-                  "name": "Union Bank of India"
-                },
-                {
-                  "logo": {
-                    "id": "7X752xegU6EWPlcH",
-                    "url": "https://images.prismic.io/svarit/7X752xegU6EWPlcH_rithwik-foundation.webp?auto=format,compress",
-                    "dimensions": {
-                      "width": 152,
-                      "height": 112
-                    },
-                    "edit": {
-                      "x": 0,
-                      "y": 0,
-                      "zoom": 1,
-                      "background": "transparent"
-                    },
-                    "alt": "Rithwik Foundation logo",
-                    "copyright": null
-                  },
-                  "name": "Rithwik Foundation"
-                },
-                {
-                  "logo": {
-                    "id": "LOzg9PR1JgeaRDpX",
-                    "url": "https://images.prismic.io/svarit/LOzg9PR1JgeaRDpX_insync.webp?auto=format,compress",
-                    "dimensions": {
-                      "width": 194,
-                      "height": 112
-                    },
-                    "edit": {
-                      "x": 0,
-                      "y": 0,
-                      "zoom": 1,
-                      "background": "transparent"
-                    },
-                    "alt": "Insync logo",
-                    "copyright": null
-                  },
-                  "name": "Insync"
-                },
-                {
-                  "logo": {
-                    "id": "2hMeZ6wBfoVURggF",
-                    "url": "https://images.prismic.io/svarit/2hMeZ6wBfoVURggF_hdfc-bank.webp?auto=format,compress",
-                    "dimensions": {
-                      "width": 470,
-                      "height": 112
-                    },
-                    "edit": {
-                      "x": 0,
-                      "y": 0,
-                      "zoom": 1,
-                      "background": "transparent"
-                    },
-                    "alt": "HDFC Bank logo",
-                    "copyright": null
-                  },
-                  "name": "HDFC Bank"
-                },
-                {
-                  "logo": {
-                    "id": "UWb2s-5vwnZlww4x",
-                    "url": "https://images.prismic.io/svarit/UWb2s-5vwnZlww4x_vodafone.webp?auto=format,compress",
-                    "dimensions": {
-                      "width": 300,
-                      "height": 112
-                    },
-                    "edit": {
-                      "x": 0,
-                      "y": 0,
-                      "zoom": 1,
-                      "background": "transparent"
-                    },
-                    "alt": "Vodafone logo",
-                    "copyright": null
-                  },
-                  "name": "Vodafone"
-                },
-                {
-                  "logo": {
-                    "id": "l4SvHpFSbTTec8Je",
-                    "url": "https://images.prismic.io/svarit/l4SvHpFSbTTec8Je_pest-control-india.webp?auto=format,compress",
-                    "dimensions": {
-                      "width": 224,
-                      "height": 112
-                    },
-                    "edit": {
-                      "x": 0,
-                      "y": 0,
-                      "zoom": 1,
-                      "background": "transparent"
-                    },
-                    "alt": "Pest Control India logo",
-                    "copyright": null
-                  },
-                  "name": "Pest Control India"
-                },
-                {
-                  "logo": {
-                    "id": "lH1tAIGtWc8MVfhR",
-                    "url": "https://images.prismic.io/svarit/lH1tAIGtWc8MVfhR_triton-valves.webp?auto=format,compress",
-                    "dimensions": {
-                      "width": 128,
-                      "height": 112
-                    },
-                    "edit": {
-                      "x": 0,
-                      "y": 0,
-                      "zoom": 1,
-                      "background": "transparent"
-                    },
-                    "alt": "Triton Valves logo",
-                    "copyright": null
-                  },
-                  "name": "Triton Valves"
                 }
               ]
             }
           },
           {
-            "slice_type": "about",
+            "slice_type": "artist_list",
             "variation": "default",
             "items": [],
             "primary": {
-              "heading": "Our Mission is to Inspire Young & Fresh Perspectives to Reshape Indian Music",
-              "subheading": "Svarit was founded in 2001 with the vision of promoting and propagating the rich tradition of Hindustani Raag Sangeet, as envisioned by the legendary vocalist Pandit Dinkar Kaikini.",
-              "body": [
-                {
-                  "type": "paragraph",
-                  "text": "Svarit, a Sanskrit word meaning “ascending towards the divine”, embodies our belief in music as a pathway to higher artistic and spiritual expression. Founded to preserve and promote the legacy of Indian Music as envisioned by Pandit Dinkar Kaikini, Svarit is rooted in a rich musical lineage that traces through the legacies of the great masters of Hindustani classical music, the likes of Pt. Vishnu Narayan Bhatkhande, Ustad Faiyaz Khan, Padma Bhushan Acharya S. N. Ratanjankar, Ustad Allarakha & Ustad Zakir Hussain.",
-                  "spans": []
-                },
-                {
-                  "type": "paragraph",
-                  "text": "Today, under the guidance of Pt. Yogesh Samsi and Smt. Aditi Upadhya, Svarit is more than a trust. It is a vibrant cultural platform where tradition meets innovation. Through concerts, festivals, educational initiatives, artist development, and collaborative projects, we nurture excellence while ensuring our country's arts remain relevant, accessible, and inspiring for future generations. Svarit continues to celebrate heritage, foster creativity, and shape the future of Indian Music.",
-                  "spans": []
-                }
-              ],
-              "stats": "20+ Volunteers"
-            }
-          },
-          {
-            "slice_type": "event_list",
-            "variation": "default",
-            "items": [],
-            "primary": {
-              "heading": "Engaging Through More than 2 Decades of Keeping Tradition Alive",
-              "subheading": "Our Initiatives",
-              "page_size": 6
+              "heading": "",
+              "subheading": ""
             }
           },
           {
@@ -312,49 +59,30 @@
               "cta_label": "Donate to Svarit",
               "cta_link": {
                 "link_type": "Web",
+                "key": "464fafc5-22bc-42b4-95d0-16d5e85d6b55",
                 "url": "https://pages.razorpay.com/svarit"
               },
               "background_image": {
-                "id": "ulmy2BY3eHwKdqsp",
-                "url": "https://images.prismic.io/svarit/ulmy2BY3eHwKdqsp_image.jpg?auto=format,compress",
                 "dimensions": {
                   "width": 2064,
                   "height": 1376
                 },
+                "alt": null,
+                "copyright": null,
+                "url": "https://images.prismic.io/svarit/ulmy2BY3eHwKdqsp_image.jpg?auto=format,compress",
+                "id": "ulmy2BY3eHwKdqsp",
                 "edit": {
                   "x": 0,
                   "y": 0,
                   "zoom": 1,
                   "background": "transparent"
-                },
-                "alt": null,
-                "copyright": null
-              }
-            }
-          },
-          {
-            "slice_type": "contact",
-            "variation": "default",
-            "items": [],
-            "primary": {
-              "heading": "We'd Love to Hear from You",
-              "subheading": "Contact Us",
-              "description": [
-                {
-                  "type": "paragraph",
-                  "text": "We are a community of dreamers & changemakers. What began as a family endeavour is now expanding to welcome fresh perspectives. If you resonate with our mission, please get in touch.",
-                  "spans": []
                 }
-              ],
-              "name_label": "Name",
-              "email_label": "Email",
-              "message_label": "Message",
-              "submit_label": "Send Message"
+              }
             }
           }
         ],
-        "meta_title": "Svarit: Honouring Legacy, Shaping the Future of Indian Music",
-        "meta_description": "Founded in 2001, Svarit carries a rich musical legacy into the future, nurturing Indian music through concerts, festivals, education and community."
+        "meta_title": "Artists",
+        "meta_description": "The musicians who have performed and taught at Svarit since 2001."
       }
     }
   ],

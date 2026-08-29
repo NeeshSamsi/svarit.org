@@ -49,6 +49,7 @@ import { DRAFT_PATH, PREVIEW_PATH, relativePath } from './lib/paths.ts'
 import {
   buildPlan,
   collectExisting,
+  donateSliceFrom,
   serialise,
   type DraftArtist,
   type PlannedDocument,
@@ -289,6 +290,28 @@ async function main() {
     )
   }
 
+  // The /artists page copies its donate slice off the published home page. Read it up front
+  // so the plan can assemble page/artists without inventing those values.
+  const artistsInScope = filter.size === 0 || filter.has('artists')
+  let remoteHome: PrismicDocument | null = null
+  try {
+    remoteHome = await client.getByUID('page', 'home')
+  } catch (error) {
+    warnings.push(
+      `The published page/home document could not be read (${describeError(error)}).`
+    )
+  }
+
+  // A --commit run must never write page/artists without its donate slice. A dry run is
+  // allowed to plan the page without it, with a warning from buildPlan.
+  if (commit && artistsInScope && !donateSliceFrom(remoteHome)) {
+    throw new Error(
+      'page/artists cannot be written: its donate slice is copied from the published ' +
+        'page/home document, which is not readable or carries no donate slice. Publish ' +
+        'page/home first, then re-run.'
+    )
+  }
+
   // Reference assets already in the media library rather than uploading a second copy.
   const existingAssets = writeToken
     ? await listAssets(repositoryName, writeToken)
@@ -304,6 +327,7 @@ async function main() {
     lang,
     artists,
     remoteSettings,
+    remoteHome,
     skipExisting,
     only: filter,
   })

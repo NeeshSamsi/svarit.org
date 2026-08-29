@@ -74,6 +74,17 @@ export const DONATE_URL = 'https://pages.razorpay.com/svarit'
 export const HERO_CTA_LABEL = 'Learn more'
 export const HERO_CTA_URL = '#about'
 
+/**
+ * The /artists index hero, copied verbatim from the Figma frame
+ * (https://www.figma.com/design/n1dLICrveaJDD6lY0JAwcG/Svarit?node-id=1934-5).
+ * Rendered by the Hero slice's `page_header` variation.
+ */
+export const ARTISTS_HERO_TITLE = 'Artists who we have had the pleasure to host'
+export const ARTISTS_HERO_DESCRIPTION =
+  'Svarit was founded in 2001 with the vision of promoting and propagating the rich ' +
+  'tradition of Hindustani Raag Sangeet, as envisioned by the legendary vocalist Pandit ' +
+  'Dinkar Kaikini.'
+
 /** Not in content.json. This is the label the current Contact form button renders. */
 export const CONTACT_SUBMIT_LABEL = 'Send Message'
 
@@ -183,6 +194,37 @@ function registerUpdate(
   )
 }
 
+/**
+ * The /artists page ends with the very same donate slice the home page renders. Rather than
+ * rebuild it from content.json and risk the two drifting, copy it straight off the published
+ * `page/home` document. Strips the read-only keys the query API adds back to a slice
+ * (`id`, `version`, `slice_label`) so what is left is the shape the Migration API accepts.
+ *
+ * Returns null when home is unreadable or carries no donate slice. A dry run then plans the
+ * page without it and warns; a `--commit` run is blocked before it reaches here (see
+ * `migrate-to-prismic.ts`). Inventing the values from content.json is deliberately not an
+ * option: keeping the two donate slices identical is the whole point of copying.
+ */
+export function donateSliceFrom(
+  remoteHome: PrismicDocument | null
+): Record<string, unknown> | null {
+  const slices =
+    remoteHome &&
+    Array.isArray((remoteHome.data as { slices?: unknown }).slices)
+      ? (remoteHome.data as { slices: Record<string, unknown>[] }).slices
+      : []
+
+  const donate = slices.find((entry) => entry.slice_type === 'donate')
+  if (!donate) return null
+
+  return {
+    slice_type: 'donate',
+    variation: (donate.variation as string) ?? 'default',
+    items: Array.isArray(donate.items) ? donate.items : [],
+    primary: (donate.primary as Record<string, unknown>) ?? {},
+  }
+}
+
 export type PlanInput = {
   content: Content
   migration: Migration
@@ -191,6 +233,11 @@ export type PlanInput = {
   lang: string
   artists: DraftArtist[] | null
   remoteSettings: PrismicDocument | null
+  /**
+   * The published `page/home` document. The /artists page copies its donate slice from
+   * here; see `donateSliceFrom`. Required whenever the plan includes page/artists.
+   */
+  remoteHome: PrismicDocument | null
   /** Leave documents that already exist alone instead of repairing them. */
   skipExisting?: boolean
   /**
@@ -213,6 +260,7 @@ export async function buildPlan(input: PlanInput): Promise<Plan> {
     lang,
     artists,
     remoteSettings,
+    remoteHome,
     skipExisting = false,
     only,
   } = input
@@ -453,18 +501,36 @@ export async function buildPlan(input: PlanInput): Promise<Plan> {
     })
 
   // --- page: artists, the index ---------------------------------------------------------------
-  if (wanted('artists'))
+  if (wanted('artists')) {
+    const donate = donateSliceFrom(remoteHome)
+    if (!donate) {
+      warnings.push(
+        'page/artists was planned without its trailing donate slice: page/home is not ' +
+          'readable, or carries no donate slice, so there was nothing to copy. A --commit ' +
+          'run is blocked in this state.'
+      )
+    }
+
     put('page', 'artists', 'Artists', {
       slices: [
-        slice('artist_list', {
-          heading: 'The Artists Who Have Shaped Svarit',
-          subheading: 'Artists',
-        }),
+        slice(
+          'hero',
+          {
+            title: ARTISTS_HERO_TITLE,
+            description: richText(ARTISTS_HERO_DESCRIPTION),
+          },
+          'page_header'
+        ),
+        // heading/subheading stay in the model but the slice renders them only when filled.
+        // On /artists the page title comes from the hero above, so both are left empty.
+        slice('artist_list', { heading: '', subheading: '' }),
+        ...(donate ? [donate] : []),
       ],
       meta_title: 'Artists',
       meta_description:
         'The musicians who have performed and taught at Svarit since 2001.',
     })
+  }
 
   // --- settings, merged into the existing document ---------------------------------------------
   if (remoteSettings && wanted('settings')) {

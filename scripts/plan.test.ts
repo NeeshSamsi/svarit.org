@@ -13,7 +13,10 @@ import { createMigration, type PrismicDocument } from '@prismicio/client'
 import { AssetRegistry } from './lib/assets.ts'
 import { loadContent } from './lib/content.ts'
 import {
+  ARTISTS_HERO_DESCRIPTION,
+  ARTISTS_HERO_TITLE,
   buildPlan,
+  donateSliceFrom,
   emptyExisting,
   type ExistingContent,
   type Plan,
@@ -38,6 +41,64 @@ function settingsDoc(): PrismicDocument {
     lang: 'en-us',
     alternate_languages: [],
     data: { footer: [{ contact: 'old@example.com' }] },
+  } as unknown as PrismicDocument
+}
+
+/**
+ * The published `page/home` document, trimmed to what the plan reads from it: the donate
+ * slice, in the exact shape the query API hands it back (read-only `id`, `version` and
+ * `slice_label` keys included).
+ */
+function homeDoc(): PrismicDocument {
+  return {
+    id: 'apFyTxIAACcAawS8',
+    uid: 'home',
+    url: null,
+    type: 'page',
+    href: '',
+    tags: [],
+    first_publication_date: '2026-01-01T00:00:00+0000',
+    last_publication_date: '2026-01-01T00:00:00+0000',
+    slugs: [],
+    linked_documents: [],
+    lang: 'en-us',
+    alternate_languages: [],
+    data: {
+      slices: [
+        {
+          slice_type: 'hero',
+          variation: 'default',
+          version: 'initial',
+          items: [],
+          primary: {},
+        },
+        {
+          id: 'donate$1c238064-9c68-497c-9a27-01bcdc09dea7',
+          slice_type: 'donate',
+          slice_label: null,
+          variation: 'default',
+          version: 'initial',
+          items: [],
+          primary: {
+            heading: 'Join us in shaping the future of Indian Music.',
+            cta_label: 'Donate to Svarit',
+            cta_link: {
+              link_type: 'Web',
+              key: '464fafc5-22bc-42b4-95d0-16d5e85d6b55',
+              url: 'https://pages.razorpay.com/svarit',
+            },
+            background_image: {
+              id: 'ulmy2BY3eHwKdqsp',
+              url: 'https://images.prismic.io/svarit/ulmy2BY3eHwKdqsp_image.jpg?auto=format,compress',
+              dimensions: { width: 2064, height: 1376 },
+              edit: { x: 0, y: 0, zoom: 1, background: 'transparent' },
+              alt: null,
+              copyright: null,
+            },
+          },
+        },
+      ],
+    },
   } as unknown as PrismicDocument
 }
 
@@ -77,6 +138,7 @@ async function plan(
     existing?: ExistingContent
     skipExisting?: boolean
     remoteSettings?: PrismicDocument | null
+    remoteHome?: PrismicDocument | null
     only?: ReadonlySet<string>
   } = {}
 ): Promise<Plan> {
@@ -87,6 +149,8 @@ async function plan(
     assets: new AssetRegistry(migration),
     existing: options.existing ?? existingWith(),
     lang: 'en-us',
+    remoteHome:
+      options.remoteHome === undefined ? homeDoc() : options.remoteHome,
     artists: [
       {
         uid: 'ulhas-kashalkar',
@@ -272,6 +336,178 @@ describe('documents that already exist are repaired, not skipped', () => {
   })
 })
 
+describe('page/artists assembly', () => {
+  function artistsSlices(planned: Plan['planned']) {
+    const artists = planned.find(
+      (entry) => entry.type === 'page' && entry.uid === 'artists'
+    )
+    assert.ok(artists, 'page/artists missing from the plan')
+    return {
+      artists,
+      slices: (
+        artists.doc.document.data as { slices: Record<string, unknown>[] }
+      ).slices,
+    }
+  }
+
+  it('sets the slice zone to hero(page_header) + artist_list + donate', async () => {
+    const { slices } = artistsSlices(
+      (await plan({ only: new Set(['artists']) })).planned
+    )
+
+    assert.deepEqual(
+      slices.map((entry) => `${entry.slice_type}:${entry.variation}`),
+      ['hero:page_header', 'artist_list:default', 'donate:default']
+    )
+  })
+
+  it('fills the hero from the frame copy, as a paragraph rich text description', async () => {
+    const { slices } = artistsSlices(
+      (await plan({ only: new Set(['artists']) })).planned
+    )
+    const hero = slices[0].primary as Record<string, unknown>
+
+    assert.equal(hero.title, ARTISTS_HERO_TITLE)
+    assert.deepEqual(hero.description, [
+      { type: 'paragraph', text: ARTISTS_HERO_DESCRIPTION, spans: [] },
+    ])
+  })
+
+  it('leaves artist_list heading and subheading empty so the hero owns the title', async () => {
+    const { slices } = artistsSlices(
+      (await plan({ only: new Set(['artists']) })).planned
+    )
+
+    assert.deepEqual(slices[1].primary, { heading: '', subheading: '' })
+  })
+
+  it('copies the donate slice verbatim off page/home', async () => {
+    const { slices } = artistsSlices(
+      (await plan({ only: new Set(['artists']) })).planned
+    )
+    const home = homeDoc()
+    const homeDonate = (
+      home.data as { slices: Record<string, unknown>[] }
+    ).slices.find((entry) => entry.slice_type === 'donate')!
+
+    assert.deepEqual(slices[2].primary, homeDonate.primary)
+    assert.equal(
+      (slices[2].primary as { background_image: { id: string } })
+        .background_image.id,
+      'ulmy2BY3eHwKdqsp'
+    )
+  })
+
+  it('strips the read-only keys the query API adds to the donate slice', async () => {
+    const { slices } = artistsSlices(
+      (await plan({ only: new Set(['artists']) })).planned
+    )
+
+    assert.deepEqual(Object.keys(slices[2]).sort(), [
+      'items',
+      'primary',
+      'slice_type',
+      'variation',
+    ])
+  })
+
+  it('keeps uid out of the data payload', async () => {
+    const { artists } = artistsSlices(
+      (await plan({ only: new Set(['artists']) })).planned
+    )
+
+    assert.equal('uid' in (artists.doc.document.data as object), false)
+    assert.equal(artists.doc.document.uid, 'artists')
+  })
+
+  it('repairs the published page/artists in place rather than duplicating it', async () => {
+    const { artists } = artistsSlices(
+      (
+        await plan({
+          only: new Set(['artists']),
+          existing: existingWith([['page', 'artists', 'apGjTBIAACoAa1kg']]),
+        })
+      ).planned
+    )
+
+    assert.equal(artists.action, 'update')
+    assert.equal(artists.doc.document.id, 'apGjTBIAACoAa1kg')
+  })
+
+  it('plans the page without donate, and warns, when page/home cannot be read', async () => {
+    const result = await plan({
+      only: new Set(['artists']),
+      remoteHome: null,
+    })
+    const { slices } = artistsSlices(result.planned)
+
+    assert.deepEqual(
+      slices.map((entry) => entry.slice_type),
+      ['hero', 'artist_list']
+    )
+    assert.ok(
+      result.warnings.some((warning) =>
+        /without its trailing donate slice/.test(warning)
+      ),
+      'expected a warning about the missing donate slice'
+    )
+  })
+
+  it('does not need page/home when artists is filtered out', async () => {
+    const { planned } = await plan({
+      only: new Set(['home']),
+      remoteHome: null,
+    })
+    assert.equal(planned.length, 1)
+    assert.equal(planned[0].uid, 'home')
+  })
+})
+
+describe('donateSliceFrom', () => {
+  it('normalises a query-API donate slice to the migration shape', () => {
+    assert.deepEqual(donateSliceFrom(homeDoc()), {
+      slice_type: 'donate',
+      variation: 'default',
+      items: [],
+      primary: {
+        heading: 'Join us in shaping the future of Indian Music.',
+        cta_label: 'Donate to Svarit',
+        cta_link: {
+          link_type: 'Web',
+          key: '464fafc5-22bc-42b4-95d0-16d5e85d6b55',
+          url: 'https://pages.razorpay.com/svarit',
+        },
+        background_image: {
+          id: 'ulmy2BY3eHwKdqsp',
+          url: 'https://images.prismic.io/svarit/ulmy2BY3eHwKdqsp_image.jpg?auto=format,compress',
+          dimensions: { width: 2064, height: 1376 },
+          edit: { x: 0, y: 0, zoom: 1, background: 'transparent' },
+          alt: null,
+          copyright: null,
+        },
+      },
+    })
+  })
+
+  it('returns null when home is null', () => {
+    assert.equal(donateSliceFrom(null), null)
+  })
+
+  it('returns null when home carries no donate slice', () => {
+    const noDonate = {
+      data: { slices: [{ slice_type: 'hero' }] },
+    } as unknown as PrismicDocument
+    assert.equal(donateSliceFrom(noDonate), null)
+  })
+
+  it('returns null when home has no slices array at all', () => {
+    assert.equal(
+      donateSliceFrom({ data: {} } as unknown as PrismicDocument),
+      null
+    )
+  })
+})
+
 describe('probe plan', () => {
   it('contains exactly one document', async () => {
     const { planned } = await plan({
@@ -430,6 +666,7 @@ describe('--only filter', () => {
       lang: 'en-us',
       artists: null,
       remoteSettings: null,
+      remoteHome: null,
       only: new Set(['utpal']),
     })
 

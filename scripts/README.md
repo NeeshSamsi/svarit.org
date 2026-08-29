@@ -90,7 +90,7 @@ the failure output of a partial migration, so there is always something to resto
 | -------------------- | ------------- | ----------------------------------------------------------------------------------- |
 | `page` uid `home`    | 1             | hero, sponsors, about, event_list (default), donate, contact slices                 |
 | `page` uid `events`  | 1             | one `event_list` slice, `grid` variation                                            |
-| `page` uid `artists` | 1             | one `artist_list` slice                                                             |
+| `page` uid `artists` | 1             | hero (`page_header`) + `artist_list` + donate; donate is copied off `page/home`     |
 | `event`              | 24            | `initiatives.events` (category Event) + `initiatives.workshops` (category Workshop) |
 | `volunteer`          | 6             | `volunteers`                                                                        |
 | `artist`             | 35 candidates | only with `--with-artists`, only from an approved draft                             |
@@ -157,8 +157,16 @@ and are only filled when empty.
 - **Hero CTA.** `content.json` has `hero.cta: "Explore Initiatives"`, but that string was
   never rendered. `Hero.tsx` shows "Learn more" pointing at `#about`, and the rendered
   version wins, so `hero.cta_label` and `hero.cta_link` migrate as "Learn more" and `#about`.
-- **`/events` and `/artists` copy** was drafted for the migration and approved by the user.
-  `content.json` has no copy for either index page.
+- **`/events` copy** was drafted for the migration and approved by the user. `content.json`
+  has no copy for the events index page.
+- **`/artists` page.** The hero title and description are copied verbatim from the Figma
+  frame (node `1934-5`) and ride the Hero `page_header` variation, which must be pushed to
+  Prismic with Slice Machine before an artists run, or the payload references a variation
+  the API does not know. The `artist_list` heading and subheading migrate empty on purpose:
+  the slice renders them only when filled and the page title comes from the hero. The
+  trailing donate slice is copied straight off the published `page/home` document rather
+  than rebuilt from `content.json`, so the two never drift; an artists run therefore needs
+  `page/home` published and readable.
 - **Alt text.** The Sponsors, About and Volunteers slices render images with
   `fallbackAlt=""`, so alt text has to come from the asset. Sponsor logos upload as
   `<Name> logo` and volunteer photos as `<Name>, Svarit volunteer`. Hero and donate
