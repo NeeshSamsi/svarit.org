@@ -2,7 +2,7 @@
   "id": "quote",
   "type": "SharedSlice",
   "name": "Quote",
-  "description": "A pulled quote with an attribution.",
+  "description": "A pull quote with an optional attribution and an optional supporting paragraph beside it.",
   "variations": [
     {
       "id": "default",
@@ -25,6 +25,14 @@
           "config": {
             "label": "Attribution",
             "placeholder": ""
+          }
+        },
+        "paragraph": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Supporting paragraph",
+            "placeholder": "",
+            "multi": "paragraph,strong,em,hyperlink"
           }
         }
       }

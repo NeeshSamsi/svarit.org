@@ -9,7 +9,7 @@ export default function RichText({ slice }: RichTextProps) {
     <section
       data-slice-type={slice.slice_type}
       data-slice-variation={slice.variation}
-      className="col-span-full flex flex-col gap-4 lg:col-span-8 lg:col-start-3"
+      className="col-span-full flex flex-col gap-4 lg:col-span-8 lg:col-start-2"
     >
       <PrismicRichText
         field={slice.primary.content}
@@ -52,6 +52,7 @@ export default function RichText({ slice }: RichTextProps) {
           strong: ({ children }) => (
             <strong className="font-medium">{children}</strong>
           ),
+          em: ({ children }) => <em className="italic">{children}</em>,
           hyperlink: ({ children, node }) => (
             <PrismicNextLink
               field={node.data}

@@ -7,7 +7,6 @@ import Contact from "./Contact";
 import Donate from "./Donate";
 import EventList from "./EventList";
 import Hero from "./Hero";
-import ImageGallery from "./ImageGallery";
 import Quote from "./Quote";
 import RichText from "./RichText";
 import Sponsors from "./Sponsors";
@@ -20,7 +19,6 @@ export const components = {
 	donate: Donate,
 	event_list: EventList,
 	hero: Hero,
-	image_gallery: ImageGallery,
 	quote: Quote,
 	rich_text: RichText,
 	sponsors: Sponsors,

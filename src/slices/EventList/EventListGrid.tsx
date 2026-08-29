@@ -33,21 +33,25 @@ export default function EventListGrid({
   )
 
   useEffect(() => {
-    gsap.from(headerRef.current, {
-      y: 24,
-      opacity: 0,
-      duration: 0.5,
-      ease: 'power2.out',
-      scrollTrigger: { trigger: sectionRef.current, start: 'top 70%' },
-    })
-    gsap.from('.initiative-card', {
-      y: 24,
-      opacity: 0,
-      duration: 0.4,
-      stagger: 0.18,
-      ease: 'power2.out',
-      scrollTrigger: { trigger: sectionRef.current, start: 'top 65%' },
-    })
+    const ctx = gsap.context(() => {
+      gsap.from(headerRef.current, {
+        y: 24,
+        opacity: 0,
+        duration: 0.5,
+        ease: 'power2.out',
+        scrollTrigger: { trigger: sectionRef.current, start: 'top 70%' },
+      })
+      gsap.from('.initiative-card', {
+        y: 24,
+        opacity: 0,
+        duration: 0.4,
+        stagger: 0.18,
+        ease: 'power2.out',
+        scrollTrigger: { trigger: sectionRef.current, start: 'top 65%' },
+      })
+    }, sectionRef)
+
+    return () => ctx.revert()
   }, [])
 
   return (

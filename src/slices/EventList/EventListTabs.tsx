@@ -57,41 +57,55 @@ export default function EventListTabs({
     })
   }
 
-  const isFirstRender = useRef(true)
-
   useEffect(() => {
-    gsap.from(headerRef.current, {
-      y: 24,
-      opacity: 0,
-      duration: 0.5,
-      ease: 'power2.out',
-      scrollTrigger: { trigger: sectionRef.current, start: 'top 70%' },
-    })
-    gsap.from('.initiative-card', {
-      y: 24,
-      opacity: 0,
-      duration: 0.4,
-      stagger: 0.18,
-      ease: 'power2.out',
-      scrollTrigger: { trigger: sectionRef.current, start: 'top 65%' },
-    })
+    const ctx = gsap.context(() => {
+      gsap.from(headerRef.current, {
+        y: 24,
+        opacity: 0,
+        duration: 0.5,
+        ease: 'power2.out',
+        scrollTrigger: { trigger: sectionRef.current, start: 'top 70%' },
+      })
+      gsap.from('.initiative-card', {
+        y: 24,
+        opacity: 0,
+        duration: 0.4,
+        stagger: 0.18,
+        ease: 'power2.out',
+        scrollTrigger: { trigger: sectionRef.current, start: 'top 65%' },
+      })
+    }, sectionRef)
+
+    return () => ctx.revert()
   }, [])
 
+  // Re-run the card reveal only when the tab actually changes. A boolean
+  // "first render" ref fires a second time under StrictMode's double-mount,
+  // which stranded the cards at opacity 0; comparing the previous value does not.
+  const prevTabRef = useRef(activeTab)
+
   useEffect(() => {
-    if (isFirstRender.current) {
-      isFirstRender.current = false
-      return
-    }
-    gsap.killTweensOf('.initiative-card')
-    animateCards()
+    if (prevTabRef.current === activeTab) return
+    prevTabRef.current = activeTab
+
+    const ctx = gsap.context(() => {
+      gsap.killTweensOf('.initiative-card')
+      animateCards()
+    }, sectionRef)
+
+    return () => ctx.revert()
   }, [activeTab])
 
   const prevCountRef = useRef(BATCH_SIZE)
 
   useEffect(() => {
-    if (visibleCount > prevCountRef.current) {
+    const revealedCount = prevCountRef.current
+    prevCountRef.current = visibleCount
+    if (visibleCount <= revealedCount) return
+
+    const ctx = gsap.context(() => {
       const cards = gsap.utils.toArray('.initiative-card') as HTMLElement[]
-      const newCards = cards.slice(prevCountRef.current)
+      const newCards = cards.slice(revealedCount)
       gsap.from(newCards, {
         y: 16,
         opacity: 0,
@@ -99,8 +113,9 @@ export default function EventListTabs({
         stagger: 0.18,
         ease: 'power2.out',
       })
-    }
-    prevCountRef.current = visibleCount
+    }, sectionRef)
+
+    return () => ctx.revert()
   }, [visibleCount])
 
   return (
