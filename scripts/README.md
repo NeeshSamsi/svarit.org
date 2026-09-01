@@ -86,15 +86,15 @@ the failure output of a partial migration, so there is always something to resto
 
 ## What gets created
 
-| Type                 | Count         | Source                                                                              |
-| -------------------- | ------------- | ----------------------------------------------------------------------------------- |
-| `page` uid `home`    | 1             | hero, sponsors, about, event_list (default), donate, contact slices                 |
-| `page` uid `events`  | 1             | one `event_list` slice, `grid` variation                                            |
-| `page` uid `artists` | 1             | hero (`page_header`) + `artist_list` + donate; donate is copied off `page/home`     |
-| `event`              | 24            | `initiatives.events` (category Event) + `initiatives.workshops` (category Workshop) |
-| `volunteer`          | 6             | `volunteers`                                                                        |
-| `artist`             | 35 candidates | only with `--with-artists`, only from an approved draft                             |
-| `settings`           | updated       | footer copy merged in, plus two forced overwrites (see below)                       |
+| Type                     | Count         | Source                                                                              |
+| ------------------------ | ------------- | ----------------------------------------------------------------------------------- |
+| `page` uid `home`        | 1             | hero, sponsors, about, event_list (default), donate, contact slices                 |
+| `page` uid `initiatives` | 1             | hero (`page_header`) + two `event_list` (`grid`): Events and Workshops              |
+| `page` uid `artists`     | 1             | hero (`page_header`) + `artist_list` + donate; donate is copied off `page/home`     |
+| `event`                  | 24            | `initiatives.events` (category Event) + `initiatives.workshops` (category Workshop) |
+| `volunteer`              | 6             | `volunteers`                                                                        |
+| `artist`                 | 35 candidates | only with `--with-artists`, only from an approved draft                             |
+| `settings`               | updated       | footer copy merged in, plus two forced overwrites (see below)                       |
 
 Plus 20 assets uploaded to the media library from `public/assets`.
 
@@ -106,7 +106,7 @@ Plus 20 assets uploaded to the media library from `public/assets`.
 ```sh
 pnpm migrate:preview --only home
 pnpm migrate:commit  --only home
-pnpm migrate:commit  --only home --only events
+pnpm migrate:commit  --only home --only initiatives
 ```
 
 **Why this exists.** Documents sitting in an unpublished Prismic migration release are not

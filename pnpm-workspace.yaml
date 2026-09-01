@@ -1,3 +1,8 @@
+# Vercel builds this project on pnpm 9 (no packageManager field pins it), and pnpm 9
+# rejects a workspace file without a packages field even though this is a single-package repo.
+packages:
+  - '.'
+
 allowBuilds:
   '@scarf/scarf': false
   sharp: true
