@@ -13,7 +13,11 @@
     "extract:artists": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types scripts/extract-artists.ts",
     "migrate:preview": "node --env-file-if-exists=.env.local --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types scripts/migrate-to-prismic.ts",
     "migrate:probe": "node --env-file-if-exists=.env.local --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types scripts/migrate-to-prismic.ts --probe",
-    "migrate:commit": "node --env-file-if-exists=.env.local --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types scripts/migrate-to-prismic.ts --commit"
+    "migrate:commit": "node --env-file-if-exists=.env.local --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types scripts/migrate-to-prismic.ts --commit",
+    "initiatives:preview": "node --env-file-if-exists=.env.local --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types scripts/update-initiatives-page.ts",
+    "initiatives:commit": "node --env-file-if-exists=.env.local --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types scripts/update-initiatives-page.ts --commit",
+    "nav:preview": "node --env-file-if-exists=.env.local --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types scripts/fix-nav-initiatives-link.ts",
+    "nav:commit": "node --env-file-if-exists=.env.local --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types scripts/fix-nav-initiatives-link.ts --commit"
   },
   "dependencies": {
     "@prismicio/client": "^7.22.0",

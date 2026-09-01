@@ -157,8 +157,8 @@ and are only filled when empty.
 - **Hero CTA.** `content.json` has `hero.cta: "Explore Initiatives"`, but that string was
   never rendered. `Hero.tsx` shows "Learn more" pointing at `#about`, and the rendered
   version wins, so `hero.cta_label` and `hero.cta_link` migrate as "Learn more" and `#about`.
-- **`/events` copy** was drafted for the migration and approved by the user. `content.json`
-  has no copy for the events index page.
+- **`/initiatives` copy** was drafted for the migration and approved by the user.
+  `content.json` has no copy for the initiatives index page.
 - **`/artists` page.** The hero title and description are copied verbatim from the Figma
   frame (node `1934-5`) and ride the Hero `page_header` variation, which must be pushed to
   Prismic with Slice Machine before an artists run, or the payload references a variation
