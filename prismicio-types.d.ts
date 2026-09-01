@@ -1003,6 +1003,17 @@ export interface EventListSliceGridPrimary {
 	 * - **Documentation**: https://prismic.io/docs/fields/select
 	 */
 	category: prismic.SelectField<"All" | "Event" | "Workshop", "filled">;
+	
+	/**
+	 * Limit field in *EventList → Grid → Primary*
+	 *
+	 * - **Field Type**: Boolean
+	 * - **Placeholder**: *None*
+	 * - **Default Value**: true
+	 * - **API ID Path**: event_list.grid.primary.limit
+	 * - **Documentation**: https://prismic.io/docs/fields/boolean
+	 */
+	limit: prismic.BooleanField;
 }
 
 /**
@@ -1182,12 +1193,12 @@ export interface QuoteSliceDefaultPrimary {
 	/**
 	 * Quote field in *Quote → Default → Primary*
 	 *
-	 * - **Field Type**: Rich Text
+	 * - **Field Type**: Text
 	 * - **Placeholder**: *None*
 	 * - **API ID Path**: quote.default.primary.quote
-	 * - **Documentation**: https://prismic.io/docs/fields/rich-text
+	 * - **Documentation**: https://prismic.io/docs/fields/text
 	 */
-	quote: prismic.RichTextField;
+	quote: prismic.KeyTextField;
 	
 	/**
 	 * Attribution field in *Quote → Default → Primary*

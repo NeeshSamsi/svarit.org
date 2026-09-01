@@ -2,7 +2,7 @@
   "id": "quote",
   "type": "SharedSlice",
   "name": "Quote",
-  "description": "A pull quote with an optional attribution and an optional supporting paragraph beside it.",
+  "description": "A short pull quote with an optional attribution and an optional supporting paragraph beside it.",
   "variations": [
     {
       "id": "default",
@@ -13,11 +13,10 @@
       "imageUrl": "",
       "primary": {
         "quote": {
-          "type": "StructuredText",
+          "type": "Text",
           "config": {
             "label": "Quote",
-            "placeholder": "",
-            "multi": "paragraph,strong,em,hyperlink"
+            "placeholder": ""
           }
         },
         "attribution": {
@@ -30,9 +29,9 @@
         "paragraph": {
           "type": "StructuredText",
           "config": {
-            "label": "Supporting paragraph",
+            "label": "Paragraph",
             "placeholder": "",
-            "multi": "paragraph,strong,em,hyperlink"
+            "multi": "paragraph,preformatted,heading2,heading3,heading4,heading5,heading6,strong,em,hyperlink,image,embed,list-item,o-list-item,rtl"
           }
         }
       }

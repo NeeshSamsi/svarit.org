@@ -67,6 +67,15 @@
             "options": ["All", "Event", "Workshop"],
             "default_value": "All"
           }
+        },
+        "limit": {
+          "type": "Boolean",
+          "config": {
+            "label": "Limit",
+            "placeholder_false": "Show every event",
+            "placeholder_true": "Show 6 at a time",
+            "default_value": true
+          }
         }
       }
     }
