@@ -8,10 +8,10 @@ import { components } from '@/slices'
 /**
  * `page` documents with a dedicated route of their own. They must never be
  * reached through the catch-all: prerendering them here would collide with
- * `/`, `/events` and `/artists`, and serving them here would publish the same
- * content at two URLs.
+ * `/`, `/initiatives` and `/artists`, and serving them here would publish the
+ * same content at two URLs.
  */
-const RESERVED_UIDS = ['home', 'events', 'artists']
+const RESERVED_UIDS = ['home', 'initiatives', 'artists']
 
 type Props = {
   params: Promise<{ uid: string }>

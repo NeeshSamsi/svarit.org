@@ -270,7 +270,7 @@ describe('documents that already exist are repaired, not skipped', () => {
         ['volunteer', 'utpal', 'v1'],
         ['event', 'swaramrit', 'e1'],
         ['artist', 'ulhas-kashalkar', 'a1'],
-        ['page', 'events', 'p1'],
+        ['page', 'initiatives', 'p1'],
       ]),
     })
 
@@ -278,7 +278,7 @@ describe('documents that already exist are repaired, not skipped', () => {
       ['volunteer', 'utpal'],
       ['event', 'swaramrit'],
       ['artist', 'ulhas-kashalkar'],
-      ['page', 'events'],
+      ['page', 'initiatives'],
     ]) {
       const item = planned.find(
         (entry) => entry.type === type && entry.uid === uid
@@ -292,9 +292,9 @@ describe('documents that already exist are repaired, not skipped', () => {
       existing: existingWith([['page', 'home', 'apFyTxIAACcAawS8']]),
     })
 
-    const events = planned.find((entry) => entry.uid === 'events')!
-    assert.equal(events.action, 'create')
-    assert.equal(events.doc.document.id, undefined)
+    const initiatives = planned.find((entry) => entry.uid === 'initiatives')!
+    assert.equal(initiatives.action, 'create')
+    assert.equal(initiatives.doc.document.id, undefined)
   })
 
   it('converges on a second run rather than duplicating', async () => {
@@ -595,13 +595,13 @@ describe('--only filter', () => {
 
   it('is repeatable, taking the union of the uids', async () => {
     const { planned } = await plan({
-      only: new Set(['home', 'events', 'utpal']),
+      only: new Set(['home', 'initiatives', 'utpal']),
     })
 
     assert.equal(planned.length, 3)
     assert.deepEqual(planned.map((entry) => entry.uid).sort(), [
-      'events',
       'home',
+      'initiatives',
       'utpal',
     ])
   })

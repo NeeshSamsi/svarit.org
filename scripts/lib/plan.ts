@@ -478,11 +478,12 @@ export async function buildPlan(input: PlanInput): Promise<Plan> {
     })
   }
 
-  // --- page: events, the flat index -----------------------------------------------------------
+  // --- page: initiatives, the flat index ------------------------------------------------------
   // content.json has no copy for a dedicated index page, so this was drafted for the
-  // migration and approved by the user.
-  if (wanted('events'))
-    put('page', 'events', 'Events', {
+  // migration and approved by the user. uid is `initiatives`: the document was renamed from
+  // `events` by hand, and a seed at the old uid would recreate a stale duplicate.
+  if (wanted('initiatives'))
+    put('page', 'initiatives', 'Initiatives', {
       slices: [
         slice(
           'event_list',

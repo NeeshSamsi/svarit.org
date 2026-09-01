@@ -5,9 +5,9 @@ import { SliceZone } from '@prismicio/react'
 import { createClient } from '@/prismicio'
 import { components } from '@/slices'
 
-const UID = 'events'
+const UID = 'initiatives'
 
-export default async function EventsPage() {
+export default async function InitiativesPage() {
   const client = createClient()
   const page = await client.getByUID('page', UID).catch(() => notFound())
 

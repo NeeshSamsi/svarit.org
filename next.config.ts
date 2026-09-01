@@ -24,6 +24,18 @@ const nextConfig: NextConfig = {
           'https://docs.google.com/forms/d/e/1FAIpQLScTKRRpb9_VtaYkIZnECzL3Q2sT40oJIuP6sFIn70q_qzHDyA/viewform?usp=header',
         permanent: true,
       },
+      // The /events index and its 24 event pages moved to /initiatives; keep the
+      // live old URLs working.
+      {
+        source: '/events',
+        destination: '/initiatives',
+        permanent: true,
+      },
+      {
+        source: '/events/:uid',
+        destination: '/initiatives/:uid',
+        permanent: true,
+      },
       // {
       //   source: "/:path*",
       //   destination: "https://instagram.com/svaritorg",

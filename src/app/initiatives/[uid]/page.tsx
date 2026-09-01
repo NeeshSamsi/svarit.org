@@ -1,13 +1,13 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import * as prismic from '@prismicio/client'
-import { PrismicNextImage } from '@prismicio/next'
-import { PrismicRichText, SliceZone } from '@prismicio/react'
+import { SliceZone } from '@prismicio/react'
 import { createClient } from '@/prismicio'
 import { components } from '@/slices'
-import ArtistCard from '@/components/artists/ArtistCard'
-import CategoryBadge from '@/components/events/CategoryBadge'
-import SectionTitle from '@/components/ui/SectionTitle'
+import EventHero from '@/components/events/EventHero'
+import EventArtists from '@/components/events/EventArtists'
+import StaggerReveal from '@/components/animation/StaggerReveal'
+import { EVENT_HERO_INTRO_END } from '@/lib/intro'
 
 type Props = {
   params: Promise<{ uid: string }>
@@ -35,76 +35,23 @@ export default async function EventPage({ params }: Props) {
 
   return (
     <article className="col-span-full grid grid-cols-subgrid gap-y-12 pt-36 md:pt-44">
-      <header className="col-span-full grid grid-cols-subgrid gap-y-6">
-        <div className="col-span-full flex flex-col gap-4 md:col-span-9">
-          <div className="flex flex-wrap items-center gap-3">
-            <CategoryBadge category={event.data.category} />
-            {event.data.date_label && (
-              <span className="font-body text-base font-light text-foreground">
-                {event.data.date_label}
-              </span>
-            )}
-          </div>
-          <h1 className="font-display text-4xl leading-tight font-medium text-foreground md:text-5xl">
-            {event.data.title}
-          </h1>
-          {event.data.venue && (
-            <p className="font-body text-xl font-light text-foreground">
-              {event.data.venue}
-            </p>
-          )}
-        </div>
+      <EventHero event={event} />
 
-        {prismic.isFilled.image(event.data.hero_image) && (
-          <div className="relative col-span-full aspect-16/9 w-full overflow-hidden rounded-3xl bg-muted">
-            <PrismicNextImage
-              field={event.data.hero_image}
-              fill
-              fallbackAlt=""
-              priority
-              sizes="(min-width: 1032px) 1032px, 100vw"
-              className="object-cover"
-            />
-          </div>
-        )}
-
-        {prismic.isFilled.richText(event.data.description) && (
-          <div className="col-span-full flex flex-col gap-4 font-body text-xl font-light text-foreground md:col-span-9 [&_a]:underline [&_strong]:font-medium">
-            <PrismicRichText field={event.data.description} />
-          </div>
-        )}
-      </header>
-
-      <div className="col-span-full grid grid-cols-subgrid gap-y-12">
+      <StaggerReveal
+        className="col-span-full grid grid-cols-subgrid gap-y-12"
+        introEnd={EVENT_HERO_INTRO_END}
+      >
         <SliceZone slices={event.data.slices} components={components} />
-      </div>
+      </StaggerReveal>
 
-      {artists.length > 0 && (
-        <section
-          aria-label="Artists"
-          className="col-span-full grid grid-cols-subgrid gap-y-6"
-        >
-          <SectionTitle
-            eyebrow="Featuring"
-            title="Artists"
-            className="col-span-full md:col-span-8"
-          />
-          {artists.map((artist) => (
-            <ArtistCard
-              key={artist.id}
-              artist={artist}
-              className="col-span-6 sm:col-span-4 lg:col-span-3"
-            />
-          ))}
-        </section>
-      )}
+      {artists.length > 0 && <EventArtists artists={artists} />}
     </article>
   )
 }
 
 const warnEmpty = (reason: string) =>
   console.warn(
-    `\n[build] WARNING /events/[uid]: ${reason} Prerendering no event pages. Have the custom types been pushed to Prismic?\n`
+    `\n[build] WARNING /initiatives/[uid]: ${reason} Prerendering no event pages. Have the custom types been pushed to Prismic?\n`
   )
 
 // The route resolver references custom types that may not exist in Prismic
@@ -146,12 +93,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title,
     description,
-    alternates: { canonical: `/events/${uid}` },
+    alternates: { canonical: `/initiatives/${uid}` },
     openGraph: {
       type: 'article',
       title,
       description,
-      url: `/events/${uid}`,
+      url: `/initiatives/${uid}`,
       images: image ? [{ url: image }] : undefined,
     },
     twitter: {

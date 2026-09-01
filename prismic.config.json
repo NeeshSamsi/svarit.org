@@ -1,8 +1,6 @@
 {
   "repositoryName": "svarit",
-  "libraries": [
-    "./src/slices"
-  ],
+  "libraries": ["./src/slices"],
   "routes": [
     {
       "type": "page",
@@ -11,7 +9,7 @@
     },
     {
       "type": "event",
-      "path": "/events/:uid"
+      "path": "/initiatives/:uid"
     },
     {
       "type": "artist",
