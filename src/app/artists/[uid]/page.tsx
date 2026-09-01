@@ -6,7 +6,9 @@ import { createClient } from '@/prismicio'
 import { components } from '@/slices'
 import ArtistHero from '@/components/artists/ArtistHero'
 import ArtistFeatures from '@/components/artists/ArtistFeatures'
+import StaggerReveal from '@/components/animation/StaggerReveal'
 import { artistBioText } from '@/components/artists/bio'
+import { ARTIST_HERO_INTRO_END } from '@/lib/intro'
 
 type Props = {
   params: Promise<{ uid: string }>
@@ -41,9 +43,12 @@ export default async function ArtistPage({ params }: Props) {
       <ArtistHero artist={artist} />
 
       {artist.data.slices.length > 0 && (
-        <div className="col-span-full grid grid-cols-subgrid gap-y-12">
+        <StaggerReveal
+          className="col-span-full grid grid-cols-subgrid gap-y-12"
+          introEnd={ARTIST_HERO_INTRO_END}
+        >
           <SliceZone slices={artist.data.slices} components={components} />
-        </div>
+        </StaggerReveal>
       )}
 
       {events.length > 0 && (
