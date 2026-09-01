@@ -1,16 +1,21 @@
-import { isFilled } from '@prismicio/client'
+import { asLink, isFilled } from '@prismicio/client'
 import { PrismicNextLink } from '@prismicio/next'
 import { PrismicRichText } from '@prismicio/react'
+import ButtonLink from '@/components/ui/ButtonLink'
 import SocialLinks from '@/components/ui/SocialLinks'
 import { getSettings } from '@/lib/queries'
 
 const CREDITS_CLASS =
-  'text-left font-body text-base font-light text-foreground sm:text-right'
+  'text-center font-body text-base font-light text-foreground'
 
 export default async function Footer() {
   const settings = await getSettings()
   const footer = settings?.data.footer[0]
   const credits = footer?.credits
+  // The same links the header renders; footer already has settings in hand.
+  const navLinks = settings?.data.nav[0]?.links ?? []
+  // The header's donation CTA, repeated at the foot of the page.
+  const donationLink = settings?.data.donationLink ?? []
 
   return (
     <footer className="col-span-full grid grid-cols-subgrid gap-y-4 pb-6">
@@ -29,7 +34,40 @@ export default async function Footer() {
           </p>
         </div>
       </div>
-      <div className="col-span-full flex flex-col items-start justify-end sm:col-span-8 sm:items-end">
+      <div className="col-span-full flex flex-col items-start sm:col-span-8 sm:items-end">
+        {navLinks.length > 0 && (
+          <nav
+            aria-label="Footer"
+            className="flex flex-col gap-2 text-left sm:text-right"
+          >
+            {navLinks.map((link, i) => (
+              <PrismicNextLink
+                key={i}
+                field={link}
+                className="font-body text-base font-light text-foreground hover:font-normal"
+              >
+                {link.text}
+              </PrismicNextLink>
+            ))}
+          </nav>
+        )}
+        {donationLink.length > 0 && (
+          <div className="mt-4">
+            {donationLink.map((link, i) => (
+              <ButtonLink
+                key={i}
+                variant="primary"
+                size="sm"
+                href={asLink(link) ?? '#'}
+                target="_blank"
+              >
+                {link.text}
+              </ButtonLink>
+            ))}
+          </div>
+        )}
+      </div>
+      <div className="col-span-full flex flex-col items-center">
         <p className={CREDITS_CLASS}>{footer?.copyright}</p>
         {isFilled.richText(credits) ? (
           <PrismicRichText
