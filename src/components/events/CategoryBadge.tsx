@@ -1,9 +1,9 @@
 interface CategoryBadgeProps {
   category: 'Event' | 'Workshop'
   /**
-   * `default` is the standalone badge used in card meta rows and on the event
-   * page. `compact` matches the body text size (16px) with tighter padding, for
-   * the badge that sits over a card image.
+   * `default` is the standalone badge used on the event page. `compact` matches
+   * the body text size (16px) with tighter padding, for the badge in the event
+   * card meta row.
    */
   size?: 'default' | 'compact'
   className?: string

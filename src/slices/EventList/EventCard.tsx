@@ -9,11 +9,11 @@ import type { EventDocument } from '../../../prismicio-types'
  * card into a link to the event page, which the grid variation uses. The tabbed
  * home variation renders it unlinked, exactly as the current site does.
  *
- * `badge` overlays the event's category on the image, inset from its top-left
- * corner. The Features section on the artist page uses it; the EventList
- * variations leave it off and render no badge, exactly as they do today.
- * `className` is appended so a caller can add its own grid placement or an
- * animation hook class.
+ * `badge` puts the event's category to the left of the date in the meta row,
+ * mirroring the event page header. The Features section on the artist page uses
+ * it; the EventList variations leave it off and render no badge, exactly as they
+ * do today. `className` is appended so a caller can add its own grid placement
+ * or an animation hook class.
  */
 export default function EventCard({
   event,
@@ -40,19 +40,17 @@ export default function EventCard({
             sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
             className="object-cover"
           />
-          {badge && (
-            <CategoryBadge
-              category={event.data.category}
-              size="compact"
-              className="absolute top-4 left-4 z-10"
-            />
-          )}
         </div>
       )}
       <div className="flex flex-1 flex-col gap-2">
-        <span className="font-body text-base font-light text-foreground">
-          {event.data.date_label}
-        </span>
+        <div className="flex flex-wrap items-center gap-3">
+          {badge && (
+            <CategoryBadge category={event.data.category} size="compact" />
+          )}
+          <span className="font-body text-base font-light text-foreground">
+            {event.data.date_label}
+          </span>
+        </div>
         <h3 className="font-display text-card-title leading-tight font-medium text-foreground">
           {event.data.title}
         </h3>
