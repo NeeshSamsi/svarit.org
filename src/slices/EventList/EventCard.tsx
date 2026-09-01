@@ -6,8 +6,8 @@ import type { EventDocument } from '../../../prismicio-types'
 
 /**
  * The card markup shared by both EventList variations. `linked` turns the whole
- * card into a link to the event page, which the grid variation uses. The tabbed
- * home variation renders it unlinked, exactly as the current site does.
+ * card into a link to the event page; both the grid and the tabbed home
+ * variation pass it so every event card is clickable.
  *
  * `badge` puts the event's category to the left of the date in the meta row,
  * mirroring the event page header. The Features section on the artist page uses
