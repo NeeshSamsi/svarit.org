@@ -6,7 +6,7 @@ import SocialLinks from '@/components/ui/SocialLinks'
 import { getSettings } from '@/lib/queries'
 
 const CREDITS_CLASS =
-  'text-center font-body text-base font-light text-foreground'
+  'text-left font-body text-base font-light text-foreground sm:text-center'
 
 export default async function Footer() {
   const settings = await getSettings()
@@ -25,7 +25,7 @@ export default async function Footer() {
           <img src="/assets/logo.svg" alt="Svarit" className="h-8 w-auto" />
           <SocialLinks />
         </div>
-        <div className="mt-4 flex flex-col gap-2">
+        <div className="flex flex-col gap-2">
           <p className="font-body text-base font-light text-foreground">
             {footer?.contact}
           </p>
@@ -67,7 +67,7 @@ export default async function Footer() {
           </div>
         )}
       </div>
-      <div className="col-span-full flex flex-col items-center">
+      <div className="col-span-full flex flex-col items-start sm:items-center">
         <p className={CREDITS_CLASS}>{footer?.copyright}</p>
         {isFilled.richText(credits) ? (
           <PrismicRichText
