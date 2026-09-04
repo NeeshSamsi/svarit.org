@@ -4,6 +4,7 @@ import Nav from '@/components/layout/Nav'
 import Footer from '@/components/layout/Footer'
 import SmoothScroll from '@/components/providers/SmoothScroll'
 import Umami from '@/components/analytics/Umami'
+import { draftMode } from 'next/headers'
 import { PrismicPreview } from '@prismicio/next'
 import { repositoryName } from '@/prismicio'
 import { SITE_URL } from '@/lib/site'
@@ -95,11 +96,13 @@ const orgSchema = {
   ],
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode
 }>) {
+  const { isEnabled: isDraft } = await draftMode()
+
   return (
     <html
       lang="en-IN"
@@ -127,7 +130,14 @@ export default function RootLayout({
           </main>
         </SmoothScroll>
         <Umami />
-        <PrismicPreview repositoryName={repositoryName} />
+        {/* Only in draft mode. Rendered unconditionally the toolbar injects an
+            iframe that sets a third-party cookie for every visitor, which is the
+            whole Best Practices hit and a privacy disclosure the site does not
+            need. The dashboard flow still works: writing room to /api/preview
+            enables draft mode, redirect, then this renders. The cost is that an
+            editor on the live site no longer gets a preview session started for
+            them, they start it from the dashboard. */}
+        {isDraft && <PrismicPreview repositoryName={repositoryName} />}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(orgSchema) }}
