@@ -87,6 +87,7 @@ export default function EventArtists({
         <ArtistCard
           key={artist.id}
           artist={artist}
+          headingLevel={3}
           className="event-artist-card gsap-reveal col-span-6 sm:col-span-4 lg:col-span-3"
         />
       ))}

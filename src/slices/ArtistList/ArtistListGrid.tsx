@@ -93,6 +93,7 @@ export default function ArtistListGrid({
           key={artist.id}
           artist={artist}
           priority={index < 3}
+          headingLevel={2}
           className="artist-card gsap-reveal col-span-full sm:col-span-6 lg:col-span-4"
         />
       ))}

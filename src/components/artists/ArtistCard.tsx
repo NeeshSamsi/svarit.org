@@ -9,6 +9,13 @@ interface ArtistCardProps {
   className?: string
   /** First-row cards opt in to eager loading; the rest stay lazy. */
   priority?: boolean
+  /**
+   * `2` when the artist list is the page's own subject (the /artists index),
+   * `3` when it sits below a section heading that already holds `2` (event
+   * pages). Purely semantic: the styling is identical at both levels. Defaults
+   * to the safer nested case.
+   */
+  headingLevel?: 2 | 3
 }
 
 /**
@@ -21,9 +28,11 @@ export default function ArtistCard({
   artist,
   className = '',
   priority = false,
+  headingLevel = 3,
 }: ArtistCardProps) {
   const { name, bio } = artist.data
   const bioText = artistBioText(bio)
+  const Heading = `h${headingLevel}` as const
 
   return (
     <article className={`relative flex flex-col gap-4 ${className}`}>
@@ -42,14 +51,14 @@ export default function ArtistCard({
       </ArtistPhoto>
 
       <div className="flex flex-1 flex-col gap-2">
-        <h3 className="font-display text-card-title leading-tight font-medium text-foreground">
+        <Heading className="font-display text-card-title leading-tight font-medium text-foreground">
           <PrismicNextLink
             document={artist}
             className="after:absolute after:inset-0"
           >
             {name}
           </PrismicNextLink>
-        </h3>
+        </Heading>
         {bioText && (
           <p className="font-body text-xl font-light text-foreground">
             {bioText}
