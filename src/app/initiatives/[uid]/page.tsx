@@ -8,6 +8,8 @@ import EventHero from '@/components/events/EventHero'
 import EventArtists from '@/components/events/EventArtists'
 import StaggerReveal from '@/components/animation/StaggerReveal'
 import { EVENT_HERO_INTRO_END } from '@/lib/intro'
+import { SITE_URL } from '@/lib/site'
+import { ogImageFields } from '@/lib/og'
 
 type Props = {
   params: Promise<{ uid: string }>
@@ -33,19 +35,71 @@ export default async function EventPage({ params }: Props) {
     .map((id) => artistDocs.find((doc) => doc.id === id))
     .filter((doc) => doc !== undefined)
 
+  // Every one of these events has already happened. The schema carries the real
+  // past dates and nothing else: no `eventStatus`, no default that a crawler
+  // could read as "still to come".
+  const performers = artists
+    .map((artist) => artist.data.name)
+    .filter((name): name is string => Boolean(name))
+    .map((name) => ({ '@type': 'Person', name }))
+
+  const eventSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'Event',
+    name: event.data.title || undefined,
+    description: prismic.asText(event.data.description) || undefined,
+    startDate: event.data.start_date || undefined,
+    endDate: event.data.end_date || undefined,
+    location: event.data.venue
+      ? { '@type': 'Place', name: event.data.venue }
+      : undefined,
+    performer: performers.length ? performers : undefined,
+    organizer: { '@type': 'NGO', '@id': `${SITE_URL}/#organization` },
+  }
+
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: SITE_URL },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Initiatives',
+        item: `${SITE_URL}/initiatives`,
+      },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: event.data.title || 'Event',
+        item: `${SITE_URL}/initiatives/${uid}`,
+      },
+    ],
+  }
+
   return (
-    <article className="col-span-full grid grid-cols-subgrid gap-y-12 pt-36 md:pt-44">
-      <EventHero event={event} />
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(eventSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+      <article className="col-span-full grid grid-cols-subgrid gap-y-12 pt-36 md:pt-44">
+        <EventHero event={event} />
 
-      <StaggerReveal
-        className="col-span-full grid grid-cols-subgrid gap-y-12"
-        introEnd={EVENT_HERO_INTRO_END}
-      >
-        <SliceZone slices={event.data.slices} components={components} />
-      </StaggerReveal>
+        <StaggerReveal
+          className="col-span-full grid grid-cols-subgrid gap-y-12"
+          introEnd={EVENT_HERO_INTRO_END}
+        >
+          <SliceZone slices={event.data.slices} components={components} />
+        </StaggerReveal>
 
-      {artists.length > 0 && <EventArtists artists={artists} />}
-    </article>
+        {artists.length > 0 && <EventArtists artists={artists} />}
+      </article>
+    </>
   )
 }
 
@@ -85,10 +139,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     event.data.meta_description ||
     prismic.asText(event.data.description) ||
     undefined
-  const image =
-    prismic.asImageSrc(event.data.meta_image) ||
-    prismic.asImageSrc(event.data.hero_image) ||
-    undefined
+  // meta_image -> generated card for this uid -> /og/home.jpg. Set on both
+  // openGraph and twitter, or the shallow merge drops the layout fallback.
+  const og = ogImageFields({
+    metaImage: prismic.asImageSrc(event.data.meta_image),
+    kind: 'initiatives',
+    uid,
+  })
 
   return {
     title,
@@ -99,13 +156,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       title,
       description,
       url: `/initiatives/${uid}`,
-      images: image ? [{ url: image }] : undefined,
+      ...og.openGraph,
     },
     twitter: {
       card: 'summary_large_image',
       title,
       description,
-      images: image ? [image] : undefined,
+      ...og.twitter,
     },
   }
 }

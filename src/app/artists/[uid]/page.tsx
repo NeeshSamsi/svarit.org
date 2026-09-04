@@ -9,6 +9,8 @@ import ArtistFeatures from '@/components/artists/ArtistFeatures'
 import StaggerReveal from '@/components/animation/StaggerReveal'
 import { artistBioText } from '@/components/artists/bio'
 import { ARTIST_HERO_INTRO_END } from '@/lib/intro'
+import { SITE_URL } from '@/lib/site'
+import { ogImageFields } from '@/lib/og'
 
 type Props = {
   params: Promise<{ uid: string }>
@@ -38,31 +40,60 @@ export default async function ArtistPage({ params }: Props) {
     (artist.data.name ? `${artist.data.name} at Svarit` : 'At Svarit')
   const featuresEyebrow = artist.data.features_eyebrow || 'Appearances'
 
+  // No `Person` schema here on purpose: these documents carry only a name, so
+  // the object would be all but empty. The breadcrumb is the one useful piece
+  // of structured data the page can stand behind today.
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: SITE_URL },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Artists',
+        item: `${SITE_URL}/artists`,
+      },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: artist.data.name || 'Artist',
+        item: `${SITE_URL}/artists/${uid}`,
+      },
+    ],
+  }
+
   return (
-    <article className="col-span-full grid grid-cols-subgrid gap-y-18 pt-36 md:pt-44">
-      <ArtistHero artist={artist} />
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+      <article className="col-span-full grid grid-cols-subgrid gap-y-18 pt-36 md:pt-44">
+        <ArtistHero artist={artist} />
 
-      {artist.data.slices.length > 0 && (
-        <StaggerReveal
-          className="col-span-full grid grid-cols-subgrid gap-y-12"
-          introEnd={ARTIST_HERO_INTRO_END}
-        >
-          <SliceZone slices={artist.data.slices} components={components} />
-        </StaggerReveal>
-      )}
+        {artist.data.slices.length > 0 && (
+          <StaggerReveal
+            className="col-span-full grid grid-cols-subgrid gap-y-12"
+            introEnd={ARTIST_HERO_INTRO_END}
+          >
+            <SliceZone slices={artist.data.slices} components={components} />
+          </StaggerReveal>
+        )}
 
-      {events.length > 0 && (
-        <ArtistFeatures
-          eyebrow={featuresEyebrow}
-          title={featuresTitle}
-          events={events}
-        />
-      )}
+        {events.length > 0 && (
+          <ArtistFeatures
+            eyebrow={featuresEyebrow}
+            title={featuresTitle}
+            events={events}
+          />
+        )}
 
-      {donateSlice && (
-        <SliceZone slices={[donateSlice]} components={components} />
-      )}
-    </article>
+        {donateSlice && (
+          <SliceZone slices={[donateSlice]} components={components} />
+        )}
+      </article>
+    </>
   )
 }
 
@@ -102,10 +133,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const title = artist.data.meta_title || artist.data.name || undefined
   const description =
     artist.data.meta_description || artistBioText(artist.data.bio) || undefined
-  const image =
-    prismic.asImageSrc(artist.data.meta_image) ||
-    prismic.asImageSrc(artist.data.photo) ||
-    undefined
+  // meta_image -> generated card for this uid -> /og/home.jpg. Set on both
+  // openGraph and twitter, or the shallow merge drops the layout fallback.
+  const og = ogImageFields({
+    metaImage: prismic.asImageSrc(artist.data.meta_image),
+    kind: 'artists',
+    uid,
+  })
 
   return {
     title,
@@ -116,13 +150,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       title,
       description,
       url: `/artists/${uid}`,
-      images: image ? [{ url: image }] : undefined,
+      ...og.openGraph,
     },
     twitter: {
       card: 'summary_large_image',
       title,
       description,
-      images: image ? [image] : undefined,
+      ...og.twitter,
     },
   }
 }
