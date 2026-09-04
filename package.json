@@ -17,7 +17,11 @@
     "initiatives:preview": "node --env-file-if-exists=.env.local --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types scripts/update-initiatives-page.ts",
     "initiatives:commit": "node --env-file-if-exists=.env.local --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types scripts/update-initiatives-page.ts --commit",
     "nav:preview": "node --env-file-if-exists=.env.local --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types scripts/fix-nav-initiatives-link.ts",
-    "nav:commit": "node --env-file-if-exists=.env.local --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types scripts/fix-nav-initiatives-link.ts --commit"
+    "nav:commit": "node --env-file-if-exists=.env.local --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types scripts/fix-nav-initiatives-link.ts --commit",
+    "metatitles:preview": "node --env-file-if-exists=.env.local --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types scripts/set-page-meta-titles.ts",
+    "metatitles:commit": "node --env-file-if-exists=.env.local --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types scripts/set-page-meta-titles.ts --commit",
+    "og:generate": "node --env-file-if-exists=.env.local --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types scripts/generate-og-images.ts",
+    "og:generate:commit": "node --env-file-if-exists=.env.local --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types scripts/generate-og-images.ts --commit"
   },
   "dependencies": {
     "@prismicio/client": "^7.22.0",
@@ -42,6 +46,7 @@
     "@types/react-dom": "^19.2.5",
     "eslint": "^9.39.5",
     "eslint-config-next": "16.3.3",
+    "playwright": "^1.62.1",
     "postcss": "^8.5.26",
     "prettier": "^3.9.6",
     "prettier-plugin-tailwindcss": "^0.8.1",
