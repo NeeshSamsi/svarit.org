@@ -79,6 +79,8 @@ export default function NavClient({
             aria-label="Svarit, home"
             className="flex items-center"
           >
+            {/* Plain img: the logo is a 1KB SVG, so next/image adds a loader round trip for no optimisation benefit. */}
+            {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/assets/logo.svg" alt="Svarit" className="h-8 w-auto" />
           </Link>
 

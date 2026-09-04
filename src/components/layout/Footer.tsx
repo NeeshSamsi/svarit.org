@@ -22,6 +22,8 @@ export default async function Footer() {
       <div className="col-span-full h-px bg-foreground" />
       <div className="col-span-full flex flex-col items-start gap-4 sm:col-span-4">
         <div className="flex items-center gap-8">
+          {/* Plain img: the logo is a 1KB SVG, so next/image adds a loader round trip for no optimisation benefit. */}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/assets/logo.svg" alt="Svarit" className="h-8 w-auto" />
           <SocialLinks />
         </div>
