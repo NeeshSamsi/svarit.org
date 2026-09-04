@@ -51,6 +51,34 @@ const nextConfig: NextConfig = {
       },
     ]
   },
+  async headers() {
+    return [
+      {
+        source: '/:path*',
+        headers: [
+          { key: 'X-Content-Type-Options', value: 'nosniff' },
+          {
+            key: 'Referrer-Policy',
+            value: 'strict-origin-when-cross-origin',
+          },
+          {
+            key: 'Permissions-Policy',
+            value: 'camera=(), microphone=(), geolocation=()',
+          },
+          // Prismic's preview and slice simulator both load the live site in an
+          // iframe served from the writing room (svarit.prismic.io), so a plain
+          // X-Frame-Options: SAMEORIGIN would break the editor. A single CSP
+          // frame-ancestors directive gives the same clickjacking protection
+          // while allowlisting that one origin. This is not a full CSP, which
+          // stays out of scope.
+          {
+            key: 'Content-Security-Policy',
+            value: "frame-ancestors 'self' https://svarit.prismic.io",
+          },
+        ],
+      },
+    ]
+  },
 }
 
 export default nextConfig
