@@ -6,9 +6,10 @@ import SmoothScroll from '@/components/providers/SmoothScroll'
 import Umami from '@/components/analytics/Umami'
 import { PrismicPreview } from '@prismicio/next'
 import { repositoryName } from '@/prismicio'
+import { SITE_URL } from '@/lib/site'
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://svarit.org'),
+  metadataBase: new URL(SITE_URL),
   title: {
     default: 'Svarit — Honouring Legacy, Shaping the Future of Indian Music',
     template: '%s — Svarit',
@@ -20,14 +21,16 @@ export const metadata: Metadata = {
   creator: 'Svarit',
   publisher: 'Svarit',
   category: 'Music',
-  alternates: { canonical: '/' },
+  // No site-wide canonical: it is set per route. A default here silently
+  // mislabels every page that does not override it, and the 404 in particular
+  // inherited the homepage URL, the textbook soft-404 signal.
   openGraph: {
     type: 'website',
     siteName: 'Svarit',
     title: 'Svarit — Shaping the Future of Indian Music',
     description:
       'Founded in 2001, Svarit carries a rich musical legacy into the future — nurturing Indian music through concerts, festivals, education and community.',
-    url: 'https://svarit.org',
+    url: SITE_URL,
     locale: 'en_IN',
     images: [
       {
@@ -45,10 +48,12 @@ export const metadata: Metadata = {
       'Founded in 2001, Svarit carries a rich musical legacy into the future — nurturing Indian music through concerts, festivals, education and community.',
     images: ['/og/home.jpg'],
   },
+  // Only the image-preview directive is set site-wide. index / follow are the
+  // default anyway, and asserting them here leaks onto routes that opt out (the
+  // 404) after hydration, where googlebot outranks the generic robots tag and
+  // would contradict its noindex.
   robots: {
-    index: true,
-    follow: true,
-    googleBot: { index: true, follow: true, 'max-image-preview': 'large' },
+    googleBot: { 'max-image-preview': 'large' },
   },
   icons: {
     icon: '/favicon.ico',
@@ -63,11 +68,12 @@ export const viewport: Viewport = {
 const orgSchema = {
   '@context': 'https://schema.org',
   '@type': 'NGO',
+  '@id': `${SITE_URL}/#organization`,
   name: 'Svarit',
   legalName: 'Svarit Trust',
-  url: 'https://svarit.org',
-  logo: 'https://svarit.org/assets/logo.svg',
-  image: 'https://svarit.org/og/home.jpg',
+  url: SITE_URL,
+  logo: `${SITE_URL}/assets/logo.svg`,
+  image: `${SITE_URL}/og/home.jpg`,
   description:
     'Founded in 2001, Svarit carries a rich musical legacy into the future — nurturing Indian music through concerts, festivals, education and community.',
   foundingDate: '2001',
@@ -115,7 +121,7 @@ export default function RootLayout({
       <body>
         <Nav />
         <SmoothScroll>
-          <main className="max-w-content mx-auto grid w-full grid-cols-12 gap-x-6 gap-y-18 px-6">
+          <main className="mx-auto grid w-full max-w-content grid-cols-12 gap-x-6 gap-y-18 px-6">
             {children}
             <Footer />
           </main>

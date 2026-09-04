@@ -4,6 +4,7 @@ import { asImageSrc } from '@prismicio/client'
 import { SliceZone } from '@prismicio/react'
 import { createClient } from '@/prismicio'
 import { components } from '@/slices'
+import { SITE_URL } from '@/lib/site'
 
 /**
  * The home page is the `page` document with the uid `home`, routed to `/` by
@@ -16,8 +17,12 @@ const getHome = async () => {
 }
 
 export async function generateMetadata(): Promise<Metadata> {
+  // The layout no longer sets a site-wide canonical, so `/` needs its own. Seed
+  // it here and return this object from every branch so no path drops it.
+  const metadata: Metadata = { alternates: { canonical: '/' } }
+
   const page = await getHome()
-  if (!page) return {}
+  if (!page) return metadata
 
   const title = page.data.meta_title
   const description = page.data.meta_description
@@ -26,9 +31,8 @@ export async function generateMetadata(): Promise<Metadata> {
   // An empty SEO tab leaves the static metadata in `src/app/layout.tsx` in
   // place. Next merges metadata shallowly, so openGraph and twitter have to be
   // rebuilt in full whenever the document overrides any part of them.
-  if (!title && !description && !image) return {}
+  if (!title && !description && !image) return metadata
 
-  const metadata: Metadata = {}
   if (title) metadata.title = { absolute: title }
   if (description) metadata.description = description
 
@@ -40,7 +44,7 @@ export async function generateMetadata(): Promise<Metadata> {
   metadata.openGraph = {
     type: 'website',
     siteName: 'Svarit',
-    url: 'https://svarit.org',
+    url: SITE_URL,
     locale: 'en_IN',
     ...social,
   }
