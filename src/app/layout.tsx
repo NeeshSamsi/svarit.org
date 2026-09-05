@@ -8,6 +8,7 @@ import { draftMode } from 'next/headers'
 import { PrismicPreview } from '@prismicio/next'
 import { repositoryName } from '@/prismicio'
 import { SITE_URL } from '@/lib/site'
+import { getSettings } from '@/lib/queries'
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -66,7 +67,12 @@ export const viewport: Viewport = {
   themeColor: '#fef7ed',
 }
 
-const orgSchema = {
+/**
+ * The parts of the NGO JSON-LD that have nowhere else to live in Prismic.
+ * Contact details are spread in from Settings below, rather than duplicated
+ * here, so this and the footer share one source. See customtypes/settings.
+ */
+const ORG_SCHEMA_BASE = {
   '@context': 'https://schema.org',
   '@type': 'NGO',
   '@id': `${SITE_URL}/#organization`,
@@ -78,16 +84,6 @@ const orgSchema = {
   description:
     'Founded in 2001, Svarit carries a rich musical legacy into the future — nurturing Indian music through concerts, festivals, education and community.',
   foundingDate: '2001',
-  email: 'team@svarit.org',
-  telephone: '+91-99307-59942',
-  address: {
-    '@type': 'PostalAddress',
-    streetAddress: 'Anandashram, 22 Pandita Ramabai Rd, Gamdevi',
-    addressLocality: 'Mumbai',
-    addressRegion: 'Maharashtra',
-    postalCode: '400007',
-    addressCountry: 'IN',
-  },
   founder: { '@type': 'Person', name: 'Pandit Dinkar Kaikini' },
   sameAs: [
     'https://instagram.com/svaritorg',
@@ -102,6 +98,27 @@ export default async function RootLayout({
   children: React.ReactNode
 }>) {
   const { isEnabled: isDraft } = await draftMode()
+  // getSettings() is React cache()'d, so Footer's call below adds no request.
+  const contact = (await getSettings())?.data
+
+  // Undefined rather than a missing/empty string, so JSON.stringify drops the
+  // key instead of publishing an empty one. A street with no region or postal
+  // code still gets a PostalAddress; a document with no street gets none.
+  const orgSchema = {
+    ...ORG_SCHEMA_BASE,
+    email: contact?.email || undefined,
+    telephone: contact?.phone_e164 || undefined,
+    address: contact?.address_street
+      ? {
+          '@type': 'PostalAddress',
+          streetAddress: contact.address_street,
+          addressLocality: contact?.address_locality || undefined,
+          addressRegion: contact?.address_region || undefined,
+          postalCode: contact?.address_postal_code || undefined,
+          addressCountry: contact?.address_country || undefined,
+        }
+      : undefined,
+  }
 
   return (
     <html

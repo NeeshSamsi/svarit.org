@@ -91,20 +91,6 @@
           "label": "Footer",
           "repeat": false,
           "fields": {
-            "contact": {
-              "type": "Text",
-              "config": {
-                "label": "Contact Details",
-                "placeholder": ""
-              }
-            },
-            "address": {
-              "type": "Text",
-              "config": {
-                "label": "Address",
-                "placeholder": ""
-              }
-            },
             "copyright": {
               "type": "Text",
               "config": {
@@ -121,6 +107,84 @@
               }
             }
           }
+        }
+      },
+      "footer_links": {
+        "type": "Group",
+        "config": {
+          "label": "Footer Links",
+          "repeat": false,
+          "fields": {
+            "links": {
+              "type": "Link",
+              "config": {
+                "label": "Links",
+                "placeholder": "",
+                "select": null,
+                "allowTargetBlank": true,
+                "allowText": true,
+                "repeat": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "Contact": {
+      "email": {
+        "type": "Text",
+        "config": {
+          "label": "Email",
+          "placeholder": "team@svarit.org"
+        }
+      },
+      "phone": {
+        "type": "Text",
+        "config": {
+          "label": "Phone (display)",
+          "placeholder": "+91 99307 59942"
+        }
+      },
+      "phone_e164": {
+        "type": "Text",
+        "config": {
+          "label": "Phone (for tel: links and schema)",
+          "placeholder": "+91-99307-59942"
+        }
+      },
+      "address_street": {
+        "type": "Text",
+        "config": {
+          "label": "Street Address",
+          "placeholder": "Anandashram, 22 Pandita Ramabai Rd, Gamdevi"
+        }
+      },
+      "address_locality": {
+        "type": "Text",
+        "config": {
+          "label": "City",
+          "placeholder": "Mumbai"
+        }
+      },
+      "address_region": {
+        "type": "Text",
+        "config": {
+          "label": "State or Region",
+          "placeholder": "Maharashtra"
+        }
+      },
+      "address_postal_code": {
+        "type": "Text",
+        "config": {
+          "label": "Postal Code",
+          "placeholder": "400007"
+        }
+      },
+      "address_country": {
+        "type": "Text",
+        "config": {
+          "label": "Country Code (ISO 3166-1 alpha-2)",
+          "placeholder": "IN"
         }
       }
     }
