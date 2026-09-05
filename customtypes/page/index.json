@@ -44,6 +44,9 @@
             },
             "quote": {
               "type": "SharedSlice"
+            },
+            "legal_section": {
+              "type": "SharedSlice"
             }
           }
         }
