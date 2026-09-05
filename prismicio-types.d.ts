@@ -365,7 +365,7 @@ interface EventDocumentData {
  */
 export type EventDocument<Lang extends string = string> = prismic.PrismicDocumentWithUID<Simplify<EventDocumentData>, "event", Lang>;
 
-type PageDocumentDataSlicesSlice = HeroSlice | SponsorsSlice | AboutSlice | EventListSlice | DonateSlice | ContactSlice | ArtistListSlice | VolunteersSlice | RichTextSlice | QuoteSlice
+type PageDocumentDataSlicesSlice = HeroSlice | SponsorsSlice | AboutSlice | EventListSlice | DonateSlice | ContactSlice | ArtistListSlice | VolunteersSlice | RichTextSlice | QuoteSlice | LegalSectionSlice
 
 /**
  * Content for Page documents
@@ -480,26 +480,6 @@ export interface SettingsDocumentDataNavItem {
  */
 export interface SettingsDocumentDataFooterItem {
 	/**
-	 * Contact Details field in *Site Settings → Footer*
-	 *
-	 * - **Field Type**: Text
-	 * - **Placeholder**: *None*
-	 * - **API ID Path**: settings.footer[].contact
-	 * - **Documentation**: https://prismic.io/docs/fields/text
-	 */
-	contact: prismic.KeyTextField;
-	
-	/**
-	 * Address field in *Site Settings → Footer*
-	 *
-	 * - **Field Type**: Text
-	 * - **Placeholder**: *None*
-	 * - **API ID Path**: settings.footer[].address
-	 * - **Documentation**: https://prismic.io/docs/fields/text
-	 */
-	address: prismic.KeyTextField;
-	
-	/**
 	 * Copyright field in *Site Settings → Footer*
 	 *
 	 * - **Field Type**: Text
@@ -518,6 +498,21 @@ export interface SettingsDocumentDataFooterItem {
 	 * - **Documentation**: https://prismic.io/docs/fields/rich-text
 	 */
 	credits: prismic.RichTextField;
+}
+
+/**
+ * Item in *Site Settings → Footer Links*
+ */
+export interface SettingsDocumentDataFooterLinksItem {
+	/**
+	 * Links field in *Site Settings → Footer Links*
+	 *
+	 * - **Field Type**: Link
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: settings.footer_links[].links
+	 * - **Documentation**: https://prismic.io/docs/fields/link
+	 */
+	links: prismic.Repeatable<prismic.LinkField<string, string, unknown, prismic.FieldState, never>>;
 }
 
 /**
@@ -578,6 +573,103 @@ interface SettingsDocumentData {
 	 * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
 	 */
 	footer: prismic.GroupField<Simplify<SettingsDocumentDataFooterItem>>;
+	
+	/**
+	 * Footer Links field in *Site Settings*
+	 *
+	 * - **Field Type**: Group
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: settings.footer_links[]
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
+	 */
+	footer_links: prismic.GroupField<Simplify<SettingsDocumentDataFooterLinksItem>>;/**
+	 * Email field in *Site Settings*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: team@svarit.org
+	 * - **API ID Path**: settings.email
+	 * - **Tab**: Contact
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	email: prismic.KeyTextField;
+	
+	/**
+	 * Phone (display) field in *Site Settings*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: +91 99307 59942
+	 * - **API ID Path**: settings.phone
+	 * - **Tab**: Contact
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	phone: prismic.KeyTextField;
+	
+	/**
+	 * Phone (for tel: links and schema) field in *Site Settings*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: +91-99307-59942
+	 * - **API ID Path**: settings.phone_e164
+	 * - **Tab**: Contact
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	phone_e164: prismic.KeyTextField;
+	
+	/**
+	 * Street Address field in *Site Settings*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Anandashram, 22 Pandita Ramabai Rd, Gamdevi
+	 * - **API ID Path**: settings.address_street
+	 * - **Tab**: Contact
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	address_street: prismic.KeyTextField;
+	
+	/**
+	 * City field in *Site Settings*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Mumbai
+	 * - **API ID Path**: settings.address_locality
+	 * - **Tab**: Contact
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	address_locality: prismic.KeyTextField;
+	
+	/**
+	 * State or Region field in *Site Settings*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Maharashtra
+	 * - **API ID Path**: settings.address_region
+	 * - **Tab**: Contact
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	address_region: prismic.KeyTextField;
+	
+	/**
+	 * Postal Code field in *Site Settings*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: 400007
+	 * - **API ID Path**: settings.address_postal_code
+	 * - **Tab**: Contact
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	address_postal_code: prismic.KeyTextField;
+	
+	/**
+	 * Country Code (ISO 3166-1 alpha-2) field in *Site Settings*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: IN
+	 * - **API ID Path**: settings.address_country
+	 * - **Tab**: Contact
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	address_country: prismic.KeyTextField;
 }
 
 /**
@@ -1187,6 +1279,75 @@ type HeroSliceVariation = HeroSliceDefault | HeroSlicePageHeader
 export type HeroSlice = prismic.SharedSlice<"hero", HeroSliceVariation>;
 
 /**
+ * Primary content in *LegalSection → Default → Primary*
+ */
+export interface LegalSectionSliceDefaultPrimary {
+	/**
+	 * Heading field in *LegalSection → Default → Primary*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Renders as an h2
+	 * - **API ID Path**: legal_section.default.primary.heading
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	heading: prismic.KeyTextField;
+	
+	/**
+	 * Content field in *LegalSection → Default → Primary*
+	 *
+	 * - **Field Type**: Rich Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: legal_section.default.primary.content
+	 * - **Documentation**: https://prismic.io/docs/fields/rich-text
+	 */
+	content: prismic.RichTextField;
+	
+	/**
+	 * Append Block field in *LegalSection → Default → Primary*
+	 *
+	 * - **Field Type**: Select
+	 * - **Placeholder**: Live content added after the text above, read from Settings
+	 * - **Default Value**: none
+	 * - **API ID Path**: legal_section.default.primary.append_block
+	 * - **Documentation**: https://prismic.io/docs/fields/select
+	 */
+	append_block: prismic.SelectField<"none" | "contact_details" | "last_updated" | "complaints_contact", "filled">;
+	
+	/**
+	 * Updated At (only read when Append Block is "last_updated") field in *LegalSection → Default → Primary*
+	 *
+	 * - **Field Type**: Date
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: legal_section.default.primary.updated_at
+	 * - **Documentation**: https://prismic.io/docs/fields/date
+	 */
+	updated_at: prismic.DateField;
+}
+
+/**
+ * Default variation for LegalSection Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: Default
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type LegalSectionSliceDefault = prismic.SharedSliceVariation<"default", Simplify<LegalSectionSliceDefaultPrimary>, never>;
+
+/**
+ * Slice variation for *LegalSection*
+ */
+type LegalSectionSliceVariation = LegalSectionSliceDefault
+
+/**
+ * LegalSection Shared Slice
+ *
+ * - **API ID**: `legal_section`
+ * - **Description**: One section of a legal or policy page: a heading, rich text prose, and an optional block of live contact or date info appended after it.
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type LegalSectionSlice = prismic.SharedSlice<"legal_section", LegalSectionSliceVariation>;
+
+/**
  * Primary content in *Quote → Default → Primary*
  */
 export interface QuoteSliceDefaultPrimary {
@@ -1211,7 +1372,7 @@ export interface QuoteSliceDefaultPrimary {
 	attribution: prismic.KeyTextField;
 	
 	/**
-	 * Supporting paragraph field in *Quote → Default → Primary*
+	 * Paragraph field in *Quote → Default → Primary*
 	 *
 	 * - **Field Type**: Rich Text
 	 * - **Placeholder**: *None*
@@ -1239,7 +1400,7 @@ type QuoteSliceVariation = QuoteSliceDefault
  * Quote Shared Slice
  *
  * - **API ID**: `quote`
- * - **Description**: A pull quote with an optional attribution and an optional supporting paragraph beside it.
+ * - **Description**: A short pull quote with an optional attribution and an optional supporting paragraph beside it.
  * - **Documentation**: https://prismic.io/docs/slices
  */
 export type QuoteSlice = prismic.SharedSlice<"quote", QuoteSliceVariation>;
@@ -1443,6 +1604,7 @@ declare module "@prismicio/client" {
 			SettingsDocumentDataSocialsItem,
 			SettingsDocumentDataNavItem,
 			SettingsDocumentDataFooterItem,
+			SettingsDocumentDataFooterLinksItem,
 			VolunteerDocument,
 			VolunteerDocumentData,
 			AllDocumentTypes,
@@ -1475,6 +1637,10 @@ declare module "@prismicio/client" {
 			HeroSliceVariation,
 			HeroSliceDefault,
 			HeroSlicePageHeader,
+			LegalSectionSlice,
+			LegalSectionSliceDefaultPrimary,
+			LegalSectionSliceVariation,
+			LegalSectionSliceDefault,
 			QuoteSlice,
 			QuoteSliceDefaultPrimary,
 			QuoteSliceVariation,
