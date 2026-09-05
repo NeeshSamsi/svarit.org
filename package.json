@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "eslint .",
     "test": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types --test 'scripts/*.test.ts' 'src/**/*.test.ts'",
-    "slicemachine": "start-slicemachine",
+    "prismic:types": "npx prismic@latest gen types",
+    "prismic:push": "npx prismic@latest push",
     "backup": "node --env-file-if-exists=.env.local --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types scripts/backup-prismic.ts",
     "extract:artists": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types scripts/extract-artists.ts",
     "migrate:preview": "node --env-file-if-exists=.env.local --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types scripts/migrate-to-prismic.ts",
@@ -21,7 +22,11 @@
     "metatitles:preview": "node --env-file-if-exists=.env.local --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types scripts/set-page-meta-titles.ts",
     "metatitles:commit": "node --env-file-if-exists=.env.local --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types scripts/set-page-meta-titles.ts --commit",
     "og:generate": "node --env-file-if-exists=.env.local --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types scripts/generate-og-images.ts",
-    "og:generate:commit": "node --env-file-if-exists=.env.local --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types scripts/generate-og-images.ts --commit"
+    "og:generate:commit": "node --env-file-if-exists=.env.local --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types scripts/generate-og-images.ts --commit",
+    "settings:preview": "node --env-file-if-exists=.env.local --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types scripts/set-settings-contact.ts",
+    "settings:commit": "node --env-file-if-exists=.env.local --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types scripts/set-settings-contact.ts --commit",
+    "privacy:preview": "node --env-file-if-exists=.env.local --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types scripts/create-privacy-policy.ts",
+    "privacy:commit": "node --env-file-if-exists=.env.local --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types scripts/create-privacy-policy.ts --commit"
   },
   "dependencies": {
     "@prismicio/client": "^7.22.0",
@@ -39,7 +44,6 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.3.6",
-    "@slicemachine/adapter-next": "^0.3.98",
     "@tailwindcss/postcss": "^4.3.3",
     "@types/node": "^25.9.1",
     "@types/react": "^19.2.18",
@@ -50,7 +54,6 @@
     "postcss": "^8.5.26",
     "prettier": "^3.9.6",
     "prettier-plugin-tailwindcss": "^0.8.1",
-    "slice-machine-ui": "^2.21.5",
     "tailwindcss": "^4.3.3",
     "typescript": "^6.0.3"
   }

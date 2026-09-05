@@ -10,16 +10,15 @@ repository backup first and aborts if that backup fails.
 
 **The custom types must exist in the Prismic repository before the migration runs.** The
 Migration API cannot create a document for a type that is not there, and it will not create
-the type for you. Push them with Slice Machine:
+the type for you. Push them with the Prismic CLI:
 
 ```sh
-pnpm slicemachine
+pnpm prismic:push
 ```
 
-Open the local Slice Machine UI, then push `page`, `event`, `artist`, `volunteer`, `settings`
-and every slice. Confirm in the Prismic dashboard that the types are listed before going any
-further. A `settings` document must also exist and be published, because the migration merges
-the footer copy into it rather than creating it.
+Confirm in the Prismic dashboard that `page`, `event`, `artist`, `volunteer`, `settings` and
+every slice are listed before going any further. A `settings` document must also exist and be
+published, because the migration merges the footer copy into it rather than creating it.
 
 ## Getting a write token
 
@@ -161,7 +160,7 @@ and are only filled when empty.
   `content.json` has no copy for the initiatives index page.
 - **`/artists` page.** The hero title and description are copied verbatim from the Figma
   frame (node `1934-5`) and ride the Hero `page_header` variation, which must be pushed to
-  Prismic with Slice Machine before an artists run, or the payload references a variation
+  Prismic (`pnpm prismic:push`) before an artists run, or the payload references a variation
   the API does not know. The `artist_list` heading and subheading migrate empty on purpose:
   the slice renders them only when filled and the page title comes from the hero. The
   trailing donate slice is copied straight off the published `page/home` document rather
@@ -193,7 +192,7 @@ and are only filled when empty.
 
 ## `src/slices/index.ts` uses static imports on purpose
 
-Slice Machine generates that file with `dynamic(() => import('./X'))` for every slice. On
+The Prismic CLI generates that file with `dynamic(() => import('./X'))` for every slice. On
 this site that broke every scroll animation: the slices arrived in their own chunks after
 first paint, so ScrollTrigger cached its start and end positions against a document that was
 still short, decided `start: 'top 70%'` had already gone past, and snapped every
@@ -201,8 +200,8 @@ still short, decided `start: 'top 70%'` had already gone past, and snapped every
 the sponsors marquee never started.
 
 The file therefore imports each slice statically, and carries a second header line saying so.
-`prismic gen slice-index` (and Slice Machine when you add a slice through its UI) will
-rewrite it back to `dynamic()`. After running either, convert the imports back to static.
+Both `prismic gen slice-index` and `prismic slice create` will rewrite it back to `dynamic()`.
+After running either, convert the imports back to static.
 
 `src/components/providers/SmoothScroll.tsx` also calls `ScrollTrigger.refresh()` once the
 window `load` event and `document.fonts.ready` have settled, because images and webfonts

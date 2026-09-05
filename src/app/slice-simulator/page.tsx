@@ -17,10 +17,11 @@ export const metadata: Metadata = {
 export default async function SliceSimulatorPage({
   searchParams,
 }: SliceSimulatorParams) {
-  // This route only exists for Slice Machine, which runs it in dev or through a
-  // preview session. On the live site it would otherwise serve a bare 200, so
-  // close it to everyone except an active draft session. The NODE_ENV check
-  // leaves `pnpm slicemachine` and `next dev` untouched.
+  // This route only exists for the Prismic slice simulator, reached from the
+  // dashboard's Type Builder during `next dev` or through a preview session.
+  // On the live site it would otherwise serve a bare 200, so close it to
+  // everyone except an active draft session. The NODE_ENV check leaves
+  // `next dev` untouched.
   const { isEnabled } = await draftMode()
   if (process.env.NODE_ENV === 'production' && !isEnabled) notFound()
 
