@@ -1,0 +1,54 @@
+{
+  "id": "legal_section",
+  "type": "SharedSlice",
+  "name": "LegalSection",
+  "description": "One section of a legal or policy page: a heading, rich text prose, and an optional block of live contact or date info appended after it.",
+  "variations": [
+    {
+      "id": "default",
+      "name": "Default",
+      "docURL": "...",
+      "version": "initial",
+      "description": "Default",
+      "imageUrl": "",
+      "primary": {
+        "heading": {
+          "type": "Text",
+          "config": {
+            "label": "Heading",
+            "placeholder": "Renders as an h2"
+          }
+        },
+        "content": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Content",
+            "placeholder": "",
+            "multi": "heading3,paragraph,strong,em,list-item,o-list-item,hyperlink"
+          }
+        },
+        "append_block": {
+          "type": "Select",
+          "config": {
+            "label": "Append Block",
+            "placeholder": "Live content added after the text above, read from Settings",
+            "options": [
+              "none",
+              "contact_details",
+              "last_updated",
+              "complaints_contact"
+            ],
+            "default_value": "none"
+          }
+        },
+        "updated_at": {
+          "type": "Date",
+          "config": {
+            "label": "Updated At (only read when Append Block is \"last_updated\")",
+            "placeholder": ""
+          }
+        }
+      }
+    }
+  ]
+}

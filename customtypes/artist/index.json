@@ -1,0 +1,125 @@
+{
+  "id": "artist",
+  "label": "Artist",
+  "repeatable": true,
+  "json": {
+    "Main": {
+      "uid": {
+        "type": "UID",
+        "config": {
+          "label": "UID"
+        }
+      },
+      "name": {
+        "type": "Text",
+        "config": {
+          "label": "Name",
+          "placeholder": ""
+        }
+      },
+      "photo": {
+        "type": "Image",
+        "config": {
+          "label": "Photo",
+          "constraint": {},
+          "thumbnails": []
+        }
+      },
+      "discipline": {
+        "type": "Text",
+        "config": {
+          "label": "Discipline",
+          "placeholder": "Hindustani Vocal"
+        }
+      },
+      "bio": {
+        "type": "Text",
+        "config": {
+          "label": "Bio",
+          "placeholder": ""
+        }
+      },
+      "instagram": {
+        "type": "Link",
+        "config": {
+          "label": "Instagram",
+          "placeholder": "",
+          "select": "web",
+          "allowTargetBlank": true,
+          "allowText": false,
+          "repeat": false
+        }
+      },
+      "youtube": {
+        "type": "Link",
+        "config": {
+          "label": "YouTube",
+          "placeholder": "",
+          "select": "web",
+          "allowTargetBlank": true,
+          "allowText": false,
+          "repeat": false
+        }
+      },
+      "features_eyebrow": {
+        "type": "Text",
+        "config": {
+          "label": "Features Eyebrow",
+          "placeholder": "Appearances"
+        }
+      },
+      "features_title": {
+        "type": "Text",
+        "config": {
+          "label": "Features Title",
+          "placeholder": "{Name} at Svarit"
+        }
+      }
+    },
+    "Body": {
+      "slices": {
+        "type": "Slices",
+        "fieldset": "Slice Zone",
+        "config": {
+          "choices": {
+            "rich_text": {
+              "type": "SharedSlice"
+            },
+            "quote": {
+              "type": "SharedSlice"
+            }
+          }
+        }
+      }
+    },
+    "SEO & Metadata": {
+      "meta_title": {
+        "type": "Text",
+        "config": {
+          "label": "Meta Title",
+          "placeholder": "A title of the page used for social media and search engines"
+        }
+      },
+      "meta_description": {
+        "type": "Text",
+        "config": {
+          "label": "Meta Description",
+          "placeholder": "A brief summary of the page"
+        }
+      },
+      "meta_image": {
+        "type": "Image",
+        "config": {
+          "label": "Meta Image",
+          "constraint": {
+            "width": 2400,
+            "height": 1260
+          },
+          "thumbnails": []
+        }
+      }
+    }
+  },
+  "status": true,
+  "format": "page"
+}

@@ -1,0 +1,66 @@
+{
+  "$schema": "See scripts/README.md, section 'Correcting the artist draft'.",
+  "$comment": [
+    "Hand-maintained corrections to the artist names parsed out of event prose.",
+    "scripts/artists.draft.json is regenerated on every run, so corrections live here instead.",
+    "Every 'from' uid must exist in the freshly extracted draft or the extractor throws.",
+    "Entries touched here are treated as human-verified and are not flagged for review."
+  ],
+
+  "merges": [
+    {
+      "$note": "One person, two spellings in the prose. The correct name drops 'Kaikini'.",
+      "from": ["aditi-kaikini-upadhya", "aditi-upadhya"],
+      "into": {
+        "uid": "aditi-upadhya",
+        "name": "Aditi Upadhya",
+        "discipline": "Hindustani Vocal"
+      }
+    },
+    {
+      "$note": "One person, two misspellings. Correct is Ajoy with an o, Chakrabarty with an a.",
+      "from": ["ajay-chakrabarty", "ajay-chakraborty"],
+      "into": {
+        "uid": "ajoy-chakrabarty",
+        "name": "Ajoy Chakrabarty",
+        "discipline": "Hindustani Vocal"
+      }
+    }
+  ],
+
+  "splits": [
+    {
+      "$note": "A violin duo billed under one name. Two brothers, two artist documents.",
+      "from": "ganesh-kumaresh",
+      "into": [
+        {
+          "uid": "ganesh-rajagopalan",
+          "name": "Ganesh Rajagopalan",
+          "discipline": "Violin"
+        },
+        {
+          "uid": "kumaresh-rajagopalan",
+          "name": "Kumaresh Rajagopalan",
+          "discipline": "Violin"
+        }
+      ]
+    }
+  ],
+
+  "renames": [
+    {
+      "$note": "The prose reads 'Pt. Rajan & Pt. Sajan Mishra', so the surname is only on Sajan. This is the Rajan and Sajan Mishra duo, not Dr N Rajam, who is a separate entry.",
+      "from": "rajan",
+      "to": {
+        "uid": "rajan-mishra",
+        "name": "Rajan Mishra",
+        "discipline": "Hindustani Vocal"
+      }
+    }
+  ],
+
+  "disciplines": {
+    "rakesh-chaurasia": "Flute",
+    "shubha-mudgal": "Hindustani Vocal"
+  }
+}

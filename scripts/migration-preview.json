@@ -1,0 +1,91 @@
+{
+  "mode": "dry-run",
+  "generatedAt": "2026-08-28T20:01:10.586Z",
+  "repository": "svarit",
+  "lang": "en-us",
+  "withArtists": false,
+  "skipExisting": false,
+  "existingChecked": true,
+  "summary": {
+    "toCreate": 0,
+    "toCreateByType": {},
+    "toUpdate": 1,
+    "toUpdateByType": {
+      "page": 1
+    },
+    "skipped": 0,
+    "assetsToUpload": 0,
+    "assetsReused": 0
+  },
+  "documents": [
+    {
+      "action": "update",
+      "type": "page",
+      "uid": "artists",
+      "title": "Artists",
+      "lang": "en-us",
+      "data": {
+        "slices": [
+          {
+            "slice_type": "hero",
+            "variation": "page_header",
+            "items": [],
+            "primary": {
+              "title": "Artists who we have had the pleasure to host",
+              "description": [
+                {
+                  "type": "paragraph",
+                  "text": "Svarit was founded in 2001 with the vision of promoting and propagating the rich tradition of Hindustani Raag Sangeet, as envisioned by the legendary vocalist Pandit Dinkar Kaikini.",
+                  "spans": []
+                }
+              ]
+            }
+          },
+          {
+            "slice_type": "artist_list",
+            "variation": "default",
+            "items": [],
+            "primary": {
+              "heading": "",
+              "subheading": ""
+            }
+          },
+          {
+            "slice_type": "donate",
+            "variation": "default",
+            "items": [],
+            "primary": {
+              "heading": "Join us in shaping the future of Indian Music.",
+              "cta_label": "Donate to Svarit",
+              "cta_link": {
+                "link_type": "Web",
+                "key": "464fafc5-22bc-42b4-95d0-16d5e85d6b55",
+                "url": "https://pages.razorpay.com/svarit"
+              },
+              "background_image": {
+                "dimensions": {
+                  "width": 2064,
+                  "height": 1376
+                },
+                "alt": null,
+                "copyright": null,
+                "url": "https://images.prismic.io/svarit/ulmy2BY3eHwKdqsp_image.jpg?auto=format,compress",
+                "id": "ulmy2BY3eHwKdqsp",
+                "edit": {
+                  "x": 0,
+                  "y": 0,
+                  "zoom": 1,
+                  "background": "transparent"
+                }
+              }
+            }
+          }
+        ],
+        "meta_title": "Artists",
+        "meta_description": "The musicians who have performed and taught at Svarit since 2001."
+      }
+    }
+  ],
+  "skipped": [],
+  "warnings": []
+}

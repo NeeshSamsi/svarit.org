@@ -1,0 +1,32 @@
+{
+  "id": "volunteers",
+  "type": "SharedSlice",
+  "name": "Volunteers",
+  "description": "A full grid of every Volunteer document.",
+  "variations": [
+    {
+      "id": "default",
+      "name": "Default",
+      "docURL": "...",
+      "version": "initial",
+      "description": "Default",
+      "imageUrl": "",
+      "primary": {
+        "heading": {
+          "type": "Text",
+          "config": {
+            "label": "Heading",
+            "placeholder": ""
+          }
+        },
+        "subheading": {
+          "type": "Text",
+          "config": {
+            "label": "Subheading",
+            "placeholder": ""
+          }
+        }
+      }
+    }
+  ]
+}
