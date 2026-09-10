@@ -36,6 +36,13 @@ const nextConfig: NextConfig = {
         destination: '/initiatives/:uid',
         permanent: true,
       },
+      // The ashwini-bhide artist document was renamed to her full name; keep
+      // the old URL alive.
+      {
+        source: '/artists/ashwini-bhide',
+        destination: '/artists/ashwini-bhide-deshpande',
+        permanent: true,
+      },
       // {
       //   source: "/:path*",
       //   destination: "https://instagram.com/svaritorg",

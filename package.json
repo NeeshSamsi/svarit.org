@@ -30,7 +30,9 @@
     "initiatives:restructure": "node --env-file-if-exists=.env.local --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types scripts/restructure-initiatives-page.ts",
     "initiatives:restructure:commit": "node --env-file-if-exists=.env.local --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types scripts/restructure-initiatives-page.ts --commit",
     "centenary:page": "node --env-file-if-exists=.env.local --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types scripts/create-centenary-page.ts",
-    "centenary:page:commit": "node --env-file-if-exists=.env.local --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types scripts/create-centenary-page.ts --commit"
+    "centenary:page:commit": "node --env-file-if-exists=.env.local --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types scripts/create-centenary-page.ts --commit",
+    "centenary:content": "node --env-file-if-exists=.env.local --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types scripts/create-centenary-content.ts",
+    "centenary:content:commit": "node --env-file-if-exists=.env.local --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types scripts/create-centenary-content.ts --commit"
   },
   "dependencies": {
     "@bentonow/bento-node-sdk": "^2.0.0",
