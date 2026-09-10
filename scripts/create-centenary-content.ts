@@ -28,15 +28,27 @@
  *   2. artists    - create the 12 new artist documents (skip and reuse any that already
  *                   exist - none should, but a partial earlier run is exactly the failure
  *                   this guards against).
- *   3. initiatives - create the 8 event documents, each with an `artists` group built from
- *                    the schedule's uid order, `featured` set from the schedule's `featured`
- *                    array, and its artist references resolved to a stage 1 rename, a stage
- *                    2 creation, or an EXISTING artist document (`kushal-das`, `yogesh-samsi`
- *                    and `shama-bhate` are in neither file and must already exist in Prismic).
+ *   3. initiatives - create, or REPAIR, the 8 event documents. Each entry's `artists` group
+ *                    is built from the schedule's uid order, `featured` set from the
+ *                    schedule's `featured` array, and its artist references resolved to a
+ *                    stage 1 rename, a stage 2 creation, or an EXISTING artist document
+ *                    (`kushal-das`, `yogesh-samsi` and `shama-bhate` are in neither file and
+ *                    must already exist in Prismic). "Repair" is not hypothetical: see the
+ *                    interruption note below.
  *   4. link        - update page/centenary's `event_list`/`timeline` slice, setting
  *                    `primary.initiatives` to one row per initiative in the schedule's order.
  *                    Every other field on that document, including the timeline slice's own
  *                    other primary fields, is carried through byte-for-byte.
+ *
+ * INTERRUPTION. The Migration API creates a document, THEN patches its content in a second
+ * pass. An interrupted --commit run can land between those two passes, leaving a document
+ * that exists (and may already be published) but carries only its custom type's model
+ * defaults - empty text and date fields, a Select field showing its `default_value` rather
+ * than the schedule's actual category. This script detects that and repairs it: stage 3
+ * compares every EXISTING initiative's own fields (never fields it does not own) against the
+ * schedule and issues an `updateDocument()` wherever they differ, using the exact same
+ * payload a fresh `createDocument()` would have sent. A run must still not be interrupted -
+ * this only makes the aftermath recoverable by re-running, not something to rely on.
  *
  * The page currently sits in the unpublished migration release `create-centenary-page.ts`'s
  * own --commit wrote, so it will likely NOT be readable through /api/v2 yet. When that is the
@@ -60,10 +72,13 @@
  *   - every artist uid referenced anywhere in the schedule resolves to a rename, a new
  *     artist, or an existing document - ABORTS naming the uid (and which initiative needed
  *     it) if not
- *   - the 8 initiative uids are either ALL absent from Prismic (a normal run) or ALL already
- *     present (a repeat run, handled as a no-op for stage 3) - a MIX of the two aborts,
- *     naming which uids exist and which do not, because creating only the missing half would
- *     split one atomic migration's artist links across two inconsistent runs
+ *
+ * A schedule uid that already exists in Prismic is NOT a validation failure: it is planned
+ * as an update (or, if it already matches, a no-op) rather than a create. See INTERRUPTION
+ * above. A partial set - some of the 8 already there, some not - creates and repairs side by
+ * side in the same run; there is nothing ambiguous left to refuse once each entry is judged
+ * on its own, since `getByUID('event', uid)` is already scoped to the `event` type and so
+ * cannot collide with a document of a different type.
  *
  * Dry run is the DEFAULT and writes nothing. It still performs real, read-only lookups
  * against Prismic (existing artists, existing initiatives, page/home for the reconstruction
@@ -224,20 +239,32 @@ export type RenamePlan<T> =
 
 /**
  * Decides what to do about one rename entry, given whatever `getByUID` found (or didn't) for
- * its `from_uid` and `to_uid`. Both present is ambiguous (which one is current?); both absent
- * means there is nothing to rename FROM. Either aborts, naming the rename so a human can
- * untangle it - guessing would risk renaming the wrong document or duplicating a name.
+ * its `from_uid` and `to_uid`. Both absent means there is nothing to rename FROM - aborts,
+ * naming the rename so a human can untangle it, since guessing would risk renaming the wrong
+ * document or duplicating a name.
+ *
+ * Both present is NOT automatically ambiguous: Prismic keeps a document's old uid resolvable
+ * after its uid changes, so `from_uid` and `to_uid` can both resolve to the very same
+ * document once the rename has already gone through - that is success, reported the same way
+ * as `to_uid` alone resolving. Only two DIFFERENT documents (different ids) under the two
+ * uids is the genuinely ambiguous case this aborts on.
  */
-export function planArtistRename<T>(
+export function planArtistRename<T extends { id: string }>(
   rename: ArtistRename,
   fromHandle: T | null,
   toHandle: T | null
 ): RenamePlan<T> {
   if (fromHandle && toHandle) {
-    throw new Error(
-      `Cannot rename artist "${rename.from_uid}" to "${rename.to_uid}": both uids already ` +
-        'exist in Prismic. Resolve by hand (merge or delete one) before re-running.'
-    )
+    if (fromHandle.id !== toHandle.id) {
+      throw new Error(
+        `Cannot rename artist "${rename.from_uid}" to "${rename.to_uid}": both uids resolve ` +
+          'to different documents already in Prismic. Resolve by hand (merge or delete one) ' +
+          'before re-running.'
+      )
+    }
+    // Same document under both uids: the rename already happened, and Prismic is still
+    // honouring the old uid.
+    return { action: 'already-renamed', rename, toHandle }
   }
   if (toHandle) {
     return { action: 'already-renamed', rename, toHandle }
@@ -302,29 +329,103 @@ export function unresolvedArtistReferences(
   return messages
 }
 
-export type InitiativeExistence =
-  | { state: 'none' }
-  | { state: 'all' }
-  | { state: 'partial'; existingUids: string[]; missingUids: string[] }
+/** Plain text out of a rich text array: joins each node's own `text`, ignoring formatting. */
+function richTextPlainText(value: unknown): string {
+  if (!Array.isArray(value)) return ''
+  return value
+    .map((node) =>
+      node &&
+      typeof node === 'object' &&
+      typeof (node as Record<string, unknown>).text === 'string'
+        ? ((node as Record<string, unknown>).text as string)
+        : ''
+    )
+    .join('\n')
+}
+
+/** uid + featured pairs off a fetched `artists` group, in the order Prismic returned them. */
+function currentArtistsSignature(
+  value: unknown
+): Array<{ uid: string; featured: boolean }> {
+  const rows = Array.isArray(value) ? value : []
+  return rows.map((row) => {
+    const entry = (row ?? {}) as Record<string, unknown>
+    const artist = (entry.artist ?? {}) as Record<string, unknown>
+    return {
+      uid: typeof artist.uid === 'string' ? artist.uid : '',
+      featured: entry.featured === true,
+    }
+  })
+}
+
+const textField = (value: unknown): string =>
+  typeof value === 'string' ? value : ''
 
 /**
- * Whether the schedule's 8 initiative uids are entirely new, entirely already in Prismic
- * (a repeat run - stage 3 becomes a no-op), or a mix. A mix is never resolved automatically:
- * the whole run is one atomic migration, and creating only the missing initiatives would
- * leave their artist links built against a migration whose earlier stages never ran.
+ * Names the fields this script owns that differ between a fetched `event` document's data and
+ * the schedule entry it should match: title, category, start_date, date_label, venue,
+ * description text, feature_label, and the artists group (uid order plus each row's featured
+ * flag). Nothing else is inspected - fields the script does not own (hero_image, end_date,
+ * venue_map_link, ctas, slices) are never compared, so a change an editor made there is never
+ * reported as drift. `null` and an empty string compare equal, since an untouched Text/Date
+ * field reads back as `null`, not the empty string a blank schedule value (like `venue: ''`)
+ * carries.
  */
-export function describeInitiativeExistence(
-  scheduleUids: string[],
-  existingUids: ReadonlySet<string>
-): InitiativeExistence {
-  const present = scheduleUids.filter((uid) => existingUids.has(uid))
-  if (present.length === 0) return { state: 'none' }
-  if (present.length === scheduleUids.length) return { state: 'all' }
-  return {
-    state: 'partial',
-    existingUids: present,
-    missingUids: scheduleUids.filter((uid) => !existingUids.has(uid)),
+export function describeInitiativeDrift(
+  current: Record<string, unknown>,
+  entry: InitiativeInput
+): string[] {
+  const diffs: string[] = []
+
+  if (textField(current.title) !== entry.title) diffs.push('title')
+  if (textField(current.category) !== entry.category) diffs.push('category')
+  if (textField(current.start_date) !== entry.start_date)
+    diffs.push('start_date')
+  if (textField(current.date_label) !== entry.date_label)
+    diffs.push('date_label')
+  if (textField(current.venue) !== entry.venue) diffs.push('venue')
+  if (richTextPlainText(current.description) !== entry.description) {
+    diffs.push('description')
   }
+  if (textField(current.feature_label) !== entry.feature_label) {
+    diffs.push('feature_label')
+  }
+
+  const desiredArtists = entry.artists.map((uid) => ({
+    uid,
+    featured: entry.featured.includes(uid),
+  }))
+  if (
+    JSON.stringify(currentArtistsSignature(current.artists)) !==
+    JSON.stringify(desiredArtists)
+  ) {
+    diffs.push('artists')
+  }
+
+  return diffs
+}
+
+export type InitiativeWritePlan =
+  | { action: 'create' }
+  | { action: 'update'; diffs: string[] }
+  | { action: 'unchanged' }
+
+/**
+ * Decides whether one schedule entry needs creating, updating, or is already correct.
+ * "Updating" covers two cases that look identical from here: the interrupted-migration
+ * repair (the document exists but was never patched past the Migration API's create pass,
+ * so it carries only model defaults) and an ordinary drift from a later schedule edit. Either
+ * way the fix is the same: write `buildInitiativeData(entry, ...)` over it.
+ */
+export function planInitiativeWrite(
+  entry: InitiativeInput,
+  existingData: Record<string, unknown> | null
+): InitiativeWritePlan {
+  if (!existingData) return { action: 'create' }
+  const diffs = describeInitiativeDrift(existingData, entry)
+  return diffs.length === 0
+    ? { action: 'unchanged' }
+    : { action: 'update', diffs }
 }
 
 // -----------------------------------------------------------------------------------------
@@ -587,26 +688,27 @@ async function main() {
       return [uid, doc] as const
     })
   )
-  const existingInitiatives = new Map<string, Handle>(
+  // Typed as PrismicDocument, not Handle: these come from getByUID, and stage 3 below reads
+  // .id/.lang/.data off them directly to build an updateDocument() call when repairing one.
+  const existingInitiatives = new Map<string, PrismicDocument>(
     existingInitiativeEntries.filter(
       (entry): entry is readonly [string, PrismicDocument] => entry[1] !== null
     )
   )
 
-  const initiativeExistence = describeInitiativeExistence(
-    scheduleUids,
-    new Set(existingInitiatives.keys())
-  )
-  if (initiativeExistence.state === 'partial') {
-    throw new Error(
-      "The schedule's initiatives are only partially present in Prismic, which this " +
-        'refuses to resolve automatically (the whole run is one atomic migration, and ' +
-        'creating only the missing half would build its artist links against a migration ' +
-        'whose earlier stages never ran). Investigate by hand before re-running.\n' +
-        `  already in Prismic: ${initiativeExistence.existingUids.join(', ')}\n` +
-        `  not yet in Prismic: ${initiativeExistence.missingUids.join(', ')}`
-    )
-  }
+  // A partial set (some of the 8 already exist, some do not) is an expected state to
+  // REPAIR, not a reason to refuse: `planInitiativeWrite` below decides create/update/
+  // unchanged per entry, so a create and an update can sit side by side in the same run.
+  // Nothing here refuses on a uid collision, because `getByUID('event', uid)` is already
+  // scoped to the `event` type - it cannot return a document of a different type, so there
+  // is no "exists as something else" ambiguity left to detect from this fetch.
+  const initiativePlans = scheduleInput.map((entry) => {
+    const existingDoc = existingInitiatives.get(entry.uid)
+    const existingData = existingDoc
+      ? ((existingDoc.data ?? {}) as Record<string, unknown>)
+      : null
+    return { entry, plan: planInitiativeWrite(entry, existingData) }
+  })
 
   // --- artist resolution, using boolean markers as placeholder "handles" for the dry-run
   // plan (only presence in the map matters here; real handles are built at commit time) -----
@@ -682,11 +784,14 @@ async function main() {
   const renamesToApply = renameChecks.filter(
     ({ plan }) => plan.action === 'rename'
   )
+  const initiativeWorkNeeded = initiativePlans.some(
+    ({ plan }) => plan.action !== 'unchanged'
+  )
 
   const hasWork =
     renamesToApply.length > 0 ||
     artistsToCreate.length > 0 ||
-    initiativeExistence.state === 'none' ||
+    initiativeWorkNeeded ||
     timelinePlanPreview.changed
 
   // --- print the plan ----------------------------------------------------------------------
@@ -724,15 +829,17 @@ async function main() {
   console.log('')
 
   console.log('Stage 3: initiatives')
-  if (initiativeExistence.state === 'all') {
-    console.log(
-      `  all ${scheduleUids.length} initiatives already exist in Prismic. Nothing to create.`
-    )
-  } else {
-    for (const entry of scheduleInput) {
+  for (const { entry, plan } of initiativePlans) {
+    if (plan.action === 'create') {
       console.log(
-        `  create  ${summariseInitiative(entry, entry.artists.length, entry.featured.length)}`
+        `  create     ${summariseInitiative(entry, entry.artists.length, entry.featured.length)}`
       )
+    } else if (plan.action === 'update') {
+      console.log(
+        `  update     ${entry.uid} (exists but ${plan.diffs.join(', ')} differ)`
+      )
+    } else {
+      console.log(`  unchanged  ${entry.uid} (already matches the schedule)`)
     }
   }
   console.log('')
@@ -835,20 +942,39 @@ async function main() {
     ...createdArtistHandles,
   ])
 
-  // Stage 3: initiatives.
+  // Stage 3: initiatives. An 'update' repairs a document the Migration API's create pass
+  // left behind with only model defaults (or one an editor's later change drifted from the
+  // schedule); both branches write the exact same `buildInitiativeData` payload, so a create
+  // and a repair are byte-identical apart from which migration call carries them.
   const initiativeHandles = new Map<string, Handle>()
-  if (initiativeExistence.state === 'all') {
-    for (const [uid, doc] of existingInitiatives)
-      initiativeHandles.set(uid, doc)
-  } else {
-    for (const entry of scheduleInput) {
+  for (const { entry, plan } of initiativePlans) {
+    if (plan.action === 'unchanged') {
+      initiativeHandles.set(entry.uid, existingInitiatives.get(entry.uid)!)
+      continue
+    }
+
+    const data = buildInitiativeData(entry, artistHandles)
+    if (plan.action === 'create') {
       const handle = migration.createDocument(
         {
           type: 'event',
           uid: entry.uid,
           lang,
-          data: buildInitiativeData(entry, artistHandles),
+          data,
         } as unknown as Parameters<Migration['createDocument']>[0],
+        entry.title
+      )
+      initiativeHandles.set(entry.uid, handle as unknown as Handle)
+    } else {
+      const existingDoc = existingInitiatives.get(entry.uid)!
+      const handle = migration.updateDocument(
+        {
+          id: existingDoc.id,
+          uid: entry.uid,
+          type: 'event',
+          lang: existingDoc.lang,
+          data,
+        } as unknown as Parameters<Migration['updateDocument']>[0],
         entry.title
       )
       initiativeHandles.set(entry.uid, handle as unknown as Handle)

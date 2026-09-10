@@ -7,7 +7,10 @@
  * `featured` uid absent from `artists` aborts validation, an unresolved artist uid aborts
  * rather than silently dropping the artist, description becomes a single rich text paragraph
  * with the exact source text, the timeline's initiatives group comes out in the schedule's
- * array order, and a duplicate or partially-pre-existing initiative uid is refused.
+ * array order, and an existing initiative document is planned as a create, an update (repair
+ * for an interrupted migration or ordinary drift), or left unchanged depending on whether -
+ * and how - its own fields differ from the schedule, with no all-or-nothing abort across a
+ * mixed set.
  */
 
 import assert from 'node:assert/strict'
@@ -19,9 +22,10 @@ import {
   buildInitiativeData,
   buildInitiativesGroup,
   currentTimelineInitiativeUids,
-  describeInitiativeExistence,
+  describeInitiativeDrift,
   findTimelineSliceIndex,
   planArtistRename,
+  planInitiativeWrite,
   planTimelineLink,
   resolveArtistHandles,
   unresolvedArtistReferences,
@@ -114,28 +118,41 @@ const rename: ArtistRename = {
 }
 
 describe('planArtistRename', () => {
+  const fromDoc = { id: 'from-doc-id' }
+  const toDoc = { id: 'to-doc-id' }
+
   it('plans a rename when only from_uid exists', () => {
-    const plan = planArtistRename(rename, 'from-handle', null)
-    assert.deepEqual(plan, {
-      action: 'rename',
-      rename,
-      fromHandle: 'from-handle',
-    })
+    const plan = planArtistRename(rename, fromDoc, null)
+    assert.deepEqual(plan, { action: 'rename', rename, fromHandle: fromDoc })
   })
 
   it('reports already-renamed when only to_uid exists', () => {
-    const plan = planArtistRename(rename, null, 'to-handle')
+    const plan = planArtistRename(rename, null, toDoc)
     assert.deepEqual(plan, {
       action: 'already-renamed',
       rename,
-      toHandle: 'to-handle',
+      toHandle: toDoc,
     })
   })
 
-  it('aborts when both uids already exist (ambiguous)', () => {
+  it('reports already-renamed, not ambiguous, when both uids resolve to the same document', () => {
+    // Prismic keeps a document's old uid resolvable after its uid changes, so a query for
+    // from_uid and a query for to_uid can both land on the very same document once the
+    // rename has already gone through. Real repository state (2 uids, 1 document id) hit
+    // this exact case and wrongly aborted before this fix.
+    const sameDoc = { id: 'same-doc-id' }
+    const plan = planArtistRename(rename, sameDoc, sameDoc)
+    assert.deepEqual(plan, {
+      action: 'already-renamed',
+      rename,
+      toHandle: sameDoc,
+    })
+  })
+
+  it('aborts when both uids resolve to two genuinely different documents', () => {
     assert.throws(
-      () => planArtistRename(rename, 'from-handle', 'to-handle'),
-      /both uids already exist/
+      () => planArtistRename(rename, fromDoc, toDoc),
+      /resolve to different documents/
     )
   })
 
@@ -201,27 +218,135 @@ describe('unresolvedArtistReferences', () => {
   })
 })
 
-describe('describeInitiativeExistence', () => {
-  it('is "none" when nothing in the schedule exists yet', () => {
-    assert.deepEqual(describeInitiativeExistence(['a', 'b'], new Set()), {
-      state: 'none',
-    })
-  })
+/**
+ * A document exactly the way the interrupted Migration API leaves one behind: it exists, but
+ * every field this script owns still reads as the custom type's own model default rather
+ * than anything the schedule asked for. `category` defaults to "Event" per
+ * customtypes/event/index.json, which is the whole reason the repair brief's proof works:
+ * an entry that legitimately wants "Event" won't show a category diff from this alone, but
+ * one that wants "Workshop" will.
+ */
+const modelDefaultInitiativeData = (): Record<string, unknown> => ({
+  title: null,
+  category: 'Event',
+  start_date: null,
+  date_label: null,
+  venue: null,
+  description: [],
+  feature_label: null,
+  artists: [],
+})
 
-  it('is "all" when every schedule uid already exists', () => {
+/** The shape a fully-written, fetched `event` document's data has for a given schedule entry. */
+const fetchedInitiativeData = (
+  entry: InitiativeInput,
+  artistDocs: Record<string, { id: string; uid: string }>
+): Record<string, unknown> => ({
+  title: entry.title,
+  category: entry.category,
+  start_date: entry.start_date,
+  date_label: entry.date_label,
+  venue: entry.venue,
+  description: [{ type: 'paragraph', text: entry.description, spans: [] }],
+  feature_label: entry.feature_label,
+  artists: entry.artists.map((uid) => ({
+    artist: artistDocs[uid],
+    featured: entry.featured.includes(uid),
+  })),
+})
+
+describe('describeInitiativeDrift', () => {
+  it('reports no drift when every owned field already matches the schedule', () => {
+    const entry = initiative()
+    const artistDocs = Object.fromEntries(
+      entry.artists.map((uid) => [uid, { id: `doc-${uid}`, uid }])
+    )
     assert.deepEqual(
-      describeInitiativeExistence(['a', 'b'], new Set(['a', 'b'])),
-      { state: 'all' }
+      describeInitiativeDrift(fetchedInitiativeData(entry, artistDocs), entry),
+      []
     )
   })
 
-  it('is "partial", naming both sides, when only some exist', () => {
-    const result = describeInitiativeExistence(['a', 'b', 'c'], new Set(['b']))
-    assert.deepEqual(result, {
-      state: 'partial',
-      existingUids: ['b'],
-      missingUids: ['a', 'c'],
+  it('names every owned field that differs on a model-default-only document', () => {
+    const entry = initiative()
+    const diffs = describeInitiativeDrift(modelDefaultInitiativeData(), entry)
+
+    assert.deepEqual(diffs, [
+      'title',
+      'start_date',
+      'date_label',
+      'venue',
+      'description',
+      'feature_label',
+      'artists',
+    ])
+    // category is absent: "Event" is both the model default and this entry's real category.
+    assert.ok(!diffs.includes('category'))
+  })
+
+  it('catches a category that reads as the model default instead of the real value', () => {
+    const entry = initiative({
+      category: 'Workshop',
+      artists: [],
+      featured: [],
     })
+    const diffs = describeInitiativeDrift(modelDefaultInitiativeData(), entry)
+    assert.ok(diffs.includes('category'))
+  })
+
+  it('treats a null venue and an empty-string schedule venue as equal, not a diff', () => {
+    const entry = initiative({ venue: '', artists: [], featured: [] })
+    const current = fetchedInitiativeData(entry, {})
+    current.venue = null
+    assert.ok(!describeInitiativeDrift(current, entry).includes('venue'))
+  })
+})
+
+describe('planInitiativeWrite', () => {
+  it('plans a create when no document exists for the uid', () => {
+    assert.deepEqual(planInitiativeWrite(initiative(), null), {
+      action: 'create',
+    })
+  })
+
+  it('plans an update, naming the diffs, when the existing document differs', () => {
+    const plan = planInitiativeWrite(initiative(), modelDefaultInitiativeData())
+    assert.equal(plan.action, 'update')
+    if (plan.action !== 'update') throw new Error('unreachable')
+    assert.ok(plan.diffs.includes('title'))
+    assert.ok(plan.diffs.includes('artists'))
+  })
+
+  it('plans unchanged when the existing document already matches the schedule', () => {
+    const entry = initiative()
+    const artistDocs = Object.fromEntries(
+      entry.artists.map((uid) => [uid, { id: `doc-${uid}`, uid }])
+    )
+    assert.deepEqual(
+      planInitiativeWrite(entry, fetchedInitiativeData(entry, artistDocs)),
+      { action: 'unchanged' }
+    )
+  })
+
+  it('plans creates and updates side by side for a mixed set, with no abort', () => {
+    const missingEntry = initiative({
+      uid: 'samvaad-baithak-1',
+      artists: [],
+      featured: [],
+    })
+    const brokenEntry = initiative({ uid: 'aarambh-2026' })
+    const existingByUid = new Map<string, Record<string, unknown>>([
+      [brokenEntry.uid, modelDefaultInitiativeData()],
+    ])
+
+    const plans = [missingEntry, brokenEntry].map((entry) =>
+      planInitiativeWrite(entry, existingByUid.get(entry.uid) ?? null)
+    )
+
+    assert.deepEqual(
+      plans.map((p) => p.action),
+      ['create', 'update']
+    )
   })
 })
 
