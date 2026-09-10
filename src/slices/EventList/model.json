@@ -26,6 +26,15 @@
             "placeholder": "Our Initiatives"
           }
         },
+        "timeframe": {
+          "type": "Select",
+          "config": {
+            "label": "Timeframe",
+            "placeholder": "",
+            "options": ["All", "Upcoming", "Past"],
+            "default_value": "All"
+          }
+        },
         "limit": {
           "type": "Boolean",
           "config": {
@@ -68,6 +77,15 @@
             "default_value": "All"
           }
         },
+        "timeframe": {
+          "type": "Select",
+          "config": {
+            "label": "Timeframe",
+            "placeholder": "",
+            "options": ["All", "Upcoming", "Past"],
+            "default_value": "All"
+          }
+        },
         "limit": {
           "type": "Boolean",
           "config": {
@@ -75,6 +93,80 @@
             "placeholder_false": "Show every event",
             "placeholder_true": "Show 6 at a time",
             "default_value": true
+          }
+        }
+      }
+    },
+    {
+      "id": "timeline",
+      "name": "Timeline",
+      "docURL": "...",
+      "version": "initial",
+      "description": "Vertical timeline of initiatives with featured artists and an optional signup form",
+      "imageUrl": "",
+      "primary": {
+        "heading": {
+          "type": "Text",
+          "config": {
+            "label": "Heading",
+            "placeholder": ""
+          }
+        },
+        "subheading": {
+          "type": "Text",
+          "config": {
+            "label": "Subheading",
+            "placeholder": "Celebrations"
+          }
+        },
+        "source": {
+          "type": "Select",
+          "config": {
+            "label": "Source",
+            "placeholder": "",
+            "options": ["Upcoming", "Chosen"],
+            "default_value": "Upcoming"
+          }
+        },
+        "initiatives": {
+          "type": "Group",
+          "config": {
+            "label": "Chosen Initiatives",
+            "repeat": true,
+            "fields": {
+              "initiative": {
+                "type": "Link",
+                "config": {
+                  "label": "Initiative",
+                  "placeholder": "",
+                  "select": "document",
+                  "customtypes": ["event"]
+                }
+              }
+            }
+          }
+        },
+        "show_signup": {
+          "type": "Boolean",
+          "config": {
+            "label": "Show signup form",
+            "placeholder_false": "Hide",
+            "placeholder_true": "Show",
+            "default_value": true
+          }
+        },
+        "signup_heading": {
+          "type": "Text",
+          "config": {
+            "label": "Signup Heading",
+            "placeholder": "A Year-Long Musical Celebration"
+          }
+        },
+        "signup_cta_label": {
+          "type": "Text",
+          "config": {
+            "label": "Signup Button Label",
+            "placeholder": "Sign up for updates"
           }
         }
       }
