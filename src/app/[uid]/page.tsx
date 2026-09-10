@@ -14,6 +14,14 @@ import { ogImageFields } from '@/lib/og'
  */
 const RESERVED_UIDS = ['home', 'initiatives', 'artists']
 
+// A generic page can carry an event_list timeline with source Upcoming,
+// whose output filters by today's date and not only by Prismic content, so
+// the on-demand tag revalidation the Prismic webhook triggers cannot alone
+// move an event out of that timeline once its date arrives. Hourly, not
+// daily, so the transition lands within an hour of midnight rather than up
+// to a day late.
+export const revalidate = 3600
+
 type Props = {
   params: Promise<{ uid: string }>
 }

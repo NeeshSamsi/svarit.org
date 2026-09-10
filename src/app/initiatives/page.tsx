@@ -8,6 +8,13 @@ import { ogImageFields } from '@/lib/og'
 
 const UID = 'initiatives'
 
+// This page's Upcoming timeline and Past tabs filter events by today's date,
+// not only by Prismic content, so the on-demand tag revalidation the Prismic
+// webhook triggers cannot alone move an event from Upcoming to Past once its
+// date arrives. Hourly, not daily, so the transition lands within an hour of
+// midnight rather than up to a day late.
+export const revalidate = 3600
+
 export default async function InitiativesPage() {
   const client = createClient()
   const page = await client.getByUID('page', UID).catch(() => notFound())
