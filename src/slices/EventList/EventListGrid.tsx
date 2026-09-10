@@ -7,6 +7,7 @@ import Button from '@/components/ui/Button'
 import { gsap, ScrollTrigger } from '@/lib/gsap'
 import { useIsomorphicLayoutEffect } from '@/lib/useIsomorphicLayoutEffect'
 import { introHandoff, PAGE_HEADER_INTRO_END } from '@/lib/intro'
+import { filterByTimeframe } from '@/lib/initiatives'
 import type { EventDocument } from '../../../prismicio-types'
 import EventCard from './EventCard'
 
@@ -21,6 +22,7 @@ export default function EventListGrid({
   events: EventDocument[]
 }) {
   const category = slice.primary.category ?? 'All'
+  const timeframe = slice.primary.timeframe ?? 'All'
   // Documents saved before `limit` existed send undefined, not the model's
   // `true` default; an editor who switches it off still sends false.
   const limit = slice.primary.limit ?? true
@@ -30,7 +32,7 @@ export default function EventListGrid({
 
   const sortedItems = useMemo(
     () =>
-      events
+      filterByTimeframe(events, timeframe)
         .filter(
           (event) => category === 'All' || event.data.category === category
         )
@@ -39,7 +41,7 @@ export default function EventListGrid({
             new Date(b.data.start_date ?? 0).getTime() -
             new Date(a.data.start_date ?? 0).getTime()
         ),
-    [events, category]
+    [events, category, timeframe]
   )
   const visibleItems = limit ? sortedItems.slice(0, visibleCount) : sortedItems
   const hasMore = limit && visibleCount < sortedItems.length

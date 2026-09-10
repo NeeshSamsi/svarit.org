@@ -3,26 +3,13 @@ import type { Content } from '@prismicio/client'
 import type { SliceComponentProps } from '@prismicio/react'
 import { createClient } from '@/prismicio'
 import { getAllEvents } from '@/lib/queries'
+import { todayISODate } from '@/lib/initiatives'
 import EventListTabs from './EventListTabs'
 import EventListGrid from './EventListGrid'
 import EventListTimeline from './EventListTimeline'
 import type { ArtistDocument, EventDocument } from '../../../prismicio-types'
 
 export type EventListProps = SliceComponentProps<Content.EventListSlice>
-
-/**
- * Today as YYYY-MM-DD in local time, matching the plain-string format
- * `start_date` is stored in. `new Date(dateString)` parses a date-only string
- * as UTC midnight, which can land on the wrong side of "today" depending on
- * the server's offset; comparing the strings directly avoids that.
- */
-function todayISODate(): string {
-  const now = new Date()
-  const year = now.getFullYear()
-  const month = String(now.getMonth() + 1).padStart(2, '0')
-  const day = String(now.getDate()).padStart(2, '0')
-  return `${year}-${month}-${day}`
-}
 
 /**
  * The events for the timeline's `initiatives[]` group (source `Chosen`) or
