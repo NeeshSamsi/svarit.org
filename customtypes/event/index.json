@@ -24,7 +24,8 @@
           "placeholder": "",
           "options": [
             "Event",
-            "Workshop"
+            "Workshop",
+            "Scholarship"
           ],
           "default_value": "Event"
         }
@@ -73,6 +74,24 @@
           "placeholder": ""
         }
       },
+      "venue_map_link": {
+        "type": "Link",
+        "config": {
+          "label": "Venue Map Link",
+          "placeholder": "",
+          "select": "web",
+          "allowTargetBlank": true,
+          "allowText": false,
+          "repeat": false
+        }
+      },
+      "feature_label": {
+        "type": "Text",
+        "config": {
+          "label": "Feature Label",
+          "placeholder": "Featuring:"
+        }
+      },
       "artists": {
         "type": "Group",
         "config": {
@@ -88,6 +107,53 @@
                 "customtypes": [
                   "artist"
                 ]
+              }
+            },
+            "featured": {
+              "type": "Boolean",
+              "config": {
+                "label": "Featured on card",
+                "placeholder_false": "Not featured",
+                "placeholder_true": "Featured",
+                "default_value": false
+              }
+            }
+          }
+        }
+      },
+      "ctas": {
+        "type": "Group",
+        "config": {
+          "label": "CTAs",
+          "repeat": true,
+          "fields": {
+            "label": {
+              "type": "Text",
+              "config": {
+                "label": "Label",
+                "placeholder": "Learn more"
+              }
+            },
+            "link": {
+              "type": "Link",
+              "config": {
+                "label": "Link",
+                "placeholder": "",
+                "allowTargetBlank": true,
+                "allowText": false,
+                "repeat": false
+              }
+            },
+            "style": {
+              "type": "Select",
+              "config": {
+                "label": "Style",
+                "placeholder": "",
+                "options": [
+                  "Outlined",
+                  "Primary"
+                ],
+                "default_value": "Outlined"
               }
             }
           }

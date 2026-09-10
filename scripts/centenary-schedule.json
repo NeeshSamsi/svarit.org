@@ -1,0 +1,121 @@
+{
+  "_readme": [
+    "The centenary initiatives, normalised for the creation script.",
+    "",
+    "Categories: the schedule used Festival and Baithak, which are not options on the Event",
+    "type. Per the decision to keep the tab row from growing, they map to Event; Sadhana",
+    "maps to Workshop. The distinction lives in the titles, which already carry it.",
+    "",
+    "Dates: four entries were month-precision. start_date is the 1st of that month so",
+    "sorting and the upcoming/past filter work, and date_label carries the honest display",
+    "string, which is exactly what date_label is for. No date_label claims a day that was",
+    "not given.",
+    "",
+    "Order: this array order is the /centenary timeline order, because that timeline is",
+    "source Chosen. Note it differs from date order in April 2027: Sumiran is the 4th while",
+    "Baithak 3 and Sadhana resolve to the 1st, so an Upcoming-sorted view would put Sumiran",
+    "last of the three. Give those two real dates to fix that.",
+    "",
+    "ashwini-deshpande is linked as the existing ashwini-bhide document, same person.",
+    "Descriptions are the user's own copy, reproduced verbatim."
+  ],
+
+  "initiatives": [
+    {
+      "uid": "aarambh-2026",
+      "title": "Aarambh: Dinarang Centenary Inauguration",
+      "category": "Event",
+      "start_date": "2026-10-02",
+      "date_label": "2nd October 2026",
+      "venue": "Bharatiya Vidya Bhavan Auditorium, Chowpatty, Mumbai",
+      "description": "Opening the year-long centenary celebrations of Pandit Dinkar Kaikini, Aarambh brings together leading maestros and distinguished artists across morning and evening sessions at Bharatiya Vidya Bhavan. The festival commemorates the maestro's vocal and compositional legacy through khayal, Carnatic vocal, instrumental duets, and classical dialogue.",
+      "feature_label": "Featuring:",
+      "artists": ["sangeeta-shankar", "nandini-shankar", "ojas-adhiya", "ashwini-bhide-deshpande", "vishwanath-shirodkar", "siddhesh-bicholkar", "omkar-dadarkar", "swapnil-bhise", "kushal-das", "yogesh-samsi", "ranjani-balasubramanian", "gayatri-balasubramanian", "l-ramakrishnan", "sridhar-parthasarathi", "s-krishna"],
+      "featured": ["sangeeta-shankar", "nandini-shankar", "ashwini-bhide-deshpande", "omkar-dadarkar", "kushal-das", "ranjani-balasubramanian", "gayatri-balasubramanian"]
+    },
+    {
+      "uid": "samvaad-baithak-1",
+      "title": "Samvaad: A Dinarang Baithak (1/4)",
+      "category": "Event",
+      "start_date": "2026-11-01",
+      "date_label": "November 2026",
+      "venue": "",
+      "description": "The opening chapter of the centenary baithak series, designed to revive the intimacy of traditional acoustic gatherings. This curated session removes formal stage barriers to highlight rising classical talent in an immersive setting that encourages artistic exchange and close listening.",
+      "feature_label": "Featuring:",
+      "artists": [],
+      "featured": []
+    },
+    {
+      "uid": "samvaad-baithak-2",
+      "title": "Samvaad: A Dinarang Baithak (2/4)",
+      "category": "Event",
+      "start_date": "2027-01-01",
+      "date_label": "January 2027",
+      "venue": "",
+      "description": "The second instalment of the quarterly baithak series, offering an unhurried, close-quarters listening environment. Dedicated to nurturing emerging soloists, the session connects promising artists directly with seasoned connoisseurs, scholars, and patrons.",
+      "feature_label": "Featuring:",
+      "artists": [],
+      "featured": []
+    },
+    {
+      "uid": "sumiran-kathak-festival-2027",
+      "title": "Sumiran: Dinarang Kathak Festival",
+      "category": "Event",
+      "start_date": "2027-04-04",
+      "date_label": "4th April 2027",
+      "venue": "Bal Shikshan Mandir, Pune",
+      "description": "A day-long classical dance festival celebrating Pandit Dinkar Kaikini's compositions through the language of Kathak. Featuring special choreographies conceived by Shama Bhate alongside works by prominent dancers, the festival explores the rhythmic and emotional dialogue between music and movement.",
+      "feature_label": "Featuring:",
+      "artists": ["shama-bhate"],
+      "featured": ["shama-bhate"]
+    },
+    {
+      "uid": "samvaad-baithak-3",
+      "title": "Samvaad: A Dinarang Baithak (3/4)",
+      "category": "Event",
+      "start_date": "2027-04-01",
+      "date_label": "April 2027",
+      "venue": "",
+      "description": "The third session of the intimate baithak initiative, providing a focused platform for exceptional young classical exponents. The gathering honours the baithak tradition with spontaneous exploration, deep audience engagement, and subtle aesthetic nuance.",
+      "feature_label": "Featuring:",
+      "artists": [],
+      "featured": []
+    },
+    {
+      "uid": "sadhana-workshops-scholarships",
+      "title": "Sadhana: Dinarang Workshops & Scholarships",
+      "category": "Workshop",
+      "start_date": "2027-04-01",
+      "date_label": "April 2027",
+      "venue": "",
+      "description": "An intensive pedagogical initiative carrying forward Pandit Dinkar Kaikini's lifelong devotion to music education. Comprising four maestro-led masterclasses and merit-based annual scholarships, the programme supports advanced student training in gayaki, stagecraft, and classical knowledge.",
+      "feature_label": "Conducting:",
+      "artists": [],
+      "featured": []
+    },
+    {
+      "uid": "samvaad-baithak-4",
+      "title": "Samvaad: A Dinarang Baithak (4/4)",
+      "category": "Event",
+      "start_date": "2027-07-01",
+      "date_label": "July 2027",
+      "venue": "",
+      "description": "The concluding edition of the centenary baithak series, rounding off a year of intimate youth-focused recitals. The session offers an informal platform for emerging musicians to present detailed ragas before an attentive, discerning community of listeners.",
+      "feature_label": "Featuring:",
+      "artists": [],
+      "featured": []
+    },
+    {
+      "uid": "purnahuti-2027",
+      "title": "Purnahuti: Dinarang Centenary Finale",
+      "category": "Event",
+      "start_date": "2027-10-02",
+      "date_label": "2nd October 2027",
+      "venue": "Nehru Centre, Mumbai",
+      "description": "The grand culmination of the centenary celebrations at Nehru Centre, Mumbai. Spanning three sessions across the day, the festival features landmark performances by India's pre-eminent classical luminaries, alongside retrospective photographic and archival film exhibitions honouring the enduring influence of \"Dinarang\".",
+      "feature_label": "Featuring:",
+      "artists": [],
+      "featured": []
+    }
+  ]
+}

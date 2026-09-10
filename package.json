@@ -26,9 +26,16 @@
     "settings:preview": "node --env-file-if-exists=.env.local --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types scripts/set-settings-contact.ts",
     "settings:commit": "node --env-file-if-exists=.env.local --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types scripts/set-settings-contact.ts --commit",
     "privacy:preview": "node --env-file-if-exists=.env.local --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types scripts/create-privacy-policy.ts",
-    "privacy:commit": "node --env-file-if-exists=.env.local --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types scripts/create-privacy-policy.ts --commit"
+    "privacy:commit": "node --env-file-if-exists=.env.local --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types scripts/create-privacy-policy.ts --commit",
+    "initiatives:restructure": "node --env-file-if-exists=.env.local --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types scripts/restructure-initiatives-page.ts",
+    "initiatives:restructure:commit": "node --env-file-if-exists=.env.local --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types scripts/restructure-initiatives-page.ts --commit",
+    "centenary:page": "node --env-file-if-exists=.env.local --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types scripts/create-centenary-page.ts",
+    "centenary:page:commit": "node --env-file-if-exists=.env.local --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types scripts/create-centenary-page.ts --commit",
+    "centenary:content": "node --env-file-if-exists=.env.local --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types scripts/create-centenary-content.ts",
+    "centenary:content:commit": "node --env-file-if-exists=.env.local --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types scripts/create-centenary-content.ts --commit"
   },
   "dependencies": {
+    "@bentonow/bento-node-sdk": "^2.0.0",
     "@prismicio/client": "^7.22.0",
     "@prismicio/next": "^2.3.0",
     "@prismicio/react": "^3.4.1",

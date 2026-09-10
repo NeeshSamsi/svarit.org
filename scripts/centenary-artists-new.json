@@ -1,0 +1,40 @@
+{
+  "_readme": [
+    "Artist documents for the centenary line-ups. Name and discipline only; photo and bio",
+    "are added in Prismic afterwards.",
+    "",
+    "s-krishna came from the submitted schedule's Aarambh line-up; discipline confirmed as",
+    "Ghatam by the user. The displayed name \"S Krishna\" is an expansion of the slug and may",
+    "want checking against how the artist is normally credited.",
+    "",
+    "Ranjani and Gayatri are split into two documents. Surname confirmed as",
+    "Balasubramanian via the Padma award listing on their Wikipedia page.",
+    "",
+    "`rename` retitles an EXISTING document. Content relationships store document ids, not",
+    "uids, so the one event linking Ashwini Bhide keeps its link. Only her public URL moves,",
+    "which next.config.ts redirects."
+  ],
+
+  "rename": [
+    {
+      "from_uid": "ashwini-bhide",
+      "to_uid": "ashwini-bhide-deshpande",
+      "name": "Ashwini Bhide-Deshpande"
+    }
+  ],
+
+  "artists": [
+    { "uid": "sangeeta-shankar",         "name": "Sangeeta Shankar",         "discipline": "Violin" },
+    { "uid": "nandini-shankar",          "name": "Nandini Shankar",          "discipline": "Violin" },
+    { "uid": "ojas-adhiya",              "name": "Ojas Adhiya",              "discipline": "Tabla" },
+    { "uid": "omkar-dadarkar",           "name": "Omkar Dadarkar",           "discipline": "Hindustani Vocal" },
+    { "uid": "ranjani-balasubramanian",  "name": "Ranjani Balasubramanian",  "discipline": "Carnatic Vocal" },
+    { "uid": "gayatri-balasubramanian",  "name": "Gayatri Balasubramanian",  "discipline": "Carnatic Vocal" },
+    { "uid": "l-ramakrishnan",           "name": "L Ramakrishnan",           "discipline": "Violin" },
+    { "uid": "vishwanath-shirodkar",     "name": "Vishwanath Shirodkar",     "discipline": "Tabla" },
+    { "uid": "siddhesh-bicholkar",       "name": "Siddhesh Bicholkar",       "discipline": "Harmonium" },
+    { "uid": "swapnil-bhise",            "name": "Swapnil Bhise",            "discipline": "Tabla" },
+    { "uid": "sridhar-parthasarathi",    "name": "Sridhar Parthasarathi",    "discipline": "Mridangam" },
+    { "uid": "s-krishna",                "name": "S Krishna",                "discipline": "Ghatam" }
+  ]
+}
