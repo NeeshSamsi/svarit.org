@@ -46,7 +46,20 @@ export default function EventListTimeline({
     return () => ctx.revert()
   }, [])
 
-  const heading = slice.primary.heading ?? ''
+  // A migrated Text field reads back as [] and still passes isFilled.keyText,
+  // so guard heading and subheading with a plain string check.
+  const heading =
+    typeof slice.primary.heading === 'string'
+      ? slice.primary.heading.trim()
+      : ''
+  const subheading =
+    typeof slice.primary.subheading === 'string'
+      ? slice.primary.subheading.trim()
+      : ''
+  // The /centenary design carries no large heading on this section, only the
+  // "Celebrations" eyebrow, so SectionTitle (and the rule paired with it)
+  // renders when either is filled, not only when heading is.
+  const hasSectionTitle = Boolean(heading || subheading)
   // Existing slice instances were saved before `show_signup` existed and
   // read null, not the model's `true` default.
   const showSignup = slice.primary.show_signup ?? true
@@ -62,14 +75,16 @@ export default function EventListTimeline({
       aria-label="Initiatives timeline"
       className="col-span-full grid grid-cols-subgrid gap-y-8"
     >
-      {heading && (
-        <SectionTitle
-          className="col-span-full"
-          eyebrow={slice.primary.subheading ?? undefined}
-          title={heading}
-        />
+      {hasSectionTitle && (
+        <>
+          <SectionTitle
+            className="col-span-full"
+            eyebrow={subheading || undefined}
+            title={heading}
+          />
+          <div className="col-span-full h-px bg-foreground" />
+        </>
       )}
-      <div className="col-span-full h-px bg-foreground" />
 
       {/* Signup heading: first on mobile, top of the left column on desktop.
           Its `order` and the timeline/form's put all three panes in that
