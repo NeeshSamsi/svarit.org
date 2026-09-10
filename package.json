@@ -26,7 +26,9 @@
     "settings:preview": "node --env-file-if-exists=.env.local --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types scripts/set-settings-contact.ts",
     "settings:commit": "node --env-file-if-exists=.env.local --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types scripts/set-settings-contact.ts --commit",
     "privacy:preview": "node --env-file-if-exists=.env.local --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types scripts/create-privacy-policy.ts",
-    "privacy:commit": "node --env-file-if-exists=.env.local --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types scripts/create-privacy-policy.ts --commit"
+    "privacy:commit": "node --env-file-if-exists=.env.local --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types scripts/create-privacy-policy.ts --commit",
+    "initiatives:restructure": "node --env-file-if-exists=.env.local --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types scripts/restructure-initiatives-page.ts",
+    "initiatives:restructure:commit": "node --env-file-if-exists=.env.local --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types scripts/restructure-initiatives-page.ts --commit"
   },
   "dependencies": {
     "@bentonow/bento-node-sdk": "^2.0.0",
