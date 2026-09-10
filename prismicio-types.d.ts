@@ -205,6 +205,53 @@ export interface EventDocumentDataArtistsItem {
 	 * - **Documentation**: https://prismic.io/docs/fields/content-relationship
 	 */
 	artist: prismic.ContentRelationshipField<"artist">;
+	
+	/**
+	 * Featured on card field in *Event → Artists*
+	 *
+	 * - **Field Type**: Boolean
+	 * - **Placeholder**: *None*
+	 * - **Default Value**: false
+	 * - **API ID Path**: event.artists[].featured
+	 * - **Documentation**: https://prismic.io/docs/fields/boolean
+	 */
+	featured: prismic.BooleanField;
+}
+
+/**
+ * Item in *Event → CTAs*
+ */
+export interface EventDocumentDataCtasItem {
+	/**
+	 * Label field in *Event → CTAs*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Learn more
+	 * - **API ID Path**: event.ctas[].label
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	label: prismic.KeyTextField;
+	
+	/**
+	 * Link field in *Event → CTAs*
+	 *
+	 * - **Field Type**: Link
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: event.ctas[].link
+	 * - **Documentation**: https://prismic.io/docs/fields/link
+	 */
+	link: prismic.LinkField<string, string, unknown, prismic.FieldState, never>;
+	
+	/**
+	 * Style field in *Event → CTAs*
+	 *
+	 * - **Field Type**: Select
+	 * - **Placeholder**: *None*
+	 * - **Default Value**: Outlined
+	 * - **API ID Path**: event.ctas[].style
+	 * - **Documentation**: https://prismic.io/docs/fields/select
+	 */
+	style: prismic.SelectField<"Outlined" | "Primary", "filled">;
 }
 
 type EventDocumentDataSlicesSlice = RichTextSlice | QuoteSlice
@@ -234,7 +281,7 @@ interface EventDocumentData {
 	 * - **Tab**: Main
 	 * - **Documentation**: https://prismic.io/docs/fields/select
 	 */
-	category: prismic.SelectField<"Event" | "Workshop", "filled">;
+	category: prismic.SelectField<"Event" | "Workshop" | "Scholarship", "filled">;
 	
 	/**
 	 * Start Date field in *Event*
@@ -303,6 +350,28 @@ interface EventDocumentData {
 	venue: prismic.KeyTextField;
 	
 	/**
+	 * Venue Map Link field in *Event*
+	 *
+	 * - **Field Type**: Link
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: event.venue_map_link
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/fields/link
+	 */
+	venue_map_link: prismic.LinkField<string, string, unknown, prismic.FieldState, never>;
+	
+	/**
+	 * Feature Label field in *Event*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Featuring:
+	 * - **API ID Path**: event.feature_label
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	feature_label: prismic.KeyTextField;
+	
+	/**
 	 * Artists field in *Event*
 	 *
 	 * - **Field Type**: Group
@@ -311,7 +380,18 @@ interface EventDocumentData {
 	 * - **Tab**: Main
 	 * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
 	 */
-	artists: prismic.GroupField<Simplify<EventDocumentDataArtistsItem>>;/**
+	artists: prismic.GroupField<Simplify<EventDocumentDataArtistsItem>>;
+	
+	/**
+	 * CTAs field in *Event*
+	 *
+	 * - **Field Type**: Group
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: event.ctas[]
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
+	 */
+	ctas: prismic.GroupField<Simplify<EventDocumentDataCtasItem>>;/**
 	 * Slice Zone field in *Event*
 	 *
 	 * - **Field Type**: Slice Zone
@@ -1017,6 +1097,21 @@ type DonateSliceVariation = DonateSliceDefault
 export type DonateSlice = prismic.SharedSlice<"donate", DonateSliceVariation>;
 
 /**
+ * Item in *EventList → Timeline → Primary → Chosen Initiatives*
+ */
+export interface EventListSliceTimelinePrimaryInitiativesItem {
+	/**
+	 * Initiative field in *EventList → Timeline → Primary → Chosen Initiatives*
+	 *
+	 * - **Field Type**: Content Relationship
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: event_list.timeline.primary.initiatives[].initiative
+	 * - **Documentation**: https://prismic.io/docs/fields/content-relationship
+	 */
+	initiative: prismic.ContentRelationshipField<"event">;
+}
+
+/**
  * Primary content in *EventList → Tabs → Primary*
  */
 export interface EventListSliceDefaultPrimary {
@@ -1039,6 +1134,17 @@ export interface EventListSliceDefaultPrimary {
 	 * - **Documentation**: https://prismic.io/docs/fields/text
 	 */
 	subheading: prismic.KeyTextField;
+	
+	/**
+	 * Timeframe field in *EventList → Tabs → Primary*
+	 *
+	 * - **Field Type**: Select
+	 * - **Placeholder**: *None*
+	 * - **Default Value**: All
+	 * - **API ID Path**: event_list.default.primary.timeframe
+	 * - **Documentation**: https://prismic.io/docs/fields/select
+	 */
+	timeframe: prismic.SelectField<"All" | "Upcoming" | "Past", "filled">;
 	
 	/**
 	 * Limit field in *EventList → Tabs → Primary*
@@ -1097,6 +1203,17 @@ export interface EventListSliceGridPrimary {
 	category: prismic.SelectField<"All" | "Event" | "Workshop", "filled">;
 	
 	/**
+	 * Timeframe field in *EventList → Grid → Primary*
+	 *
+	 * - **Field Type**: Select
+	 * - **Placeholder**: *None*
+	 * - **Default Value**: All
+	 * - **API ID Path**: event_list.grid.primary.timeframe
+	 * - **Documentation**: https://prismic.io/docs/fields/select
+	 */
+	timeframe: prismic.SelectField<"All" | "Upcoming" | "Past", "filled">;
+	
+	/**
 	 * Limit field in *EventList → Grid → Primary*
 	 *
 	 * - **Field Type**: Boolean
@@ -1118,9 +1235,95 @@ export interface EventListSliceGridPrimary {
 export type EventListSliceGrid = prismic.SharedSliceVariation<"grid", Simplify<EventListSliceGridPrimary>, never>;
 
 /**
+ * Primary content in *EventList → Timeline → Primary*
+ */
+export interface EventListSliceTimelinePrimary {
+	/**
+	 * Heading field in *EventList → Timeline → Primary*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: event_list.timeline.primary.heading
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	heading: prismic.KeyTextField;
+	
+	/**
+	 * Subheading field in *EventList → Timeline → Primary*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Celebrations
+	 * - **API ID Path**: event_list.timeline.primary.subheading
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	subheading: prismic.KeyTextField;
+	
+	/**
+	 * Source field in *EventList → Timeline → Primary*
+	 *
+	 * - **Field Type**: Select
+	 * - **Placeholder**: *None*
+	 * - **Default Value**: Upcoming
+	 * - **API ID Path**: event_list.timeline.primary.source
+	 * - **Documentation**: https://prismic.io/docs/fields/select
+	 */
+	source: prismic.SelectField<"Upcoming" | "Chosen", "filled">;
+	
+	/**
+	 * Chosen Initiatives field in *EventList → Timeline → Primary*
+	 *
+	 * - **Field Type**: Group
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: event_list.timeline.primary.initiatives[]
+	 * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
+	 */
+	initiatives: prismic.GroupField<Simplify<EventListSliceTimelinePrimaryInitiativesItem>>;
+	
+	/**
+	 * Show signup form field in *EventList → Timeline → Primary*
+	 *
+	 * - **Field Type**: Boolean
+	 * - **Placeholder**: *None*
+	 * - **Default Value**: true
+	 * - **API ID Path**: event_list.timeline.primary.show_signup
+	 * - **Documentation**: https://prismic.io/docs/fields/boolean
+	 */
+	show_signup: prismic.BooleanField;
+	
+	/**
+	 * Signup Heading field in *EventList → Timeline → Primary*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: A Year-Long Musical Celebration
+	 * - **API ID Path**: event_list.timeline.primary.signup_heading
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	signup_heading: prismic.KeyTextField;
+	
+	/**
+	 * Signup Button Label field in *EventList → Timeline → Primary*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Sign up for updates
+	 * - **API ID Path**: event_list.timeline.primary.signup_cta_label
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	signup_cta_label: prismic.KeyTextField;
+}
+
+/**
+ * Timeline variation for EventList Slice
+ *
+ * - **API ID**: `timeline`
+ * - **Description**: Vertical timeline of initiatives with featured artists and an optional signup form
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type EventListSliceTimeline = prismic.SharedSliceVariation<"timeline", Simplify<EventListSliceTimelinePrimary>, never>;
+
+/**
  * Slice variation for *EventList*
  */
-type EventListSliceVariation = EventListSliceDefault | EventListSliceGrid
+type EventListSliceVariation = EventListSliceDefault | EventListSliceGrid | EventListSliceTimeline
 
 /**
  * EventList Shared Slice
@@ -1595,6 +1798,7 @@ declare module "@prismicio/client" {
 			EventDocument,
 			EventDocumentData,
 			EventDocumentDataArtistsItem,
+			EventDocumentDataCtasItem,
 			EventDocumentDataSlicesSlice,
 			PageDocument,
 			PageDocumentData,
@@ -1627,9 +1831,12 @@ declare module "@prismicio/client" {
 			EventListSlice,
 			EventListSliceDefaultPrimary,
 			EventListSliceGridPrimary,
+			EventListSliceTimelinePrimaryInitiativesItem,
+			EventListSliceTimelinePrimary,
 			EventListSliceVariation,
 			EventListSliceDefault,
 			EventListSliceGrid,
+			EventListSliceTimeline,
 			HeroSlice,
 			HeroSliceDefaultPrimaryImagesItem,
 			HeroSliceDefaultPrimary,

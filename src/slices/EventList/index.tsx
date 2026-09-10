@@ -17,5 +17,11 @@ export default async function EventList({ slice }: EventListProps) {
     return <EventListGrid slice={slice} events={events} />
   }
 
-  return <EventListTabs slice={slice} events={events} />
+  if (slice.variation === 'default') {
+    return <EventListTabs slice={slice} events={events} />
+  }
+
+  // `timeline` has no renderer yet; it ships in a later phase. Render
+  // nothing rather than mistyping it into EventListTabs.
+  return null
 }

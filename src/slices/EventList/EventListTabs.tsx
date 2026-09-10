@@ -154,7 +154,7 @@ export default function EventListTabs({
         </div>
       </div>
       {visibleItems.map((event) => (
-        <EventCard key={event.id} event={event} linked />
+        <EventCard key={event.id} event={event} />
       ))}
       {hasMore && (
         <div className="col-span-full flex justify-center">

@@ -1,5 +1,5 @@
 interface CategoryBadgeProps {
-  category: 'Event' | 'Workshop'
+  category: 'Event' | 'Workshop' | 'Scholarship'
   /**
    * `default` is the standalone badge used on the event page. `compact` matches
    * the body text size (16px) with tighter padding, for the badge in the event

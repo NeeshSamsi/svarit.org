@@ -144,12 +144,7 @@ export default function EventListGrid({
         />
       </div>
       {visibleItems.map((event) => (
-        <EventCard
-          key={event.id}
-          event={event}
-          linked
-          className="gsap-reveal"
-        />
+        <EventCard key={event.id} event={event} className="gsap-reveal" />
       ))}
       {hasMore && (
         <div className="col-span-full flex justify-center">

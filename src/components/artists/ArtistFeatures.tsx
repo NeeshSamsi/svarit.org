@@ -82,7 +82,6 @@ export default function ArtistFeatures({
         <EventCard
           key={event.id}
           event={event}
-          linked
           badge
           className="feature-card gsap-reveal"
         />

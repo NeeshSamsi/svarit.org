@@ -2,37 +2,45 @@ import { isFilled } from '@prismicio/client'
 import { PrismicNextImage, PrismicNextLink } from '@prismicio/next'
 import { PrismicRichText } from '@prismicio/react'
 import CategoryBadge from '@/components/events/CategoryBadge'
+import ButtonLink from '@/components/ui/ButtonLink'
+import { button } from '@/components/ui/button-variants'
+import { initiativeCtas } from '@/lib/ctas'
 import type { EventDocument } from '../../../prismicio-types'
 
 /**
- * The card markup shared by both EventList variations. `linked` turns the whole
- * card into a link to the event page; both the grid and the tabbed home
- * variation pass it so every event card is clickable.
+ * The minimal card shared by both EventList variations, the artist Features
+ * section, and (later) the timeline. A filled `bg-muted` surface carrying an
+ * optional category badge, the image, date, title, venue, description and a
+ * full-width CTA row.
  *
- * `badge` puts the event's category to the left of the date in the meta row,
- * mirroring the event page header. The Features section on the artist page uses
- * it; the EventList variations leave it off and render no badge, exactly as they
- * do today. `className` is appended so a caller can add its own grid placement
- * or an animation hook class.
+ * `badge` puts the event's category above the image, mirroring the event page
+ * header. The Features section on the artist page uses it; the EventList
+ * variations leave it off, exactly as they do today. `className` is appended
+ * so a caller can add its own grid placement or an animation hook class.
  */
 export default function EventCard({
   event,
-  linked = false,
   badge = false,
   className = '',
 }: {
   event: EventDocument
-  linked?: boolean
   badge?: boolean
   className?: string
 }) {
-  const cardClassName =
-    `initiative-card col-span-full flex flex-col gap-4 sm:col-span-6 lg:col-span-4 ${className}`.trim()
+  // A migrated Rich Text -> Text field reads back as [] and still passes
+  // isFilled.keyText, so guard venue with a plain string check.
+  const venue =
+    typeof event.data.venue === 'string' ? event.data.venue.trim() : ''
 
-  const content = (
-    <>
+  const ctas = initiativeCtas(event)
+
+  return (
+    <article
+      className={`initiative-card relative col-span-full flex flex-col gap-4 rounded-3xl bg-muted p-4 sm:col-span-6 lg:col-span-4 ${className}`.trim()}
+    >
+      {badge && <CategoryBadge category={event.data.category} />}
       {isFilled.image(event.data.hero_image) && (
-        <div className="relative aspect-4/3 w-full overflow-hidden rounded-3xl">
+        <div className="relative aspect-4/3 w-full overflow-hidden rounded-2xl">
           <PrismicNextImage
             field={event.data.hero_image}
             fallbackAlt=""
@@ -43,17 +51,27 @@ export default function EventCard({
         </div>
       )}
       <div className="flex flex-1 flex-col gap-2">
-        <div className="flex flex-wrap items-center gap-3">
-          {badge && (
-            <CategoryBadge category={event.data.category} size="compact" />
-          )}
-          <span className="font-body text-base font-light text-foreground">
-            {event.data.date_label}
-          </span>
-        </div>
+        <span className="font-body text-base font-light text-foreground">
+          {event.data.date_label}
+        </span>
         <h3 className="font-display text-card-title leading-tight font-medium text-foreground">
-          {event.data.title}
+          {/* The article is `relative` and this div is static, so the anchor's
+              `::after` resolves its containing block to the article and
+              stretches over the whole card, not just the h3. A button's own
+              `overflow-hidden` would clip a stretched `::after` the same way,
+              which is why the CTA can't carry this instead. */}
+          <PrismicNextLink
+            document={event}
+            className='after:absolute after:inset-0 after:content-[""]'
+          >
+            {event.data.title}
+          </PrismicNextLink>
         </h3>
+        {venue && (
+          <span className="font-body text-base font-light text-foreground">
+            {venue}
+          </span>
+        )}
         <PrismicRichText
           field={event.data.description}
           components={{
@@ -65,17 +83,35 @@ export default function EventCard({
           }}
         />
       </div>
-      <div className="h-px w-full bg-foreground" />
-    </>
+      <div
+        className={`flex gap-2 ${ctas.length === 2 ? 'flex-row' : 'flex-col'}`}
+      >
+        {ctas.map((cta, index) =>
+          cta.field ? (
+            <PrismicNextLink
+              key={index}
+              field={cta.field}
+              className={button({
+                variant: cta.variant,
+                size: 'base',
+                className: 'w-full',
+              })}
+            >
+              {cta.label}
+            </PrismicNextLink>
+          ) : (
+            <ButtonLink
+              key={index}
+              href={cta.href ?? '#'}
+              variant={cta.variant}
+              size="base"
+              className="w-full"
+            >
+              {cta.label}
+            </ButtonLink>
+          )
+        )}
+      </div>
+    </article>
   )
-
-  if (linked) {
-    return (
-      <PrismicNextLink document={event} className={cardClassName}>
-        {content}
-      </PrismicNextLink>
-    )
-  }
-
-  return <div className={cardClassName}>{content}</div>
 }
