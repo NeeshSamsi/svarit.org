@@ -23,32 +23,39 @@
  *                   here it matters because the schedule's own artist arrays use the new uid
  *                   from the start. Every other field on that document is carried through
  *                   byte-for-byte, only `uid` (its own root field, never inside `data`) and
- *                   `name` change. Idempotent: if `ashwini-bhide-deshpande` already exists
- *                   and `ashwini-bhide` does not, the rename already happened; reuse it.
- *   2. artists    - create the 12 new artist documents (skip and reuse any that already
- *                   exist - none should, but a partial earlier run is exactly the failure
- *                   this guards against).
+ *                   `name` change. Idempotent, and REPAIR-aware like every stage below: if
+ *                   `ashwini-bhide-deshpande` already exists and `ashwini-bhide` does not,
+ *                   the uid move landed, but the interrupt could still have cut the content
+ *                   patch that carries the corrected `name` - so this checks the name too,
+ *                   and repairs it with an `updateDocument()` rather than assuming done.
+ *   2. artists    - create, or REPAIR, the 12 new artist documents. Existence is not proof
+ *                   of correctness here either: see INTERRUPTION below.
  *   3. initiatives - create, or REPAIR, the 8 event documents. Each entry's `artists` group
  *                    is built from the schedule's uid order, `featured` set from the
  *                    schedule's `featured` array, and its artist references resolved to a
- *                    stage 1 rename, a stage 2 creation, or an EXISTING artist document
+ *                    stage 1 rename, a stage 2 artist, or an EXISTING artist document
  *                    (`kushal-das`, `yogesh-samsi` and `shama-bhate` are in neither file and
- *                    must already exist in Prismic). "Repair" is not hypothetical: see the
- *                    interruption note below.
+ *                    must already exist in Prismic).
  *   4. link        - update page/centenary's `event_list`/`timeline` slice, setting
  *                    `primary.initiatives` to one row per initiative in the schedule's order.
  *                    Every other field on that document, including the timeline slice's own
- *                    other primary fields, is carried through byte-for-byte.
+ *                    other primary fields, is carried through byte-for-byte. This stage
+ *                    compares linked uids, which is content, not mere existence, so it needed
+ *                    no repair treatment.
  *
  * INTERRUPTION. The Migration API creates a document, THEN patches its content in a second
  * pass. An interrupted --commit run can land between those two passes, leaving a document
  * that exists (and may already be published) but carries only its custom type's model
- * defaults - empty text and date fields, a Select field showing its `default_value` rather
- * than the schedule's actual category. This script detects that and repairs it: stage 3
- * compares every EXISTING initiative's own fields (never fields it does not own) against the
- * schedule and issues an `updateDocument()` wherever they differ, using the exact same
- * payload a fresh `createDocument()` would have sent. A run must still not be interrupted -
- * this only makes the aftermath recoverable by re-running, not something to rely on.
+ * defaults - empty text fields, a Select field showing its `default_value` rather than the
+ * schedule's actual category, or (for a rename already past its uid move) the artist's old
+ * name. Every stage above that touches an EXISTING document repairs it the same way: compare
+ * only the fields that stage owns against the source JSON and issue an `updateDocument()`
+ * wherever they differ, using the exact same payload a fresh `createDocument()` would have
+ * sent. `null` and `''` compare equal throughout (`textField()`), since a field the schedule
+ * or artist JSON deliberately leaves blank (`discipline: ""` meaning "not identified yet")
+ * reads back from Prismic as `null`, not as the empty string - treating them as different
+ * would rewrite a correctly-blank field forever. A run must still not be interrupted - this
+ * only makes the aftermath recoverable by re-running, not something to rely on.
  *
  * The page currently sits in the unpublished migration release `create-centenary-page.ts`'s
  * own --commit wrote, so it will likely NOT be readable through /api/v2 yet. When that is the
@@ -67,8 +74,10 @@
  *     featuring someone who is not on the event) - ABORTS naming both if not
  *   - every `start_date` matches ^\d{4}-\d{2}-\d{2}$
  *   - every `category` is one of the options `customtypes/event/index.json` declares
- *   - each rename's `from_uid` and `to_uid` are not BOTH already in Prismic (ambiguous:
- *     which one is current?) and not BOTH missing (nothing to rename) - ABORTS either way
+ *   - a rename's `from_uid` and `to_uid` do not resolve to two DIFFERENT documents
+ *     (genuinely ambiguous: which one is current?) and are not BOTH missing (nothing to
+ *     rename) - ABORTS either way. Both resolving to the SAME document is fine: see stage 1
+ *     above
  *   - every artist uid referenced anywhere in the schedule resolves to a rename, a new
  *     artist, or an existing document - ABORTS naming the uid (and which initiative needed
  *     it) if not
@@ -188,6 +197,16 @@ async function loadEventCategoryOptions(): Promise<string[]> {
 const START_DATE_PATTERN = /^\d{4}-\d{2}-\d{2}$/
 
 /**
+ * A fetched Text/Date field reads back as `null` when it was never written, not as the empty
+ * string. Comparing through this treats that `null` and a schedule value of `''` as equal, so
+ * a field that is legitimately blank (`discipline: ""` meaning "not identified yet") is never
+ * reported as drift and never gets rewritten forever. Shared by every drift check in this
+ * file: renames, artists, initiatives.
+ */
+const textField = (value: unknown): string =>
+  typeof value === 'string' ? value : ''
+
+/**
  * The schedule-only checks that need no knowledge of Prismic: duplicate uids, malformed
  * dates, unknown categories, and a `featured` uid that is not in its own `artists` array.
  * Returns every problem found, not just the first, so a single re-run surfaces the whole
@@ -235,11 +254,13 @@ export function validateSchedule(
 
 export type RenamePlan<T> =
   | { action: 'rename'; rename: ArtistRename; fromHandle: T }
+  | { action: 'update-name'; rename: ArtistRename; toHandle: T }
   | { action: 'already-renamed'; rename: ArtistRename; toHandle: T }
 
 /**
  * Decides what to do about one rename entry, given whatever `getByUID` found (or didn't) for
- * its `from_uid` and `to_uid`. Both absent means there is nothing to rename FROM - aborts,
+ * its `from_uid` and `to_uid`, and the current `name` on whatever `to_uid` resolved to (`null`
+ * when `to_uid` does not exist). Both absent means there is nothing to rename FROM - aborts,
  * naming the rename so a human can untangle it, since guessing would risk renaming the wrong
  * document or duplicating a name.
  *
@@ -248,26 +269,30 @@ export type RenamePlan<T> =
  * document once the rename has already gone through - that is success, reported the same way
  * as `to_uid` alone resolving. Only two DIFFERENT documents (different ids) under the two
  * uids is the genuinely ambiguous case this aborts on.
+ *
+ * Once `to_uid` is confirmed to exist (either way above), existence alone is not proof the
+ * rename finished: the same interrupted-migration content pass that leaves an event with
+ * model defaults (see `planInitiativeWrite`) can equally leave an artist's uid moved but its
+ * `name` still whatever it was before. So this also checks the name, and plans an
+ * `update-name` - not a no-op - when it has not landed.
  */
 export function planArtistRename<T extends { id: string }>(
   rename: ArtistRename,
   fromHandle: T | null,
-  toHandle: T | null
+  toHandle: T | null,
+  toHandleName: string | null
 ): RenamePlan<T> {
-  if (fromHandle && toHandle) {
-    if (fromHandle.id !== toHandle.id) {
-      throw new Error(
-        `Cannot rename artist "${rename.from_uid}" to "${rename.to_uid}": both uids resolve ` +
-          'to different documents already in Prismic. Resolve by hand (merge or delete one) ' +
-          'before re-running.'
-      )
-    }
-    // Same document under both uids: the rename already happened, and Prismic is still
-    // honouring the old uid.
-    return { action: 'already-renamed', rename, toHandle }
+  if (fromHandle && toHandle && fromHandle.id !== toHandle.id) {
+    throw new Error(
+      `Cannot rename artist "${rename.from_uid}" to "${rename.to_uid}": both uids resolve ` +
+        'to different documents already in Prismic. Resolve by hand (merge or delete one) ' +
+        'before re-running.'
+    )
   }
   if (toHandle) {
-    return { action: 'already-renamed', rename, toHandle }
+    return textField(toHandleName) === rename.name
+      ? { action: 'already-renamed', rename, toHandle }
+      : { action: 'update-name', rename, toHandle }
   }
   if (!fromHandle) {
     throw new Error(
@@ -358,9 +383,6 @@ function currentArtistsSignature(
   })
 }
 
-const textField = (value: unknown): string =>
-  typeof value === 'string' ? value : ''
-
 /**
  * Names the fields this script owns that differ between a fetched `event` document's data and
  * the schedule entry it should match: title, category, start_date, date_label, venue,
@@ -426,6 +448,46 @@ export function planInitiativeWrite(
   return diffs.length === 0
     ? { action: 'unchanged' }
     : { action: 'update', diffs }
+}
+
+/**
+ * Names the fields this script owns that differ between a fetched `artist` document's data
+ * and its centenary-artists-new.json entry: `name` and `discipline`. Reuses the same
+ * `textField` null/empty-string equivalence `describeInitiativeDrift` and `planArtistRename`
+ * use: `discipline: ""` in the JSON is a real value ("not identified yet"), not a
+ * placeholder, so it must compare equal to a fetched `null`, or a correctly-blank discipline
+ * gets "corrected" back to blank on every run.
+ */
+export function describeArtistDrift(
+  current: Record<string, unknown>,
+  artist: ArtistInput
+): string[] {
+  const diffs: string[] = []
+  if (textField(current.name) !== artist.name) diffs.push('name')
+  if (textField(current.discipline) !== artist.discipline)
+    diffs.push('discipline')
+  return diffs
+}
+
+export type ArtistWritePlan =
+  | { action: 'create' }
+  | { action: 'update'; diffs: string[] }
+  | { action: 'reuse' }
+
+/**
+ * Decides whether one centenary-artists-new.json entry needs creating, updating, or can be
+ * reused as-is - the same existence-is-not-correctness treatment `planInitiativeWrite` gives
+ * events, applied to artists. Only called for artists the JSON actually names: `kushal-das`,
+ * `yogesh-samsi` and `shama-bhate` are pre-existing documents this script only links, and
+ * never reach this function, so they are never written to.
+ */
+export function planArtistWrite(
+  artist: ArtistInput,
+  existingData: Record<string, unknown> | null
+): ArtistWritePlan {
+  if (!existingData) return { action: 'create' }
+  const diffs = describeArtistDrift(existingData, artist)
+  return diffs.length === 0 ? { action: 'reuse' } : { action: 'update', diffs }
 }
 
 // -----------------------------------------------------------------------------------------
@@ -647,9 +709,16 @@ async function main() {
         client.getByUID('artist', rename.from_uid).catch(() => null),
         client.getByUID('artist', rename.to_uid).catch(() => null),
       ])
+      const toDocName =
+        toDoc && typeof toDoc.data.name === 'string' ? toDoc.data.name : null
       return {
         rename,
-        plan: planArtistRename<PrismicDocument>(rename, fromDoc, toDoc),
+        plan: planArtistRename<PrismicDocument>(
+          rename,
+          fromDoc,
+          toDoc,
+          toDocName
+        ),
       }
     })
   )
@@ -672,10 +741,9 @@ async function main() {
       return [uid, doc] as const
     })
   )
-  const existingArtists = new Map<string, Handle>(
-    // These come from getByUID, so they are always real fetched documents, never a
-    // migration handle - narrow to PrismicDocument, not the wider Handle union, or the
-    // predicate isn't a narrowing at all and TS rejects it.
+  // Typed as PrismicDocument, not Handle: these come from getByUID, and stage 2 below reads
+  // .id/.lang/.data off them directly to build an updateDocument() call when repairing one.
+  const existingArtists = new Map<string, PrismicDocument>(
     existingArtistEntries.filter(
       (entry): entry is readonly [string, PrismicDocument] => entry[1] !== null
     )
@@ -710,12 +778,23 @@ async function main() {
     return { entry, plan: planInitiativeWrite(entry, existingData) }
   })
 
+  // Same existence-is-not-correctness treatment for the 12 new artists: existence alone
+  // (what `reuse` used to mean on its own) is not proof the interrupted migration's content
+  // pass actually reached this document.
+  const artistPlans = artistsInput.map((artist) => {
+    const existingDoc = existingArtists.get(artist.uid)
+    const existingData = existingDoc
+      ? ((existingDoc.data ?? {}) as Record<string, unknown>)
+      : null
+    return { artist, plan: planArtistWrite(artist, existingData) }
+  })
+
   // --- artist resolution, using boolean markers as placeholder "handles" for the dry-run
   // plan (only presence in the map matters here; real handles are built at commit time) -----
   const placeholderCreated = new Map<string, true>([
-    ...artistsInput
-      .filter((a) => !existingArtists.has(a.uid))
-      .map((a): [string, true] => [a.uid, true]),
+    ...artistPlans
+      .filter(({ plan }) => plan.action === 'create')
+      .map(({ artist }): [string, true] => [artist.uid, true]),
     ...renameChecks
       .filter(({ plan }) => plan.action === 'rename')
       .map(({ rename }): [string, true] => [rename.to_uid, true]),
@@ -723,7 +802,10 @@ async function main() {
   const placeholderExisting = new Map<string, true>([
     ...[...existingArtists.keys()].map((uid): [string, true] => [uid, true]),
     ...renameChecks
-      .filter(({ plan }) => plan.action === 'already-renamed')
+      .filter(
+        ({ plan }) =>
+          plan.action === 'already-renamed' || plan.action === 'update-name'
+      )
       .map(({ rename }): [string, true] => [rename.to_uid, true]),
   ])
   const { missing } = resolveArtistHandles(
@@ -774,15 +856,14 @@ async function main() {
     new Map(scheduleUids.map((uid) => [uid, uid]))
   )
 
-  const artistsToCreate = artistsInput.filter(
-    (a) => !existingArtists.has(a.uid)
-  )
-  const artistsToReuse = artistsInput.filter((a) => existingArtists.has(a.uid))
   const extraExistingUids = allRequiredArtistUids.filter(
     (uid) => !newArtistUids.has(uid) && !renameTargetUids.has(uid)
   )
   const renamesToApply = renameChecks.filter(
-    ({ plan }) => plan.action === 'rename'
+    ({ plan }) => plan.action === 'rename' || plan.action === 'update-name'
+  )
+  const artistWorkNeeded = artistPlans.some(
+    ({ plan }) => plan.action !== 'reuse'
   )
   const initiativeWorkNeeded = initiativePlans.some(
     ({ plan }) => plan.action !== 'unchanged'
@@ -790,7 +871,7 @@ async function main() {
 
   const hasWork =
     renamesToApply.length > 0 ||
-    artistsToCreate.length > 0 ||
+    artistWorkNeeded ||
     initiativeWorkNeeded ||
     timelinePlanPreview.changed
 
@@ -804,22 +885,36 @@ async function main() {
     console.log('  (none)')
   }
   for (const { rename, plan } of renameChecks) {
-    console.log(
-      plan.action === 'rename'
-        ? `  rename  ${rename.from_uid} -> ${rename.to_uid}  name=${JSON.stringify(rename.name)}`
-        : `  already renamed  ${rename.to_uid}  (${rename.from_uid} no longer exists; nothing to do)`
-    )
+    if (plan.action === 'rename') {
+      console.log(
+        `  rename     ${rename.from_uid} -> ${rename.to_uid}  name=${JSON.stringify(rename.name)}`
+      )
+    } else if (plan.action === 'update-name') {
+      console.log(
+        `  update     ${rename.to_uid}  (uid already moved from ${rename.from_uid}, but ` +
+          `name differs; setting name=${JSON.stringify(rename.name)})`
+      )
+    } else {
+      console.log(
+        `  unchanged  ${rename.to_uid}  (${rename.from_uid} no longer exists; already renamed)`
+      )
+    }
   }
   console.log('')
 
   console.log('Stage 2: artists')
-  for (const artist of artistsToCreate) {
-    console.log(
-      `  create  ${artist.uid}  ${JSON.stringify(artist.name)}  discipline=${JSON.stringify(artist.discipline)}`
-    )
-  }
-  for (const artist of artistsToReuse) {
-    console.log(`  reuse   ${artist.uid}  (already exists in Prismic)`)
+  for (const { artist, plan } of artistPlans) {
+    if (plan.action === 'create') {
+      console.log(
+        `  create     ${artist.uid}  ${JSON.stringify(artist.name)}  discipline=${JSON.stringify(artist.discipline)}`
+      )
+    } else if (plan.action === 'update') {
+      console.log(
+        `  update     ${artist.uid} (exists but ${plan.diffs.join(', ')} differ)`
+      )
+    } else {
+      console.log(`  reuse      ${artist.uid}  (already matches)`)
+    }
   }
   for (const uid of extraExistingUids) {
     console.log(
@@ -898,11 +993,31 @@ async function main() {
   const lang = pageLang
 
   // Stage 1: rename. Runs before artist creation so the schedule's uid references, which
-  // already use the new uid, resolve correctly.
+  // already use the new uid, resolve correctly. 'update-name' repairs the same kind of
+  // interrupted-migration gap as stage 2/3 below: the uid moved, but the content patch
+  // carrying the corrected name never landed.
   const renamedHandles = new Map<string, Handle>()
   for (const { rename, plan } of renameChecks) {
     if (plan.action === 'already-renamed') {
       renamedHandles.set(rename.to_uid, plan.toHandle)
+      continue
+    }
+    if (plan.action === 'update-name') {
+      const toDoc = plan.toHandle
+      const handle = migration.updateDocument(
+        {
+          id: toDoc.id,
+          uid: rename.to_uid,
+          type: 'artist',
+          lang: toDoc.lang,
+          data: {
+            ...((toDoc.data ?? {}) as Record<string, unknown>),
+            name: rename.name,
+          },
+        } as unknown as Parameters<Migration['updateDocument']>[0],
+        rename.name
+      )
+      renamedHandles.set(rename.to_uid, handle as unknown as Handle)
       continue
     }
     const fromDoc = plan.fromHandle
@@ -922,24 +1037,48 @@ async function main() {
     renamedHandles.set(rename.to_uid, handle as unknown as Handle)
   }
 
-  // Stage 2: artists. Real handles this time, keyed the same way as the preview above.
-  const createdArtistHandles = new Map<string, Handle>()
-  for (const artist of artistsToCreate) {
-    const handle = migration.createDocument(
-      {
-        type: 'artist',
-        uid: artist.uid,
-        lang,
-        data: buildArtistData(artist),
-      } as unknown as Parameters<Migration['createDocument']>[0],
-      artist.name
-    )
-    createdArtistHandles.set(artist.uid, handle as unknown as Handle)
+  // Stage 2: artists. An 'update' repairs an artist the Migration API's create pass left
+  // behind with only model defaults (name/discipline null); both branches write the exact
+  // same `buildArtistData` payload, so a create and a repair are byte-identical apart from
+  // which migration call carries them.
+  const artistWriteHandles = new Map<string, Handle>()
+  for (const { artist, plan } of artistPlans) {
+    if (plan.action === 'reuse') {
+      artistWriteHandles.set(artist.uid, existingArtists.get(artist.uid)!)
+      continue
+    }
+
+    const data = buildArtistData(artist)
+    if (plan.action === 'create') {
+      const handle = migration.createDocument(
+        {
+          type: 'artist',
+          uid: artist.uid,
+          lang,
+          data,
+        } as unknown as Parameters<Migration['createDocument']>[0],
+        artist.name
+      )
+      artistWriteHandles.set(artist.uid, handle as unknown as Handle)
+    } else {
+      const existingDoc = existingArtists.get(artist.uid)!
+      const handle = migration.updateDocument(
+        {
+          id: existingDoc.id,
+          uid: artist.uid,
+          type: 'artist',
+          lang: existingDoc.lang,
+          data,
+        } as unknown as Parameters<Migration['updateDocument']>[0],
+        artist.name
+      )
+      artistWriteHandles.set(artist.uid, handle as unknown as Handle)
+    }
   }
   const artistHandles = new Map<string, Handle>([
     ...existingArtists,
     ...renamedHandles,
-    ...createdArtistHandles,
+    ...artistWriteHandles,
   ])
 
   // Stage 3: initiatives. An 'update' repairs a document the Migration API's create pass

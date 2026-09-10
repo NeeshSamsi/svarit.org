@@ -22,14 +22,17 @@ import {
   buildInitiativeData,
   buildInitiativesGroup,
   currentTimelineInitiativeUids,
+  describeArtistDrift,
   describeInitiativeDrift,
   findTimelineSliceIndex,
   planArtistRename,
+  planArtistWrite,
   planInitiativeWrite,
   planTimelineLink,
   resolveArtistHandles,
   unresolvedArtistReferences,
   validateSchedule,
+  type ArtistInput,
   type ArtistRename,
   type InitiativeInput,
 } from './create-centenary-content.ts'
@@ -122,17 +125,33 @@ describe('planArtistRename', () => {
   const toDoc = { id: 'to-doc-id' }
 
   it('plans a rename when only from_uid exists', () => {
-    const plan = planArtistRename(rename, fromDoc, null)
+    const plan = planArtistRename(rename, fromDoc, null, null)
     assert.deepEqual(plan, { action: 'rename', rename, fromHandle: fromDoc })
   })
 
-  it('reports already-renamed when only to_uid exists', () => {
-    const plan = planArtistRename(rename, null, toDoc)
+  it('reports already-renamed when only to_uid exists and its name already matches', () => {
+    const plan = planArtistRename(rename, null, toDoc, rename.name)
     assert.deepEqual(plan, {
       action: 'already-renamed',
       rename,
       toHandle: toDoc,
     })
+  })
+
+  it('plans an update-name when the uid already moved but the name did not', () => {
+    // The same interrupted-migration content pass that leaves an event with model defaults
+    // (see planInitiativeWrite) can equally move an artist's uid without patching its name.
+    const plan = planArtistRename(rename, null, toDoc, 'Ashwini Bhide')
+    assert.deepEqual(plan, {
+      action: 'update-name',
+      rename,
+      toHandle: toDoc,
+    })
+  })
+
+  it('treats a null current name (never patched at all) as not yet matching', () => {
+    const plan = planArtistRename(rename, null, toDoc, null)
+    assert.equal(plan.action, 'update-name')
   })
 
   it('reports already-renamed, not ambiguous, when both uids resolve to the same document', () => {
@@ -141,7 +160,7 @@ describe('planArtistRename', () => {
     // rename has already gone through. Real repository state (2 uids, 1 document id) hit
     // this exact case and wrongly aborted before this fix.
     const sameDoc = { id: 'same-doc-id' }
-    const plan = planArtistRename(rename, sameDoc, sameDoc)
+    const plan = planArtistRename(rename, sameDoc, sameDoc, rename.name)
     assert.deepEqual(plan, {
       action: 'already-renamed',
       rename,
@@ -151,14 +170,14 @@ describe('planArtistRename', () => {
 
   it('aborts when both uids resolve to two genuinely different documents', () => {
     assert.throws(
-      () => planArtistRename(rename, fromDoc, toDoc),
+      () => planArtistRename(rename, fromDoc, toDoc, rename.name),
       /resolve to different documents/
     )
   })
 
   it('aborts when neither uid exists', () => {
     assert.throws(
-      () => planArtistRename(rename, null, null),
+      () => planArtistRename(rename, null, null, null),
       /neither uid exists/
     )
   })
@@ -346,6 +365,85 @@ describe('planInitiativeWrite', () => {
     assert.deepEqual(
       plans.map((p) => p.action),
       ['create', 'update']
+    )
+  })
+})
+
+const artist = (overrides: Partial<ArtistInput> = {}): ArtistInput => ({
+  uid: 'swapnil-bhise',
+  name: 'Swapnil Bhise',
+  discipline: 'Tabla',
+  ...overrides,
+})
+
+describe('describeArtistDrift', () => {
+  it('reports no drift when name and discipline already match', () => {
+    const a = artist()
+    assert.deepEqual(
+      describeArtistDrift({ name: a.name, discipline: a.discipline }, a),
+      []
+    )
+  })
+
+  it('names both fields on a model-default-only document (name and discipline null)', () => {
+    const diffs = describeArtistDrift(
+      { name: null, discipline: null },
+      artist()
+    )
+    assert.deepEqual(diffs, ['name', 'discipline'])
+  })
+
+  it('treats a null discipline and an empty-string JSON discipline as equal', () => {
+    // discipline: "" is a real value ("not identified yet"), not a placeholder, so it must
+    // never be reported as drift against a fetched null - or a correctly-blank discipline
+    // gets "corrected" back to blank on every run.
+    const a = artist({ discipline: '' })
+    const diffs = describeArtistDrift({ name: a.name, discipline: null }, a)
+    assert.ok(!diffs.includes('discipline'))
+  })
+})
+
+describe('planArtistWrite', () => {
+  it('plans a create when no document exists for the uid', () => {
+    assert.deepEqual(planArtistWrite(artist(), null), { action: 'create' })
+  })
+
+  it('plans an update, naming the diffs, for an existing document with null name and discipline', () => {
+    const plan = planArtistWrite(artist(), { name: null, discipline: null })
+    assert.deepEqual(plan, {
+      action: 'update',
+      diffs: ['name', 'discipline'],
+    })
+  })
+
+  it('plans a reuse when the existing document already matches', () => {
+    const a = artist()
+    assert.deepEqual(
+      planArtistWrite(a, { name: a.name, discipline: a.discipline }),
+      { action: 'reuse' }
+    )
+  })
+
+  it('reuses, not updates, when "" in the JSON meets a null in Prismic', () => {
+    const a = artist({ discipline: '' })
+    assert.deepEqual(planArtistWrite(a, { name: a.name, discipline: null }), {
+      action: 'reuse',
+    })
+  })
+
+  it('never produces a write plan for a uid absent from centenary-artists-new.json', () => {
+    // kushal-das, yogesh-samsi and shama-bhate are referenced by uid only, inside the
+    // schedule's own artists arrays - never as an ArtistInput entry anywhere in this file.
+    // The only way to reach planArtistWrite/describeArtistDrift at all is to already have an
+    // ArtistInput, so an artist the JSON does not name can never be planned for a write.
+    const artistsInput: ArtistInput[] = [artist()]
+    const plans = artistsInput.map((a) => ({
+      uid: a.uid,
+      plan: planArtistWrite(a, null),
+    }))
+    assert.equal(
+      plans.some((p) => p.uid === 'kushal-das'),
+      false
     )
   })
 })
