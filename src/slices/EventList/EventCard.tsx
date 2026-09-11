@@ -31,6 +31,9 @@ export default function EventCard({
   // isFilled.keyText, so guard venue with a plain string check.
   const venue =
     typeof event.data.venue === 'string' ? event.data.venue.trim() : ''
+  const venueMapLink = isFilled.link(event.data.venue_map_link)
+    ? event.data.venue_map_link
+    : null
 
   const ctas = initiativeCtas(event)
 
@@ -67,7 +70,15 @@ export default function EventCard({
             {event.data.title}
           </PrismicNextLink>
         </h3>
-        {venue && (
+        {venue && venueMapLink && (
+          <PrismicNextLink
+            field={venueMapLink}
+            className="font-body text-base font-light text-foreground underline underline-offset-4 transition-opacity hover:opacity-60"
+          >
+            {venue}
+          </PrismicNextLink>
+        )}
+        {venue && !venueMapLink && (
           <span className="font-body text-base font-light text-foreground">
             {venue}
           </span>
@@ -93,7 +104,7 @@ export default function EventCard({
               field={cta.field}
               className={button({
                 variant: cta.variant,
-                size: 'base',
+                size: 'sm',
                 className: 'w-full',
               })}
             >
@@ -104,7 +115,7 @@ export default function EventCard({
               key={index}
               href={cta.href ?? '#'}
               variant={cta.variant}
-              size="base"
+              size="sm"
               className="w-full"
             >
               {cta.label}

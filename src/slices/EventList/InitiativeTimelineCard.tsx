@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { isFilled } from '@prismicio/client'
 import { PrismicNextImage, PrismicNextLink } from '@prismicio/next'
 import { PrismicRichText } from '@prismicio/react'
 import ButtonLink from '@/components/ui/ButtonLink'
@@ -29,6 +30,9 @@ export default function InitiativeTimelineCard({
   // so guard venue and feature_label with a plain string check.
   const venue =
     typeof event.data.venue === 'string' ? event.data.venue.trim() : ''
+  const venueMapLink = isFilled.link(event.data.venue_map_link)
+    ? event.data.venue_map_link
+    : null
   const featureLabel =
     typeof event.data.feature_label === 'string' &&
     event.data.feature_label.trim()
@@ -62,17 +66,29 @@ export default function InitiativeTimelineCard({
         {/* `contents` at mobile promotes these spans into the parent flex
             column so `order` applies across them and the title; at md the
             wrapper becomes a flex row and `md:order-none` resets it. */}
-        <div className="contents md:flex md:items-center md:gap-3">
-          <span className="order-1 font-body text-base font-light text-foreground md:order-none">
+        <div className="contents md:flex md:items-center md:gap-2">
+          {/* shrink-0 + whitespace-nowrap: the date must never wrap, so any
+              squeeze in this row falls entirely on the venue instead. */}
+          <span className="order-1 shrink-0 font-body text-base font-light whitespace-nowrap text-foreground md:order-none">
             {event.data.date_label}
           </span>
           {venue && (
-            <span aria-hidden="true" className="hidden md:inline">
+            <span aria-hidden="true" className="hidden shrink-0 md:inline">
               &bull;
             </span>
           )}
-          {venue && (
-            <span className="order-3 font-body text-base font-light text-foreground md:order-none">
+          {/* min-w-0: a flex item's default min-width is its content size,
+              which would fight the date for space instead of wrapping. */}
+          {venue && venueMapLink && (
+            <PrismicNextLink
+              field={venueMapLink}
+              className="order-3 min-w-0 font-body text-base font-light text-foreground underline underline-offset-4 transition-opacity hover:opacity-60 md:order-none"
+            >
+              {venue}
+            </PrismicNextLink>
+          )}
+          {venue && !venueMapLink && (
+            <span className="order-3 min-w-0 font-body text-base font-light text-foreground md:order-none">
               {venue}
             </span>
           )}
@@ -83,7 +99,7 @@ export default function InitiativeTimelineCard({
               the dot on the title box whether it wraps to one line or two. */}
           <span
             aria-hidden="true"
-            className="absolute top-1/2 left-[calc(-1*var(--timeline-inset))] size-3.5 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-brand bg-primary"
+            className="timeline-dot absolute top-1/2 left-[calc(-1*var(--timeline-inset))] size-3.5 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-brand bg-primary"
           />
         </h3>
       </div>
@@ -107,21 +123,27 @@ export default function InitiativeTimelineCard({
           >
             {artists.map((artist) => (
               <div key={artist.id} className="flex flex-col gap-2">
-                <div className="relative aspect-4/3 w-full overflow-hidden rounded-xl">
-                  <PrismicNextImage
-                    field={artist.data.photo}
-                    fill
-                    sizes="(min-width: 1024px) 18vw, (min-width: 768px) 25vw, 45vw"
-                    className="object-cover"
-                    fallbackAlt=""
-                  />
+                {isFilled.image(artist.data.photo) && (
+                  <div className="relative aspect-4/3 w-full overflow-hidden rounded-xl">
+                    <PrismicNextImage
+                      field={artist.data.photo}
+                      fill
+                      sizes="(min-width: 1024px) 18vw, (min-width: 768px) 25vw, 45vw"
+                      className="object-cover"
+                      fallbackAlt=""
+                    />
+                  </div>
+                )}
+                {/* Discipline and name read as one unit, so their own gap is
+                    much tighter than the gap under the photo. */}
+                <div className="flex flex-col gap-0.5">
+                  <span className="font-body text-sm font-light text-foreground">
+                    {artist.data.discipline}
+                  </span>
+                  <span className="font-display text-lg font-medium text-foreground">
+                    {artist.data.name}
+                  </span>
                 </div>
-                <span className="font-body text-sm font-light text-foreground">
-                  {artist.data.discipline}
-                </span>
-                <span className="font-display text-lg font-medium text-foreground">
-                  {artist.data.name}
-                </span>
               </div>
             ))}
           </div>
@@ -159,7 +181,7 @@ export default function InitiativeTimelineCard({
               field={cta.field}
               className={button({
                 variant: cta.variant,
-                size: 'base',
+                size: 'sm',
                 className: 'w-full',
               })}
             >
@@ -170,7 +192,7 @@ export default function InitiativeTimelineCard({
               key={index}
               href={cta.href ?? '#'}
               variant={cta.variant}
-              size="base"
+              size="sm"
               className="w-full"
             >
               {cta.label}
