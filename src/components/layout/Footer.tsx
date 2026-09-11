@@ -70,10 +70,26 @@ export default async function Footer() {
               dangling, and the line disappears entirely with neither set. */}
           {(email || phone) && (
             <p className="font-body text-base font-light text-foreground">
-              {email && <a href={`mailto:${email}`}>{email}</a>}
+              {email && (
+                <a
+                  href={`mailto:${email}`}
+                  className="transition-opacity hover:opacity-60"
+                >
+                  {email}
+                </a>
+              )}
               {email && phone && ' | '}
               {phone &&
-                (phoneE164 ? <a href={`tel:${phoneE164}`}>{phone}</a> : phone)}
+                (phoneE164 ? (
+                  <a
+                    href={`tel:${phoneE164}`}
+                    className="transition-opacity hover:opacity-60"
+                  >
+                    {phone}
+                  </a>
+                ) : (
+                  phone
+                ))}
             </p>
           )}
           {address && (
@@ -93,7 +109,7 @@ export default async function Footer() {
               <PrismicNextLink
                 key={i}
                 field={link}
-                className="font-body text-base font-light text-foreground hover:font-normal"
+                className="font-body text-base font-light text-foreground transition-opacity hover:opacity-60"
               >
                 {link.text}
               </PrismicNextLink>
@@ -128,7 +144,7 @@ export default async function Footer() {
               hyperlink: ({ children, node }) => (
                 <PrismicNextLink
                   field={node.data}
-                  className="underline hover:font-normal"
+                  className="underline transition-opacity hover:opacity-60"
                 >
                   {children}
                 </PrismicNextLink>
@@ -141,7 +157,7 @@ export default async function Footer() {
             <a
               href="https://neeshsamsi.com?utm_source=svarit.org&utm_medium=referral"
               target="_blank"
-              className="underline hover:font-normal"
+              className="underline transition-opacity hover:opacity-60"
             >
               Neesh Samsi
             </a>
@@ -154,7 +170,7 @@ export default async function Footer() {
                 {i > 0 && ' · '}
                 <PrismicNextLink
                   field={link}
-                  className="underline hover:font-normal"
+                  className="underline transition-opacity hover:opacity-60"
                 >
                   {link.text}
                 </PrismicNextLink>

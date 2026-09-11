@@ -1,6 +1,9 @@
 import { cva, type VariantProps } from 'class-variance-authority'
 
 export const button = cva(
+  // proxima-nova (Typekit kit yan0qzb) publishes 400/500/600/700. 600
+  // (font-semibold) is available but was tried and found too heavy; 500 is
+  // the deliberate choice here, not a placeholder, so don't "fix" this to 600.
   'font-body font-medium rounded-full transition-colors relative overflow-hidden inline-flex items-center justify-center cursor-pointer',
   {
     variants: {
