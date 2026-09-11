@@ -168,6 +168,13 @@
             "label": "Signup Button Label",
             "placeholder": "Sign up for updates"
           }
+        },
+        "signup_event_type": {
+          "type": "Text",
+          "config": {
+            "label": "Signup Event Type",
+            "placeholder": "$opt.in"
+          }
         }
       }
     }

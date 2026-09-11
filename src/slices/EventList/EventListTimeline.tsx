@@ -7,6 +7,7 @@ import NewsletterSignup from '@/components/forms/NewsletterSignup'
 import { gsap, ScrollTrigger } from '@/lib/gsap'
 import { useIsomorphicLayoutEffect } from '@/lib/useIsomorphicLayoutEffect'
 import { introHandoff, PAGE_HEADER_INTRO_END } from '@/lib/intro'
+import { newsletterEventTypeSchema } from '@/lib/schemas/newsletter'
 import InitiativeTimelineCard from './InitiativeTimelineCard'
 import type { ArtistDocument, EventDocument } from '../../../prismicio-types'
 
@@ -160,6 +161,19 @@ export default function EventListTimeline({
   // signup_heading field, not here.
   const signupHeading = slice.primary.signup_heading || 'Stay in the loop'
   const signupCtaLabel = slice.primary.signup_cta_label || 'Sign up for updates'
+  // prismicio-types.d.ts doesn't know about signup_event_type yet; that
+  // needs the orchestrator to push this model and regenerate types. Until
+  // then, read it through a narrow local cast rather than hand-editing the
+  // generated file. A migrated Text field reads back as [] and still
+  // passes isFilled.keyText, so guard with a plain string check, then
+  // resolve it against the allowlist: existing slice instances read null,
+  // which must behave as '$opt.in'.
+  const rawSignupEventType = (
+    slice.primary as unknown as { signup_event_type?: string | null }
+  ).signup_event_type
+  const signupEventType = newsletterEventTypeSchema.parse(
+    typeof rawSignupEventType === 'string' ? rawSignupEventType : null
+  )
 
   return (
     <section
@@ -211,6 +225,7 @@ export default function EventListTimeline({
           <NewsletterSignup
             heading=""
             ctaLabel={signupCtaLabel}
+            eventType={signupEventType}
             staggerFields
             className="order-3 col-span-full lg:order-none"
           />
