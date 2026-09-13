@@ -764,6 +764,90 @@ interface SettingsDocumentData {
 export type SettingsDocument<Lang extends string = string> = prismic.PrismicDocumentWithoutUID<Simplify<SettingsDocumentData>, "settings", Lang>;
 
 /**
+ * Item in *Welcome Updates → Variants*
+ */
+export interface WelcomeUpdatesDocumentDataVariantsItem {
+	/**
+	 * Source field in *Welcome Updates → Variants*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: centenary (leave empty for the default)
+	 * - **API ID Path**: welcome_updates.variants[].source
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	source: prismic.KeyTextField;
+
+	/**
+	 * Title field in *Welcome Updates → Variants*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: welcome_updates.variants[].title
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	title: prismic.KeyTextField;
+
+	/**
+	 * Body field in *Welcome Updates → Variants*
+	 *
+	 * - **Field Type**: Rich Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: welcome_updates.variants[].body
+	 * - **Documentation**: https://prismic.io/docs/fields/rich-text
+	 */
+	body: prismic.RichTextField;
+}
+
+/**
+ * Content for Welcome Updates documents
+ */
+interface WelcomeUpdatesDocumentData {
+	/**
+	 * Variants field in *Welcome Updates*
+	 *
+	 * - **Field Type**: Group
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: welcome_updates.variants[]
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
+	 */
+	variants: prismic.GroupField<Simplify<WelcomeUpdatesDocumentDataVariantsItem>>;
+
+	/**
+	 * Meta Title field in *Welcome Updates*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: A title of the page used for social media and search engines
+	 * - **API ID Path**: welcome_updates.meta_title
+	 * - **Tab**: SEO & Metadata
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	meta_title: prismic.KeyTextField;
+
+	/**
+	 * Meta Description field in *Welcome Updates*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: A brief summary of the page
+	 * - **API ID Path**: welcome_updates.meta_description
+	 * - **Tab**: SEO & Metadata
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	meta_description: prismic.KeyTextField;
+}
+
+/**
+ * Welcome Updates document from Prismic
+ *
+ * - **API ID**: `welcome_updates`
+ * - **Repeatable**: `false`
+ * - **Documentation**: https://prismic.io/docs/content-modeling
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type WelcomeUpdatesDocument<Lang extends string = string> = prismic.PrismicDocumentWithoutUID<Simplify<WelcomeUpdatesDocumentData>, "welcome_updates", Lang>;
+
+/**
  * Content for Volunteer documents
  */
 interface VolunteerDocumentData {
@@ -812,7 +896,7 @@ interface VolunteerDocumentData {
  */
 export type VolunteerDocument<Lang extends string = string> = prismic.PrismicDocumentWithUID<Simplify<VolunteerDocumentData>, "volunteer", Lang>;
 
-export type AllDocumentTypes = ArtistDocument | EventDocument | PageDocument | SettingsDocument | VolunteerDocument;
+export type AllDocumentTypes = ArtistDocument | EventDocument | PageDocument | SettingsDocument | VolunteerDocument | WelcomeUpdatesDocument;
 
 /**
  * Primary content in *About → Default → Primary*
@@ -1851,6 +1935,9 @@ declare module "@prismicio/client" {
 			SettingsDocumentDataFooterLinksItem,
 			VolunteerDocument,
 			VolunteerDocumentData,
+			WelcomeUpdatesDocument,
+			WelcomeUpdatesDocumentData,
+			WelcomeUpdatesDocumentDataVariantsItem,
 			AllDocumentTypes,
 			AboutSlice,
 			AboutSliceDefaultPrimary,
