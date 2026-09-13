@@ -170,10 +170,12 @@
           }
         },
         "signup_event_type": {
-          "type": "Text",
+          "type": "Select",
           "config": {
             "label": "Signup Event Type",
-            "placeholder": "$opt.in"
+            "placeholder": "",
+            "options": ["$opt.in", "$opt.in.centenary"],
+            "default_value": "$opt.in"
           }
         }
       }
