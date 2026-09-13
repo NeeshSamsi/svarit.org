@@ -146,6 +146,29 @@
             }
           }
         },
+        "max_items": {
+          "type": "Number",
+          "config": {
+            "label": "Max Items",
+            "placeholder": "Leave empty to show all"
+          }
+        },
+        "more_label": {
+          "type": "Text",
+          "config": {
+            "label": "More Label",
+            "placeholder": "Show more initiatives"
+          }
+        },
+        "more_link": {
+          "type": "Link",
+          "config": {
+            "label": "More Link",
+            "placeholder": "",
+            "select": "document",
+            "customtypes": ["page"]
+          }
+        },
         "show_signup": {
           "type": "Boolean",
           "config": {

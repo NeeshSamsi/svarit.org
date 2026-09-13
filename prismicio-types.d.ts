@@ -1382,7 +1382,37 @@ export interface EventListSliceTimelinePrimary {
 	 * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
 	 */
 	initiatives: prismic.GroupField<Simplify<EventListSliceTimelinePrimaryInitiativesItem>>;
-	
+
+	/**
+	 * Max Items field in *EventList → Timeline → Primary*
+	 *
+	 * - **Field Type**: Number
+	 * - **Placeholder**: Leave empty to show all
+	 * - **API ID Path**: event_list.timeline.primary.max_items
+	 * - **Documentation**: https://prismic.io/docs/fields/number
+	 */
+	max_items: prismic.NumberField;
+
+	/**
+	 * More Label field in *EventList → Timeline → Primary*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Show more initiatives
+	 * - **API ID Path**: event_list.timeline.primary.more_label
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	more_label: prismic.KeyTextField;
+
+	/**
+	 * More Link field in *EventList → Timeline → Primary*
+	 *
+	 * - **Field Type**: Link
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: event_list.timeline.primary.more_link
+	 * - **Documentation**: https://prismic.io/docs/fields/link
+	 */
+	more_link: prismic.ContentRelationshipField<"page">;
+
 	/**
 	 * Show signup form field in *EventList → Timeline → Primary*
 	 *
