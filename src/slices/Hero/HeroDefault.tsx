@@ -111,12 +111,12 @@ export default function HeroDefault({
             href={bannerHref}
             data-gsap-intro
             style={{ opacity: 0, transform: 'translateY(20px)' }}
-            className="inline-flex w-fit max-w-full flex-wrap items-center gap-x-6 gap-y-1 rounded-full bg-muted px-6 py-3 transition-opacity hover:opacity-60"
+            className="flex w-fit max-w-full flex-col items-start gap-2 rounded-3xl bg-muted px-6 py-3 transition-opacity hover:opacity-60 sm:flex-row sm:items-center sm:gap-6"
           >
-            <span className="font-body text-base font-light text-foreground">
+            <span className="min-w-0 font-body text-base font-light text-foreground">
               {bannerText}
             </span>
-            <span className="inline-flex items-center gap-2 font-body text-base font-light text-foreground">
+            <span className="inline-flex shrink-0 items-center gap-2 font-body text-base font-light text-foreground underline underline-offset-4 sm:ml-auto">
               {bannerCtaLabel}
               <svg
                 aria-hidden="true"
