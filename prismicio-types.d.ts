@@ -1372,7 +1372,47 @@ export interface HeroSliceDefaultPrimary {
 	 * - **Documentation**: https://prismic.io/docs/fields/rich-text
 	 */
 	subtitle: prismic.RichTextField;
-	
+
+	/**
+	 * Banner Initiative field in *Hero → Default → Primary*
+	 *
+	 * - **Field Type**: Content Relationship
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: hero.default.primary.banner_initiative
+	 * - **Documentation**: https://prismic.io/docs/fields/content-relationship
+	 */
+	banner_initiative: prismic.ContentRelationshipField<"event", string, { title: prismic.KeyTextField }>;
+
+	/**
+	 * Banner Text field in *Hero → Default → Primary*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Join us as we celebrate...
+	 * - **API ID Path**: hero.default.primary.banner_text
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	banner_text: prismic.KeyTextField;
+
+	/**
+	 * Banner Link field in *Hero → Default → Primary*
+	 *
+	 * - **Field Type**: Link
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: hero.default.primary.banner_link
+	 * - **Documentation**: https://prismic.io/docs/fields/link
+	 */
+	banner_link: prismic.LinkField<string, string, unknown, prismic.FieldState, never>;
+
+	/**
+	 * Banner CTA Label field in *Hero → Default → Primary*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Learn more
+	 * - **API ID Path**: hero.default.primary.banner_cta_label
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	banner_cta_label: prismic.KeyTextField;
+
 	/**
 	 * CTA Label field in *Hero → Default → Primary*
 	 *
