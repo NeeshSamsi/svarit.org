@@ -1,7 +1,17 @@
 import assert from 'node:assert/strict'
 import { describe, it } from 'node:test'
-import { selectVariant } from './selectVariant.ts'
+import { selectVariant, hasCta } from './selectVariant.ts'
 import type { WelcomeUpdatesDocumentDataVariantsItem } from '../../../prismicio-types'
+
+const filledLink: WelcomeUpdatesDocumentDataVariantsItem['cta_link'] = {
+  link_type: 'Document',
+  id: 'abc123',
+  type: 'page',
+  tags: [],
+  lang: 'en-us',
+  uid: 'initiatives',
+  url: '/initiatives',
+}
 
 function makeVariant(
   overrides: Partial<WelcomeUpdatesDocumentDataVariantsItem>
@@ -10,6 +20,8 @@ function makeVariant(
     source: null,
     title: null,
     body: [],
+    cta_label: null,
+    cta_link: { link_type: 'Any' },
     ...overrides,
   } as unknown as WelcomeUpdatesDocumentDataVariantsItem
 }
@@ -60,5 +72,35 @@ describe('selectVariant', () => {
 
   it('an empty variants array returns nothing, so the route can 404', () => {
     assert.equal(selectVariant([], 'centenary'), undefined)
+  })
+})
+
+describe('hasCta', () => {
+  it('a label and a filled link renders a CTA', () => {
+    const variant = makeVariant({
+      cta_label: 'Explore our initiatives',
+      cta_link: filledLink,
+    })
+    assert.equal(hasCta(variant), true)
+  })
+
+  it('a label but no link renders no CTA', () => {
+    const variant = makeVariant({ cta_label: 'Explore our initiatives' })
+    assert.equal(hasCta(variant), false)
+  })
+
+  it('a link but no label renders no CTA', () => {
+    const variant = makeVariant({ cta_link: filledLink })
+    assert.equal(hasCta(variant), false)
+  })
+
+  it('neither a label nor a link renders no CTA', () => {
+    const variant = makeVariant({})
+    assert.equal(hasCta(variant), false)
+  })
+
+  it('a whitespace-only label renders no CTA', () => {
+    const variant = makeVariant({ cta_label: '   ', cta_link: filledLink })
+    assert.equal(hasCta(variant), false)
   })
 })

@@ -104,50 +104,52 @@ export default function HeroDefault({
       aria-label="Hero"
       className="col-span-full grid grid-flow-dense grid-cols-subgrid items-start gap-y-6 pt-36 md:pt-44"
     >
-      {bannerText && bannerHref && (
-        <PrismicNextLink
-          ref={bannerRef}
-          href={bannerHref}
-          data-gsap-intro
-          style={{ opacity: 0, transform: 'translateY(20px)' }}
-          className="col-span-full inline-flex w-fit max-w-full flex-wrap items-center gap-x-6 gap-y-1 rounded-full bg-muted px-6 py-3 transition-opacity hover:opacity-60 lg:col-span-10"
-        >
-          <span className="font-body text-base font-light text-foreground">
-            {bannerText}
-          </span>
-          <span className="inline-flex items-center gap-2 font-body text-base font-light text-foreground">
-            {bannerCtaLabel}
-            <svg
-              aria-hidden="true"
-              viewBox="0 0 16 16"
-              fill="none"
-              className="h-4 w-4 shrink-0"
-            >
-              <path
-                d="M3.5 8h9M8.5 3.5 13 8l-4.5 4.5"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </span>
-        </PrismicNextLink>
-      )}
+      <div className="col-span-full flex flex-col gap-3 lg:col-span-10">
+        {bannerText && bannerHref && (
+          <PrismicNextLink
+            ref={bannerRef}
+            href={bannerHref}
+            data-gsap-intro
+            style={{ opacity: 0, transform: 'translateY(20px)' }}
+            className="inline-flex w-fit max-w-full flex-wrap items-center gap-x-6 gap-y-1 rounded-full bg-muted px-6 py-3 transition-opacity hover:opacity-60"
+          >
+            <span className="font-body text-base font-light text-foreground">
+              {bannerText}
+            </span>
+            <span className="inline-flex items-center gap-2 font-body text-base font-light text-foreground">
+              {bannerCtaLabel}
+              <svg
+                aria-hidden="true"
+                viewBox="0 0 16 16"
+                fill="none"
+                className="h-4 w-4 shrink-0"
+              >
+                <path
+                  d="M3.5 8h9M8.5 3.5 13 8l-4.5 4.5"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </span>
+          </PrismicNextLink>
+        )}
 
-      <div
-        ref={titleRef}
-        data-gsap-intro
-        style={{ opacity: 0, transform: 'translateY(24px)' }}
-        className="col-span-full flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between lg:col-span-10"
-      >
-        <h1 className="min-w-0 font-display text-4xl leading-tight font-medium text-foreground md:text-5xl">
-          {slice.primary.title}
-        </h1>
-        <div className="hidden w-fit shrink-0 sm:block">
-          <ButtonLink variant="secondary" href={ctaHref}>
-            {slice.primary.cta_label || 'Learn more'}
-          </ButtonLink>
+        <div
+          ref={titleRef}
+          data-gsap-intro
+          style={{ opacity: 0, transform: 'translateY(24px)' }}
+          className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between"
+        >
+          <h1 className="min-w-0 font-display text-4xl leading-tight font-medium text-foreground md:text-5xl">
+            {slice.primary.title}
+          </h1>
+          <div className="hidden w-fit shrink-0 sm:block">
+            <ButtonLink variant="secondary" href={ctaHref}>
+              {slice.primary.cta_label || 'Learn more'}
+            </ButtonLink>
+          </div>
         </div>
       </div>
 

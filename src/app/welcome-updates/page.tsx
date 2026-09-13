@@ -1,9 +1,11 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
+import { PrismicNextLink } from '@prismicio/next'
 import { PrismicRichText } from '@prismicio/react'
 import { richTextComponents } from '@/slices/RichText/components'
+import { button } from '@/components/ui/button-variants'
 import { getWelcomeUpdates } from '@/lib/queries'
-import { selectVariant } from './selectVariant'
+import { selectVariant, hasCta } from './selectVariant'
 
 /**
  * The confirmation-link landing page for Bento's double opt-in emails. Not a
@@ -41,6 +43,8 @@ export default async function WelcomeUpdatesPage({ searchParams }: Props) {
     typeof variant.title === 'string' && variant.title.trim()
       ? variant.title
       : ''
+  const ctaLabel =
+    typeof variant.cta_label === 'string' ? variant.cta_label.trim() : ''
 
   return (
     <div className="col-span-full grid grid-cols-subgrid gap-y-18 pt-36 md:pt-44">
@@ -49,6 +53,16 @@ export default async function WelcomeUpdatesPage({ searchParams }: Props) {
           {title}
         </h1>
         <PrismicRichText field={variant.body} components={richTextComponents} />
+        {hasCta(variant) && (
+          <div className="w-fit">
+            <PrismicNextLink
+              field={variant.cta_link}
+              className={button({ variant: 'secondary', size: 'base' })}
+            >
+              {ctaLabel}
+            </PrismicNextLink>
+          </div>
+        )}
       </div>
     </div>
   )

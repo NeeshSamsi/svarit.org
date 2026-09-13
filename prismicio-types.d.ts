@@ -796,6 +796,26 @@ export interface WelcomeUpdatesDocumentDataVariantsItem {
 	 * - **Documentation**: https://prismic.io/docs/fields/rich-text
 	 */
 	body: prismic.RichTextField;
+
+	/**
+	 * CTA Label field in *Welcome Updates → Variants*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Explore our initiatives
+	 * - **API ID Path**: welcome_updates.variants[].cta_label
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	cta_label: prismic.KeyTextField;
+
+	/**
+	 * CTA Link field in *Welcome Updates → Variants*
+	 *
+	 * - **Field Type**: Link
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: welcome_updates.variants[].cta_link
+	 * - **Documentation**: https://prismic.io/docs/fields/link
+	 */
+	cta_link: prismic.ContentRelationshipField<"page" | "event">;
 }
 
 /**

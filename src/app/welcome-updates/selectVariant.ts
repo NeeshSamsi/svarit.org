@@ -1,4 +1,4 @@
-import type { Content } from '@prismicio/client'
+import { isFilled, type Content } from '@prismicio/client'
 
 type Variant = Content.WelcomeUpdatesDocumentDataVariantsItem
 
@@ -32,4 +32,16 @@ export function selectVariant(
   if (empty) return empty
 
   return variants[0]
+}
+
+/**
+ * Whether a variant has a complete CTA to render: a non-empty label AND a
+ * filled link. Guarded with a plain string check, not `isFilled`, because a
+ * migrated Text field can read back as `[]` and still pass `isFilled.keyText`.
+ */
+export function hasCta(variant: Variant): boolean {
+  const hasLabel =
+    typeof variant.cta_label === 'string' && variant.cta_label.trim() !== ''
+
+  return hasLabel && isFilled.contentRelationship(variant.cta_link)
 }
