@@ -5,6 +5,8 @@ import { SliceZone } from '@prismicio/react'
 import { createClient } from '@/prismicio'
 import { components } from '@/slices'
 import { ogImageFields } from '@/lib/og'
+import { SITE_DESCRIPTION } from '@/lib/site'
+import { titleFromSlug, filledOrFallback } from '@/lib/metadata'
 
 /**
  * `page` documents with a dedicated route of their own. They must never be
@@ -75,23 +77,20 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const client = createClient()
   const page = await client.getByUID('page', uid).catch(() => null)
 
-  if (!page) return {}
-
-  const title = page.data.meta_title || undefined
-  const description = page.data.meta_description || undefined
+  const title = filledOrFallback(page?.data.meta_title, titleFromSlug(uid))
+  const description = filledOrFallback(
+    page?.data.meta_description,
+    SITE_DESCRIPTION
+  )
 
   // These generic pages have no generated card, so: meta_image -> /og/home.jpg.
   // Set on both openGraph and twitter, or the shallow merge drops the fallback.
   const og = ogImageFields({
-    metaImage: prismic.asImageSrc(page.data.meta_image),
+    metaImage: prismic.asImageSrc(page?.data.meta_image),
   })
 
   return {
-    // A Prismic meta_title is the whole title, not a segment. Passing the bare
-    // string would let the layout's title template append the brand name a
-    // second time to a value that already carries it. With no meta_title, leave
-    // this undefined so the layout default and template still apply.
-    title: title ? { absolute: title } : undefined,
+    title,
     description,
     alternates: { canonical: `/${uid}` },
     openGraph: {

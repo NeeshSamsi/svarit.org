@@ -10,6 +10,11 @@ import StaggerReveal from '@/components/animation/StaggerReveal'
 import { EVENT_HERO_INTRO_END } from '@/lib/intro'
 import { SITE_URL } from '@/lib/site'
 import { ogImageFields } from '@/lib/og'
+import {
+  initiativeTitle,
+  metaDescription,
+  filledOrFallback,
+} from '@/lib/metadata'
 
 type Props = {
   params: Promise<{ uid: string }>
@@ -134,11 +139,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   if (!event) return {}
 
-  const title = event.data.meta_title || event.data.title || undefined
-  const description =
-    event.data.meta_description ||
-    prismic.asText(event.data.description) ||
-    undefined
+  const title = filledOrFallback(
+    event.data.meta_title,
+    initiativeTitle(event.data.title || '')
+  )
+  const description = filledOrFallback(
+    event.data.meta_description,
+    metaDescription(prismic.asText(event.data.description) || '')
+  )
   // meta_image -> generated card for this uid -> /og/home.jpg. Set on both
   // openGraph and twitter, or the shallow merge drops the layout fallback.
   const og = ogImageFields({

@@ -97,14 +97,14 @@
         "type": "Text",
         "config": {
           "label": "Meta Title",
-          "placeholder": "A title of the page used for social media and search engines"
+          "placeholder": "Defaults to \"{Name} at Svarit\""
         }
       },
       "meta_description": {
         "type": "Text",
         "config": {
           "label": "Meta Description",
-          "placeholder": "A brief summary of the page"
+          "placeholder": "Defaults to the artist's Bio"
         }
       },
       "meta_image": {

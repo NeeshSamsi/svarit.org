@@ -7,7 +7,7 @@ import NotFoundContent from './NotFoundContent'
 // This export is load-bearing and has to live in a server component, so the
 // animated body is a client child.
 export const metadata: Metadata = {
-  title: 'Page not found',
+  title: 'Page not found | Svarit',
   robots: { index: false, follow: false },
   alternates: { canonical: null },
 }

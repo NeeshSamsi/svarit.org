@@ -5,6 +5,8 @@ import { PrismicRichText } from '@prismicio/react'
 import { richTextComponents } from '@/slices/RichText/components'
 import { button } from '@/components/ui/button-variants'
 import { getWelcomeUpdates } from '@/lib/queries'
+import { SITE_DESCRIPTION } from '@/lib/site'
+import { titleFromSlug, filledOrFallback } from '@/lib/metadata'
 import { selectVariant, hasCta } from './selectVariant'
 
 /**
@@ -71,20 +73,19 @@ export default async function WelcomeUpdatesPage({ searchParams }: Props) {
 export async function generateMetadata(): Promise<Metadata> {
   const doc = await getWelcomeUpdates()
 
-  const title =
-    typeof doc?.data.meta_title === 'string' && doc.data.meta_title.trim()
-      ? doc.data.meta_title
-      : undefined
-  const description =
-    typeof doc?.data.meta_description === 'string' &&
-    doc.data.meta_description.trim()
-      ? doc.data.meta_description
-      : undefined
+  const title = filledOrFallback(
+    doc?.data.meta_title,
+    titleFromSlug('welcome-updates')
+  )
+  const description = filledOrFallback(
+    doc?.data.meta_description,
+    SITE_DESCRIPTION
+  )
 
   // Reached only from an email and never linked from the site, so it should
   // not be indexed.
   return {
-    title: title ? { absolute: title } : undefined,
+    title,
     description,
     robots: { index: false, follow: false },
   }
