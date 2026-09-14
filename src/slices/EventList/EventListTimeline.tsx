@@ -240,19 +240,16 @@ export default function EventListTimeline({
           the wrapper becomes a real flex column, `self-start` so it isn't
           stretched to the timeline's (taller) row height: a stretched grid
           item has no room to travel through, so `sticky` would have nothing
-          to do. `lg:top-30` (120px) tracks the fixed nav: measured against a
+          to do. `lg:top-32` (128px) tracks the fixed nav: measured against a
           production build at desktop width, the nav's real rendered bottom
           edge sits at 100px (not the ~90px a top-6/py-4/h-8 estimate alone
-          suggests), so 120px lands this column 20px below it, mid-way
-          through the required 16 to 24px. The next step down, top-28
-          (112px), only clears the nav by 12px; the next step up, top-32
-          (128px), clears it by 28px; top-30 is the one that actually lands
-          inside the range. It has to change, and be re-measured rather than
-          recalculated by hand, if the nav's padding or logo size does.
+          suggests), so 128px lands this column about 28px below it. It has
+          to change, and be re-measured rather than recalculated by hand, if
+          the nav's padding or logo size does.
           `contents` at mobile keeps this un-stuck and in the timeline's own
           document order; `lg:sticky` only takes effect once the wrapper is a
           real flex column. */}
-      <div className="contents lg:sticky lg:top-30 lg:col-span-4 lg:flex lg:flex-col lg:gap-8 lg:self-start">
+      <div className="contents lg:sticky lg:top-32 lg:col-span-4 lg:flex lg:flex-col lg:gap-8 lg:self-start">
         <h3 className="gsap-reveal timeline-signup-heading order-1 col-span-full font-display text-2xl leading-tight font-medium text-foreground lg:order-none">
           {signupHeading}
         </h3>
