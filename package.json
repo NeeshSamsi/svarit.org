@@ -7,6 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint .",
+    "typecheck": "tsc --noEmit && tsc --noEmit -p tsconfig.scripts.json",
+    "pretest": "npm run typecheck",
     "test": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types --test 'scripts/*.test.ts' 'src/**/*.test.ts'",
     "prismic:types": "npx prismic@latest gen types",
     "prismic:push": "npx prismic@latest push",
