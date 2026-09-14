@@ -57,6 +57,7 @@ import {
   createMigration,
   type Migration,
   type PrismicDocument,
+  type PrismicMigrationDocument,
 } from '@prismicio/client'
 import { runBackup } from './lib/backup.ts'
 import {
@@ -77,11 +78,9 @@ export type Slice = Record<string, unknown> & {
   primary?: unknown
 }
 
-/** A real document, or anything else carrying the same `id`/`uid` identity. */
-export type LinkTarget = Record<string, unknown> & {
-  id?: unknown
-  uid?: unknown
-}
+/** A real document, or the handle `migration.createDocument`/`updateDocument` returns. */
+export type LinkTarget =
+  PrismicDocument | PrismicMigrationDocument<PrismicDocument>
 
 const sliceType = (entry: Slice): string =>
   typeof entry.slice_type === 'string' ? entry.slice_type : ''

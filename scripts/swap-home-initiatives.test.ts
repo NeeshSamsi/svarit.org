@@ -9,6 +9,7 @@
  */
 
 import assert from 'node:assert/strict'
+import type { PrismicDocument } from '@prismicio/client'
 import { describe, it } from 'node:test'
 import {
   currentPageSlices,
@@ -19,11 +20,23 @@ import {
   type Slice,
 } from './swap-home-initiatives.ts'
 
-/** The resolved page/initiatives link target, as client.getByUID would return it. */
-const initiativesTarget = (): LinkTarget => ({
-  id: 'initiatives-doc-id',
-  uid: 'initiatives',
-})
+/** The resolved page/initiatives document, as client.getByUID would return it. */
+const initiativesTarget = (): LinkTarget =>
+  ({
+    id: 'initiatives-doc-id',
+    uid: 'initiatives',
+    url: null,
+    type: 'page',
+    href: '',
+    tags: [],
+    first_publication_date: '2026-01-01T00:00:00+0000',
+    last_publication_date: '2026-01-01T00:00:00+0000',
+    slugs: [],
+    linked_documents: [],
+    lang: 'en-us',
+    alternate_languages: [],
+    data: {},
+  }) as unknown as PrismicDocument
 
 /** The hero slice as it exists on the live home page, preserved byte-for-byte. */
 const heroSlice = (): Slice => ({
