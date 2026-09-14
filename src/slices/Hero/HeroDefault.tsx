@@ -118,10 +118,10 @@ export default function HeroDefault({
             style={{ opacity: 0, transform: 'translateY(20px)' }}
             className="group flex w-full flex-col items-start gap-2 rounded-3xl bg-muted px-6 py-4 transition-opacity hover:opacity-60 sm:flex-row sm:items-center sm:gap-6"
           >
-            <span className="min-w-0 font-body text-base font-normal text-foreground">
+            <span className="min-w-0 font-body text-base font-medium text-foreground">
               {bannerText}
             </span>
-            <span className="inline-flex shrink-0 items-center gap-2 font-body text-base font-light text-foreground underline underline-offset-4 sm:ml-auto">
+            <span className="inline-flex shrink-0 items-center gap-1 font-body text-base font-light text-foreground underline underline-offset-4 sm:ml-auto">
               {bannerCtaLabel}
               <svg
                 aria-hidden="true"
