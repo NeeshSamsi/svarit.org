@@ -58,19 +58,10 @@ export default function HeroDefault({
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({ delay: 0.4 })
 
-      if (bannerRef.current) {
-        tl.fromTo(
-          bannerRef.current,
-          { y: 20, opacity: 0 },
-          { y: 0, opacity: 1, duration: 0.4, ease: 'power2.out' }
-        )
-      }
-
       tl.fromTo(
         titleRef.current,
         { y: 24, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.5, ease: 'power2.out' },
-        bannerRef.current ? '-=0.2' : undefined
+        { y: 0, opacity: 1, duration: 0.5, ease: 'power2.out' }
       ).fromTo(
         [img1Ref.current, img2Ref.current, img3Ref.current].filter(Boolean),
         { y: 20, opacity: 0 },
@@ -83,6 +74,20 @@ export default function HeroDefault({
         },
         '-=0.2'
       )
+
+      // No position parameter: this starts only once the stagger above fully
+      // completes (last image included), so the banner arrives last rather
+      // than leading the sequence. Shorter and smaller than the other
+      // tweens: the pill is a full-width grey bar, so a long fade with a lot
+      // of travel moves a large block of colour and reads as heavy rather
+      // than subtle. A short, small settle suits it better.
+      if (bannerRef.current) {
+        tl.fromTo(
+          bannerRef.current,
+          { y: 6, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.25, ease: 'power2.out' }
+        )
+      }
     }, sectionRef)
 
     return () => ctx.revert()
@@ -111,9 +116,9 @@ export default function HeroDefault({
             href={bannerHref}
             data-gsap-intro
             style={{ opacity: 0, transform: 'translateY(20px)' }}
-            className="flex w-full flex-col items-start gap-2 rounded-3xl bg-muted px-6 py-4 transition-opacity hover:opacity-60 sm:flex-row sm:items-center sm:gap-6"
+            className="group flex w-full flex-col items-start gap-2 rounded-3xl bg-muted px-6 py-4 transition-opacity hover:opacity-60 sm:flex-row sm:items-center sm:gap-6"
           >
-            <span className="min-w-0 font-body text-base font-light text-foreground">
+            <span className="min-w-0 font-body text-base font-normal text-foreground">
               {bannerText}
             </span>
             <span className="inline-flex shrink-0 items-center gap-2 font-body text-base font-light text-foreground underline underline-offset-4 sm:ml-auto">
@@ -122,7 +127,7 @@ export default function HeroDefault({
                 aria-hidden="true"
                 viewBox="0 0 16 16"
                 fill="none"
-                className="h-4 w-4 shrink-0"
+                className="h-4 w-4 shrink-0 transition-transform duration-200 group-hover:translate-x-1"
               >
                 <path
                   d="M3.5 8h9M8.5 3.5 13 8l-4.5 4.5"
