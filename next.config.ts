@@ -43,6 +43,15 @@ const nextConfig: NextConfig = {
         destination: '/artists/ashwini-bhide-deshpande',
         permanent: true,
       },
+      // Temporary: /dinarang-centenary is a working name being tried ahead
+      // of a final decision. permanent: false makes this a 307, not a 308;
+      // a 308 gets cached hard by browsers and is painful to undo if the
+      // URL changes again.
+      {
+        source: '/dinarang-centenary',
+        destination: '/centenary',
+        permanent: false,
+      },
       // {
       //   source: "/:path*",
       //   destination: "https://instagram.com/svaritorg",

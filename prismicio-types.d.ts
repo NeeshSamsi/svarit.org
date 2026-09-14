@@ -764,6 +764,110 @@ interface SettingsDocumentData {
 export type SettingsDocument<Lang extends string = string> = prismic.PrismicDocumentWithoutUID<Simplify<SettingsDocumentData>, "settings", Lang>;
 
 /**
+ * Item in *Welcome Updates → Variants*
+ */
+export interface WelcomeUpdatesDocumentDataVariantsItem {
+	/**
+	 * Source field in *Welcome Updates → Variants*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: centenary (leave empty for the default)
+	 * - **API ID Path**: welcome_updates.variants[].source
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	source: prismic.KeyTextField;
+
+	/**
+	 * Title field in *Welcome Updates → Variants*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: welcome_updates.variants[].title
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	title: prismic.KeyTextField;
+
+	/**
+	 * Body field in *Welcome Updates → Variants*
+	 *
+	 * - **Field Type**: Rich Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: welcome_updates.variants[].body
+	 * - **Documentation**: https://prismic.io/docs/fields/rich-text
+	 */
+	body: prismic.RichTextField;
+
+	/**
+	 * CTA Label field in *Welcome Updates → Variants*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Explore our initiatives
+	 * - **API ID Path**: welcome_updates.variants[].cta_label
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	cta_label: prismic.KeyTextField;
+
+	/**
+	 * CTA Link field in *Welcome Updates → Variants*
+	 *
+	 * - **Field Type**: Link
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: welcome_updates.variants[].cta_link
+	 * - **Documentation**: https://prismic.io/docs/fields/link
+	 */
+	cta_link: prismic.ContentRelationshipField<"page" | "event">;
+}
+
+/**
+ * Content for Welcome Updates documents
+ */
+interface WelcomeUpdatesDocumentData {
+	/**
+	 * Variants field in *Welcome Updates*
+	 *
+	 * - **Field Type**: Group
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: welcome_updates.variants[]
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
+	 */
+	variants: prismic.GroupField<Simplify<WelcomeUpdatesDocumentDataVariantsItem>>;
+
+	/**
+	 * Meta Title field in *Welcome Updates*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: A title of the page used for social media and search engines
+	 * - **API ID Path**: welcome_updates.meta_title
+	 * - **Tab**: SEO & Metadata
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	meta_title: prismic.KeyTextField;
+
+	/**
+	 * Meta Description field in *Welcome Updates*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: A brief summary of the page
+	 * - **API ID Path**: welcome_updates.meta_description
+	 * - **Tab**: SEO & Metadata
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	meta_description: prismic.KeyTextField;
+}
+
+/**
+ * Welcome Updates document from Prismic
+ *
+ * - **API ID**: `welcome_updates`
+ * - **Repeatable**: `false`
+ * - **Documentation**: https://prismic.io/docs/content-modeling
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type WelcomeUpdatesDocument<Lang extends string = string> = prismic.PrismicDocumentWithoutUID<Simplify<WelcomeUpdatesDocumentData>, "welcome_updates", Lang>;
+
+/**
  * Content for Volunteer documents
  */
 interface VolunteerDocumentData {
@@ -812,7 +916,7 @@ interface VolunteerDocumentData {
  */
 export type VolunteerDocument<Lang extends string = string> = prismic.PrismicDocumentWithUID<Simplify<VolunteerDocumentData>, "volunteer", Lang>;
 
-export type AllDocumentTypes = ArtistDocument | EventDocument | PageDocument | SettingsDocument | VolunteerDocument;
+export type AllDocumentTypes = ArtistDocument | EventDocument | PageDocument | SettingsDocument | VolunteerDocument | WelcomeUpdatesDocument;
 
 /**
  * Primary content in *About → Default → Primary*
@@ -1278,7 +1382,37 @@ export interface EventListSliceTimelinePrimary {
 	 * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
 	 */
 	initiatives: prismic.GroupField<Simplify<EventListSliceTimelinePrimaryInitiativesItem>>;
-	
+
+	/**
+	 * Max Items field in *EventList → Timeline → Primary*
+	 *
+	 * - **Field Type**: Number
+	 * - **Placeholder**: Leave empty to show all
+	 * - **API ID Path**: event_list.timeline.primary.max_items
+	 * - **Documentation**: https://prismic.io/docs/fields/number
+	 */
+	max_items: prismic.NumberField;
+
+	/**
+	 * More Label field in *EventList → Timeline → Primary*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Show more initiatives
+	 * - **API ID Path**: event_list.timeline.primary.more_label
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	more_label: prismic.KeyTextField;
+
+	/**
+	 * More Link field in *EventList → Timeline → Primary*
+	 *
+	 * - **Field Type**: Link
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: event_list.timeline.primary.more_link
+	 * - **Documentation**: https://prismic.io/docs/fields/link
+	 */
+	more_link: prismic.ContentRelationshipField<"page">;
+
 	/**
 	 * Show signup form field in *EventList → Timeline → Primary*
 	 *
@@ -1372,7 +1506,47 @@ export interface HeroSliceDefaultPrimary {
 	 * - **Documentation**: https://prismic.io/docs/fields/rich-text
 	 */
 	subtitle: prismic.RichTextField;
-	
+
+	/**
+	 * Banner Initiative field in *Hero → Default → Primary*
+	 *
+	 * - **Field Type**: Content Relationship
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: hero.default.primary.banner_initiative
+	 * - **Documentation**: https://prismic.io/docs/fields/content-relationship
+	 */
+	banner_initiative: prismic.ContentRelationshipField<"event", string, { title: prismic.KeyTextField }>;
+
+	/**
+	 * Banner Text field in *Hero → Default → Primary*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Join us as we celebrate...
+	 * - **API ID Path**: hero.default.primary.banner_text
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	banner_text: prismic.KeyTextField;
+
+	/**
+	 * Banner Link field in *Hero → Default → Primary*
+	 *
+	 * - **Field Type**: Link
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: hero.default.primary.banner_link
+	 * - **Documentation**: https://prismic.io/docs/fields/link
+	 */
+	banner_link: prismic.LinkField<string, string, unknown, prismic.FieldState, never>;
+
+	/**
+	 * Banner CTA Label field in *Hero → Default → Primary*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Learn more
+	 * - **API ID Path**: hero.default.primary.banner_cta_label
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	banner_cta_label: prismic.KeyTextField;
+
 	/**
 	 * CTA Label field in *Hero → Default → Primary*
 	 *
@@ -1811,6 +1985,9 @@ declare module "@prismicio/client" {
 			SettingsDocumentDataFooterLinksItem,
 			VolunteerDocument,
 			VolunteerDocumentData,
+			WelcomeUpdatesDocument,
+			WelcomeUpdatesDocumentData,
+			WelcomeUpdatesDocumentDataVariantsItem,
 			AllDocumentTypes,
 			AboutSlice,
 			AboutSliceDefaultPrimary,

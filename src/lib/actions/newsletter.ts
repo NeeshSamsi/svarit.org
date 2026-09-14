@@ -1,7 +1,10 @@
 'use server'
 
 import { z } from 'zod'
-import { newsletterSchema } from '@/lib/schemas/newsletter'
+import {
+  newsletterSchema,
+  newsletterEventTypeSchema,
+} from '@/lib/schemas/newsletter'
 import { getBento } from '@/lib/bento'
 import { splitName } from '@/lib/splitName'
 
@@ -47,6 +50,11 @@ export async function subscribeToUpdates(
     }
 
   const { name, email } = result.data
+  // The hidden eventType input is client controlled; parsing it through the
+  // allowlisted schema means anything absent, spoofed, or not one of the
+  // two known values falls back to the default opt-in flow rather than
+  // being written to Bento unchecked.
+  const eventType = newsletterEventTypeSchema.parse(formData.get('eventType'))
 
   try {
     const subscriber = await bento.V1.Subscribers.getSubscribers({ email })
@@ -55,13 +63,10 @@ export async function subscribeToUpdates(
 
     const { first_name, last_name } = splitName(name)
 
-    // '$opt.in' runs Bento's default double opt-in flow. Switch this to a
-    // custom event type if the user wires up a dedicated Bento automation
-    // for centenary signups instead.
     await bento.V1.track({
       email,
-      type: '$opt.in',
-      fields: { first_name, last_name, source: 'centenary' },
+      type: eventType,
+      fields: { first_name, last_name },
     })
 
     return {

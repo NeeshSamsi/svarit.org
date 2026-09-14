@@ -23,11 +23,16 @@ export default function NewsletterSignup({
   // with no animation wired up at all, always renders its fields visible;
   // without this opt-in, they would sit permanently invisible instead.
   staggerFields = false,
+  // The Bento event this signup should track as, e.g. '$opt.in.centenary'
+  // for the /centenary page's form. The server independently re-validates
+  // this against an allowlist, since a hidden input is client controlled.
+  eventType = '$opt.in',
 }: {
   heading?: string
   ctaLabel?: string
   className?: string
   staggerFields?: boolean
+  eventType?: string
 }) {
   const initialState: NewsletterState = { status: 'idle' }
   const [state, formAction, isPending] = useActionState(
@@ -106,6 +111,7 @@ export default function NewsletterSignup({
             className="hidden"
           />
           <input ref={tsRef} type="hidden" name="submittedAt" defaultValue="" />
+          <input type="hidden" name="eventType" value={eventType} />
           {state.status === 'error' && state.message && (
             <p className="font-body text-sm text-red-600">{state.message}</p>
           )}

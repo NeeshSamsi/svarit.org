@@ -146,6 +146,29 @@
             }
           }
         },
+        "max_items": {
+          "type": "Number",
+          "config": {
+            "label": "Max Items",
+            "placeholder": "Leave empty to show all"
+          }
+        },
+        "more_label": {
+          "type": "Text",
+          "config": {
+            "label": "More Label",
+            "placeholder": "Show more initiatives"
+          }
+        },
+        "more_link": {
+          "type": "Link",
+          "config": {
+            "label": "More Link",
+            "placeholder": "",
+            "select": "document",
+            "customtypes": ["page"]
+          }
+        },
         "show_signup": {
           "type": "Boolean",
           "config": {
@@ -167,6 +190,15 @@
           "config": {
             "label": "Signup Button Label",
             "placeholder": "Sign up for updates"
+          }
+        },
+        "signup_event_type": {
+          "type": "Select",
+          "config": {
+            "label": "Signup Event Type",
+            "placeholder": "",
+            "options": ["$opt.in", "$opt.in.centenary"],
+            "default_value": "$opt.in"
           }
         }
       }

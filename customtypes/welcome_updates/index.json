@@ -1,0 +1,74 @@
+{
+  "id": "welcome_updates",
+  "label": "Welcome Updates",
+  "repeatable": false,
+  "json": {
+    "Main": {
+      "variants": {
+        "type": "Group",
+        "config": {
+          "label": "Variants",
+          "repeat": true,
+          "fields": {
+            "source": {
+              "type": "Text",
+              "config": {
+                "label": "Source",
+                "placeholder": "centenary (leave empty for the default)"
+              }
+            },
+            "title": {
+              "type": "Text",
+              "config": {
+                "label": "Title",
+                "placeholder": ""
+              }
+            },
+            "body": {
+              "type": "StructuredText",
+              "config": {
+                "label": "Body",
+                "placeholder": "",
+                "multi": "paragraph,strong,em,hyperlink,list-item,o-list-item"
+              }
+            },
+            "cta_label": {
+              "type": "Text",
+              "config": {
+                "label": "CTA Label",
+                "placeholder": "Explore our initiatives"
+              }
+            },
+            "cta_link": {
+              "type": "Link",
+              "config": {
+                "label": "CTA Link",
+                "placeholder": "",
+                "select": "document",
+                "customtypes": ["page", "event"]
+              }
+            }
+          }
+        }
+      }
+    },
+    "SEO & Metadata": {
+      "meta_title": {
+        "type": "Text",
+        "config": {
+          "label": "Meta Title",
+          "placeholder": "A title of the page used for social media and search engines"
+        }
+      },
+      "meta_description": {
+        "type": "Text",
+        "config": {
+          "label": "Meta Description",
+          "placeholder": "A brief summary of the page"
+        }
+      }
+    }
+  },
+  "status": true,
+  "format": "page"
+}

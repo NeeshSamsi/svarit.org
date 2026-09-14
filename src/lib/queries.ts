@@ -6,6 +6,7 @@ import type {
   EventDocument,
   SettingsDocument,
   VolunteerDocument,
+  WelcomeUpdatesDocument,
 } from '../../prismicio-types'
 
 /**
@@ -39,6 +40,16 @@ export const getSettings = cache(async (): Promise<SettingsDocument | null> => {
     return fallback('getSettings', null, error)
   }
 })
+
+export const getWelcomeUpdates = cache(
+  async (): Promise<WelcomeUpdatesDocument | null> => {
+    try {
+      return await createClient().getSingle('welcome_updates')
+    } catch (error) {
+      return fallback('getWelcomeUpdates', null, error)
+    }
+  }
+)
 
 export const getAllEvents = cache(async (): Promise<EventDocument[]> => {
   try {

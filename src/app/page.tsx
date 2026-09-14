@@ -13,7 +13,13 @@ import { SITE_URL } from '@/lib/site'
 const getHome = async () => {
   const client = createClient()
 
-  return client.getByUID('page', 'home').catch(() => null)
+  // The Hero slice's banner can link to an `event` document. Content
+  // relationship fields only carry an id by default, so `fetchLinks` brings
+  // the linked event's title back in this same request rather than a second
+  // round trip from the slice.
+  return client
+    .getByUID('page', 'home', { fetchLinks: ['event.title'] })
+    .catch(() => null)
 }
 
 export async function generateMetadata(): Promise<Metadata> {

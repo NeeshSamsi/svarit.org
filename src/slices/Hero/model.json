@@ -27,6 +27,36 @@
             "multi": "paragraph,strong,em,hyperlink"
           }
         },
+        "banner_initiative": {
+          "type": "Link",
+          "config": {
+            "label": "Banner Initiative",
+            "placeholder": "",
+            "select": "document",
+            "customtypes": ["event"]
+          }
+        },
+        "banner_text": {
+          "type": "Text",
+          "config": {
+            "label": "Banner Text",
+            "placeholder": "Join us as we celebrate..."
+          }
+        },
+        "banner_link": {
+          "type": "Link",
+          "config": {
+            "label": "Banner Link",
+            "placeholder": ""
+          }
+        },
+        "banner_cta_label": {
+          "type": "Text",
+          "config": {
+            "label": "Banner CTA Label",
+            "placeholder": "Learn more"
+          }
+        },
         "cta_label": {
           "type": "Text",
           "config": {

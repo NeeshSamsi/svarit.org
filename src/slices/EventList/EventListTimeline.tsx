@@ -1,12 +1,15 @@
 'use client'
 
 import { useRef } from 'react'
-import type { Content } from '@prismicio/client'
+import { isFilled, type Content } from '@prismicio/client'
+import { PrismicNextLink } from '@prismicio/next'
 import SectionTitle from '@/components/ui/SectionTitle'
 import NewsletterSignup from '@/components/forms/NewsletterSignup'
+import { button } from '@/components/ui/button-variants'
 import { gsap, ScrollTrigger } from '@/lib/gsap'
 import { useIsomorphicLayoutEffect } from '@/lib/useIsomorphicLayoutEffect'
 import { introHandoff, PAGE_HEADER_INTRO_END } from '@/lib/intro'
+import { newsletterEventTypeSchema } from '@/lib/schemas/newsletter'
 import InitiativeTimelineCard from './InitiativeTimelineCard'
 import type { ArtistDocument, EventDocument } from '../../../prismicio-types'
 
@@ -32,6 +35,7 @@ export default function EventListTimeline({
       const firstCard = cards[0]
       const restCards = cards.slice(1)
       const firstDot = self.selector!('.timeline-dot')[0]
+      const moreEl = self.selector!('.timeline-more')[0]
 
       // CSS hides the title before paint; the rule and rail's hidden state
       // is set inline in the markup instead (see their className comments
@@ -42,6 +46,10 @@ export default function EventListTimeline({
       if (ruleEl) gsap.set(ruleEl, { scaleX: 0, transformOrigin: 'left' })
       if (railEl) gsap.set(railEl, { scaleY: 0, transformOrigin: 'top' })
       gsap.set(cards, { x: -24, opacity: 0 })
+      // The "more" link joins the cards' own reveal treatment (same
+      // transform, batched with the rest of them below) rather than getting
+      // a bespoke tween.
+      if (moreEl) gsap.set(moreEl, { x: -24, opacity: 0 })
       // The dot lives inside the card's h3, which is inside the card itself;
       // a parent sitting at opacity 0 already hides it, so it cannot become
       // visible before its own card does. Only the first card needs an
@@ -119,7 +127,7 @@ export default function EventListTimeline({
         },
       })
 
-      ScrollTrigger.batch(restCards, {
+      ScrollTrigger.batch(moreEl ? [...restCards, moreEl] : restCards, {
         once: true,
         batchMax: 6,
         start: 'top 85%',
@@ -160,6 +168,34 @@ export default function EventListTimeline({
   // signup_heading field, not here.
   const signupHeading = slice.primary.signup_heading || 'Stay in the loop'
   const signupCtaLabel = slice.primary.signup_cta_label || 'Sign up for updates'
+  // prismicio-types.d.ts doesn't know about signup_event_type yet; that
+  // needs the orchestrator to push this model and regenerate types. Until
+  // then, read it through a narrow local cast rather than hand-editing the
+  // generated file. A migrated Text field reads back as [] and still
+  // passes isFilled.keyText, so guard with a plain string check, then
+  // resolve it against the allowlist: existing slice instances read null,
+  // which must behave as '$opt.in'.
+  const rawSignupEventType = (
+    slice.primary as unknown as { signup_event_type?: string | null }
+  ).signup_event_type
+  const signupEventType = newsletterEventTypeSchema.parse(
+    typeof rawSignupEventType === 'string' ? rawSignupEventType : null
+  )
+  // Empty, zero, negative or not a number: show every item, exactly as
+  // /initiatives and /centenary already do, since neither sets this field.
+  const maxItems =
+    typeof slice.primary.max_items === 'number' && slice.primary.max_items > 0
+      ? slice.primary.max_items
+      : null
+  const visibleItems = maxItems !== null ? items.slice(0, maxItems) : items
+  // The button links out to more_link; it never expands the list in place,
+  // so it only renders when that link is filled, regardless of the label.
+  const moreLabel =
+    typeof slice.primary.more_label === 'string' &&
+    slice.primary.more_label.trim()
+      ? slice.primary.more_label
+      : 'Show more initiatives'
+  const showMore = isFilled.contentRelationship(slice.primary.more_link)
 
   return (
     <section
@@ -211,6 +247,7 @@ export default function EventListTimeline({
           <NewsletterSignup
             heading=""
             ctaLabel={signupCtaLabel}
+            eventType={signupEventType}
             staggerFields
             className="order-3 col-span-full lg:order-none"
           />
@@ -221,29 +258,43 @@ export default function EventListTimeline({
           pl-12 (3rem) + the card's md:p-8 (2rem) from md. It has to change
           if either the column's left padding or InitiativeTimelineCard's
           padding changes; nothing enforces that link. */}
-      <div className="relative order-2 col-span-full flex flex-col gap-6 pl-8 [--timeline-inset:3.5rem] md:gap-8 md:pl-12 md:[--timeline-inset:5rem] lg:order-none lg:col-span-8">
-        {/* Reuses `data-gsap-intro`'s inline-style-plus-no-JS-reset
-            mechanics (not the `.gsap-reveal` class): this scroll-triggered
-            rail isn't literally above the fold, but it needs to stay fully
-            opaque and only be hidden by scale, so it reads as drawing
-            downward rather than fading in when it reveals. `-top-4` reaches
-            up through the section's own `gap-y-4` to touch the rule above,
-            so it must change if that gap does. Solid where it meets the
-            rule, fading only at the bottom. */}
-        <div
-          aria-hidden="true"
-          data-gsap-intro
-          style={{ transform: 'scaleY(0)', transformOrigin: 'top' }}
-          className="timeline-rail absolute -top-4 bottom-0 left-0 w-px bg-foreground [mask-image:linear-gradient(to_bottom,black,black_92%,transparent)] [-webkit-mask-image:linear-gradient(to_bottom,black,black_92%,transparent)]"
-        />
-        {items.map(({ event, artists }) => (
-          <InitiativeTimelineCard
-            key={event.id}
-            event={event}
-            artists={artists}
-            className="timeline-card gsap-reveal"
+      <div className="order-2 col-span-full flex flex-col gap-6 pl-8 [--timeline-inset:3.5rem] md:gap-8 md:pl-12 md:[--timeline-inset:5rem] lg:order-none lg:col-span-8">
+        {/* `relative` lives here, not on the outer column, so the rail's
+            `bottom-0` bounds to the cards alone: the "more" link sits below
+            this wrapper as a sibling, and the rail must end with the cards
+            rather than stretching down to include it. */}
+        <div className="relative flex flex-col gap-6 md:gap-8">
+          {/* Reuses `data-gsap-intro`'s inline-style-plus-no-JS-reset
+              mechanics (not the `.gsap-reveal` class): this scroll-triggered
+              rail isn't literally above the fold, but it needs to stay fully
+              opaque and only be hidden by scale, so it reads as drawing
+              downward rather than fading in when it reveals. `-top-4` reaches
+              up through the section's own `gap-y-4` to touch the rule above,
+              so it must change if that gap does. Solid where it meets the
+              rule, fading only at the bottom. */}
+          <div
+            aria-hidden="true"
+            data-gsap-intro
+            style={{ transform: 'scaleY(0)', transformOrigin: 'top' }}
+            className="timeline-rail absolute -top-4 bottom-0 left-0 w-px bg-foreground [mask-image:linear-gradient(to_bottom,black,black_92%,transparent)] [-webkit-mask-image:linear-gradient(to_bottom,black,black_92%,transparent)]"
           />
-        ))}
+          {visibleItems.map(({ event, artists }) => (
+            <InitiativeTimelineCard
+              key={event.id}
+              event={event}
+              artists={artists}
+              className="timeline-card gsap-reveal"
+            />
+          ))}
+        </div>
+        {showMore && (
+          <PrismicNextLink
+            field={slice.primary.more_link}
+            className={`timeline-more gsap-reveal self-start ${button({ variant: 'secondary', size: 'base' })}`}
+          >
+            {moreLabel}
+          </PrismicNextLink>
+        )}
       </div>
     </section>
   )
