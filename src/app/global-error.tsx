@@ -48,6 +48,10 @@ export default function GlobalError({
               borderRadius: '9999px',
               border: '1px solid #1c1917',
               background: 'transparent',
+              // This component replaces the root layout and cannot assume
+              // globals.css loaded, so the base-layer `button { cursor:
+              // pointer }` rule may never reach it. Set inline instead of
+              // relying on it.
               cursor: 'pointer',
               font: 'inherit',
               fontWeight: 500,

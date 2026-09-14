@@ -151,7 +151,7 @@ export default function InitiativeTimelineCard({
             type="button"
             onClick={() => setCollapsed((c) => !c)}
             aria-expanded={!collapsed}
-            className={`w-fit cursor-pointer items-center gap-2 font-body text-base font-light text-foreground ${toggleVisibility}`}
+            className={`w-fit items-center gap-2 font-body text-base font-light text-foreground ${toggleVisibility}`}
           >
             {collapsed ? 'Show more artists' : 'Hide artists'}
             <svg

@@ -201,7 +201,7 @@ export default function EventListTabs({
                 setVisibleCount(BATCH_SIZE)
               }}
               className={[
-                'cursor-pointer rounded-full px-6 py-2 font-body text-base font-medium transition-colors',
+                'rounded-full px-6 py-2 font-body text-base font-medium transition-colors',
                 activeTab === key
                   ? 'border border-foreground bg-muted text-foreground'
                   : 'border border-transparent bg-muted text-foreground hover:border-foreground/20',
