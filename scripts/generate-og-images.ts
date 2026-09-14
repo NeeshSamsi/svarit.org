@@ -237,6 +237,22 @@ export function planCards(
 async function assertFontsLoaded(page: Page): Promise<void> {
   await page.evaluate(() => document.fonts.ready)
 
+  // document.fonts.ready above only waits for fonts ALREADY requested, and a font face is
+  // only fetched when something renders in it. The card only ever renders text at
+  // font-weight:500 (grep confirms: three occurrences of font-weight:500, none of 400), so
+  // the 400 face is never requested and this weight-500 request has to be forced explicitly
+  // before the measurement below, or the check can pass before the weight the card actually
+  // uses has loaded. The probe weight and size here must keep matching the ones the
+  // measurement below loads and asserts against, or this silently starts testing a face the
+  // card does not use.
+  await page.evaluate(async () => {
+    await Promise.all([
+      document.fonts.load("500 180px 'proxima-nova'"),
+      document.fonts.load("500 180px 'fields-display'"),
+    ])
+    await document.fonts.ready
+  })
+
   const report = await page.evaluate(() => {
     const loaded = new Set<string>()
     document.fonts.forEach((face) => {
@@ -245,10 +261,13 @@ async function assertFontsLoaded(page: Page): Promise<void> {
       }
     })
 
+    // font-weight:500 here matches the weight the card actually renders in (see above); the
+    // fallback comparison below is meaningless if this measures a weight the card never uses.
     const widthWith = (family: string): number => {
       const el = document.createElement('span')
       el.style.cssText =
-        'position:absolute;left:-9999px;font-size:180px;white-space:nowrap;font-family:' +
+        'position:absolute;left:-9999px;font-size:180px;font-weight:500;white-space:nowrap;' +
+        'font-family:' +
         family
       el.textContent = 'Svarit Dinarang MWil'
       document.body.appendChild(el)
