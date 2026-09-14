@@ -16,6 +16,18 @@
   --color-brand: #c9363b;
 }
 
+/* Tailwind v4 dropped `button { cursor: pointer }` from its preflight,
+   deferring to the browser default of `cursor: default`. This restores it
+   site-wide on purpose, for every button and button-like element, so do not
+   delete it thinking it is redundant. `:not(:disabled)` keeps a disabled
+   button showing the default cursor rather than a pointer. */
+@layer base {
+  button:not(:disabled),
+  [role='button']:not(:disabled) {
+    cursor: pointer;
+  }
+}
+
 .btn-fill::after {
   content: '';
   position: absolute;
