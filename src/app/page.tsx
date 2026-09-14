@@ -4,7 +4,8 @@ import { asImageSrc } from '@prismicio/client'
 import { SliceZone } from '@prismicio/react'
 import { createClient } from '@/prismicio'
 import { components } from '@/slices'
-import { SITE_URL } from '@/lib/site'
+import { SITE_URL, SITE_TITLE, SITE_DESCRIPTION } from '@/lib/site'
+import { filledOrFallback } from '@/lib/metadata'
 
 /**
  * The home page is the `page` document with the uid `home`, routed to `/` by
@@ -30,23 +31,22 @@ export async function generateMetadata(): Promise<Metadata> {
   const page = await getHome()
   if (!page) return metadata
 
-  const title = page.data.meta_title
-  const description = page.data.meta_description
+  const rawTitle = page.data.meta_title
+  const rawDescription = page.data.meta_description
   const image = asImageSrc(page.data.meta_image)
 
   // An empty SEO tab leaves the static metadata in `src/app/layout.tsx` in
   // place. Next merges metadata shallowly, so openGraph and twitter have to be
   // rebuilt in full whenever the document overrides any part of them.
-  if (!title && !description && !image) return metadata
+  if (!rawTitle && !rawDescription && !image) return metadata
 
-  if (title) metadata.title = { absolute: title }
-  if (description) metadata.description = description
+  const title = filledOrFallback(rawTitle, SITE_TITLE)
+  const description = filledOrFallback(rawDescription, SITE_DESCRIPTION)
 
-  const social = {
-    title: title ?? undefined,
-    description: description ?? undefined,
-    images: [image ?? '/og/home.jpg'],
-  }
+  metadata.title = title
+  metadata.description = description
+
+  const social = { title, description, images: [image ?? '/og/home.jpg'] }
   metadata.openGraph = {
     type: 'website',
     siteName: 'Svarit',

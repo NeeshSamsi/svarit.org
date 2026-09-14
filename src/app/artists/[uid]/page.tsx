@@ -11,6 +11,7 @@ import { artistBioText } from '@/components/artists/bio'
 import { ARTIST_HERO_INTRO_END } from '@/lib/intro'
 import { SITE_URL } from '@/lib/site'
 import { ogImageFields } from '@/lib/og'
+import { artistTitle, metaDescription, filledOrFallback } from '@/lib/metadata'
 
 type Props = {
   params: Promise<{ uid: string }>
@@ -130,9 +131,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   if (!artist) return {}
 
-  const title = artist.data.meta_title || artist.data.name || undefined
-  const description =
-    artist.data.meta_description || artistBioText(artist.data.bio) || undefined
+  const title = filledOrFallback(
+    artist.data.meta_title,
+    artistTitle(artist.data.name || '')
+  )
+  const description = filledOrFallback(
+    artist.data.meta_description,
+    metaDescription(artistBioText(artist.data.bio))
+  )
   // meta_image -> generated card for this uid -> /og/home.jpg. Set on both
   // openGraph and twitter, or the shallow merge drops the layout fallback.
   const og = ogImageFields({

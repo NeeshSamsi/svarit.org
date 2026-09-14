@@ -7,17 +7,13 @@ import Umami from '@/components/analytics/Umami'
 import { draftMode } from 'next/headers'
 import { PrismicPreview } from '@prismicio/next'
 import { repositoryName } from '@/prismicio'
-import { SITE_URL } from '@/lib/site'
+import { SITE_URL, SITE_TITLE, SITE_DESCRIPTION } from '@/lib/site'
 import { getSettings } from '@/lib/queries'
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  title: {
-    default: 'Svarit — Honouring Legacy, Shaping the Future of Indian Music',
-    template: '%s — Svarit',
-  },
-  description:
-    'Founded in 2001, Svarit carries a rich musical legacy into the future — nurturing Indian music through concerts, festivals, education and community.',
+  title: SITE_TITLE,
+  description: SITE_DESCRIPTION,
   applicationName: 'Svarit',
   authors: [{ name: 'Svarit' }],
   creator: 'Svarit',

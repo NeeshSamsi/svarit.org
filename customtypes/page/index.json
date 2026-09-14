@@ -57,14 +57,14 @@
         "type": "Text",
         "config": {
           "label": "Meta Title",
-          "placeholder": "A title of the page used for social media and search engines"
+          "placeholder": "Defaults to \"{Page name} | Svarit\""
         }
       },
       "meta_description": {
         "type": "Text",
         "config": {
           "label": "Meta Description",
-          "placeholder": "A brief summary of the page"
+          "placeholder": "Falls back to the site description"
         }
       },
       "meta_image": {

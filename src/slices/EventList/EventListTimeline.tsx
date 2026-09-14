@@ -238,8 +238,18 @@ export default function EventListTimeline({
           both back into the section's own grid so their `order` utilities
           still produce heading, timeline, form in that literal order; at lg
           the wrapper becomes a real flex column, `self-start` so it isn't
-          stretched to the timeline's (taller) row height. */}
-      <div className="contents lg:col-span-4 lg:flex lg:flex-col lg:gap-8 lg:self-start">
+          stretched to the timeline's (taller) row height: a stretched grid
+          item has no room to travel through, so `sticky` would have nothing
+          to do. `lg:top-32` (128px) tracks the fixed nav: measured against a
+          production build at desktop width, the nav's real rendered bottom
+          edge sits at 100px (not the ~90px a top-6/py-4/h-8 estimate alone
+          suggests), so 128px lands this column about 28px below it. It has
+          to change, and be re-measured rather than recalculated by hand, if
+          the nav's padding or logo size does.
+          `contents` at mobile keeps this un-stuck and in the timeline's own
+          document order; `lg:sticky` only takes effect once the wrapper is a
+          real flex column. */}
+      <div className="contents lg:sticky lg:top-32 lg:col-span-4 lg:flex lg:flex-col lg:gap-8 lg:self-start">
         <h3 className="gsap-reveal timeline-signup-heading order-1 col-span-full font-display text-2xl leading-tight font-medium text-foreground lg:order-none">
           {signupHeading}
         </h3>
@@ -255,9 +265,12 @@ export default function EventListTimeline({
       </div>
 
       {/* --timeline-inset is pl-8 (2rem) + the card's p-6 (1.5rem) at base,
-          pl-12 (3rem) + the card's md:p-8 (2rem) from md. It has to change
-          if either the column's left padding or InitiativeTimelineCard's
-          padding changes; nothing enforces that link. */}
+          pl-12 (3rem) + the card's md:p-8 (2rem) from md, measured back to
+          this column's outer edge. It has to change if either the column's
+          left padding or InitiativeTimelineCard's padding changes; nothing
+          enforces that link. The rail's `-left-8 md:-left-12` below depends
+          on this same pl-8/pl-12, for the same reason: all three now track
+          one value. */}
       <div className="order-2 col-span-full flex flex-col gap-6 pl-8 [--timeline-inset:3.5rem] md:gap-8 md:pl-12 md:[--timeline-inset:5rem] lg:order-none lg:col-span-8">
         {/* `relative` lives here, not on the outer column, so the rail's
             `bottom-0` bounds to the cards alone: the "more" link sits below
@@ -271,12 +284,22 @@ export default function EventListTimeline({
               downward rather than fading in when it reveals. `-top-4` reaches
               up through the section's own `gap-y-4` to touch the rule above,
               so it must change if that gap does. Solid where it meets the
-              rule, fading only at the bottom. */}
+              rule, fading only at the bottom.
+
+              `-left-8 md:-left-12` must match the column's own `pl-8
+              md:pl-12` below, with the sign flipped: this wrapper (not the
+              column) is the rail's positioning context, and it carries no
+              padding of its own, so `left-0` would resolve to the wrapper's
+              edge, 2rem/3rem inside of where the column's padding actually
+              starts. Pulling the rail back out by that same amount lines it
+              up with the column's outer edge again, which is also what
+              `--timeline-inset` on the column measures back to, see the
+              comment above it. */}
           <div
             aria-hidden="true"
             data-gsap-intro
             style={{ transform: 'scaleY(0)', transformOrigin: 'top' }}
-            className="timeline-rail absolute -top-4 bottom-0 left-0 w-px bg-foreground [mask-image:linear-gradient(to_bottom,black,black_92%,transparent)] [-webkit-mask-image:linear-gradient(to_bottom,black,black_92%,transparent)]"
+            className="timeline-rail absolute -top-4 bottom-0 -left-8 w-px bg-foreground [mask-image:linear-gradient(to_bottom,black,black_92%,transparent)] [-webkit-mask-image:linear-gradient(to_bottom,black,black_92%,transparent)] md:-left-12"
           />
           {visibleItems.map(({ event, artists }) => (
             <InitiativeTimelineCard
