@@ -44,6 +44,7 @@ export default function ArtistCard({
       >
         <ArtistSocials
           artist={artist}
+          location="artist-card"
           orientation="vertical"
           chipClassName="bg-[#fffaf0]"
           className="absolute top-4 right-4 z-10"

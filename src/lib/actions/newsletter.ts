@@ -12,6 +12,11 @@ export type NewsletterState = {
   status: 'idle' | 'success' | 'error'
   message?: string
   errors?: Partial<Record<'name' | 'email', string>>
+  // Only set on a genuine signup outcome, never on the honeypot/too-fast
+  // bot-decoy paths, so the client can tell a real success/failure apart
+  // from the fake `{ status: 'success' }` returned to fool bots.
+  result?: 'new' | 'existing'
+  reason?: 'validation' | 'config' | 'server'
 }
 
 export async function subscribeToUpdates(
@@ -38,6 +43,7 @@ export async function subscribeToUpdates(
         name: fieldErrors.name?.[0],
         email: fieldErrors.email?.[0],
       },
+      reason: 'validation',
     }
   }
 
@@ -47,6 +53,7 @@ export async function subscribeToUpdates(
       status: 'error',
       message:
         'The signup form is not configured correctly. Please try again later.',
+      reason: 'config',
     }
 
   const { name, email } = result.data
@@ -59,7 +66,11 @@ export async function subscribeToUpdates(
   try {
     const subscriber = await bento.V1.Subscribers.getSubscribers({ email })
     if (subscriber)
-      return { status: 'success', message: 'You are already subscribed.' }
+      return {
+        status: 'success',
+        message: 'You are already subscribed.',
+        result: 'existing',
+      }
 
     const { first_name, last_name } = splitName(name)
 
@@ -72,12 +83,14 @@ export async function subscribeToUpdates(
     return {
       status: 'success',
       message: 'Please check your inbox and confirm your subscription.',
+      result: 'new',
     }
   } catch (err) {
     console.error(err)
     return {
       status: 'error',
       message: 'Something went wrong, please try again later.',
+      reason: 'server',
     }
   }
 }

@@ -1,9 +1,10 @@
 'use client'
 
-import { useRef } from 'react'
+import { useRef, useEffect } from 'react'
 import ButtonLink from '@/components/ui/ButtonLink'
 import { gsap } from '@/lib/gsap'
 import { useIsomorphicLayoutEffect } from '@/lib/useIsomorphicLayoutEffect'
+import { track } from '@/lib/analytics'
 
 /**
  * The 404 body, split out of not-found.tsx so that file can stay a server
@@ -16,6 +17,16 @@ export default function NotFoundContent() {
   const numeralRef = useRef<HTMLParagraphElement>(null)
   const headingRef = useRef<HTMLHeadingElement>(null)
   const buttonRef = useRef<HTMLDivElement>(null)
+  const trackedRef = useRef(false)
+
+  useEffect(() => {
+    if (trackedRef.current) return
+    trackedRef.current = true
+    track('not-found', {
+      path: `${window.location.pathname}${window.location.search}`,
+      referrer: document.referrer || 'direct',
+    })
+  }, [])
 
   useIsomorphicLayoutEffect(() => {
     const ctx = gsap.context(() => {

@@ -1,9 +1,11 @@
 import { isFilled, type Content } from '@prismicio/client'
 import { PrismicNextLink } from '@prismicio/next'
 import { InstagramIcon, YouTubeIcon } from '@/components/ui/social-icons'
+import { umamiEventAttrs, type AnalyticsEvents } from '@/lib/analytics'
 
 interface ArtistSocialsProps {
   artist: Content.ArtistDocument
+  location: AnalyticsEvents['social-click']['location']
   /** The card stacks the chips on the photo; the hero lays them in a row. */
   orientation?: 'horizontal' | 'vertical'
   /** Chip background: the card sits on the photo, the hero on `bg-muted`. */
@@ -19,14 +21,25 @@ interface ArtistSocialsProps {
  */
 export default function ArtistSocials({
   artist,
+  location,
   orientation = 'horizontal',
   chipClassName = 'bg-muted',
   className = '',
 }: ArtistSocialsProps) {
   const { name, instagram, youtube } = artist.data
   const links = [
-    { field: instagram, label: 'Instagram', Icon: InstagramIcon },
-    { field: youtube, label: 'YouTube', Icon: YouTubeIcon },
+    {
+      field: instagram,
+      label: 'Instagram',
+      Icon: InstagramIcon,
+      platform: 'instagram' as const,
+    },
+    {
+      field: youtube,
+      label: 'YouTube',
+      Icon: YouTubeIcon,
+      platform: 'youtube' as const,
+    },
   ].filter(({ field }) => isFilled.link(field))
 
   if (!links.length) return null
@@ -35,7 +48,7 @@ export default function ArtistSocials({
     <ul
       className={`flex gap-2 ${orientation === 'vertical' ? 'flex-col' : 'flex-row'} ${className}`}
     >
-      {links.map(({ field, label, Icon }) => (
+      {links.map(({ field, label, Icon, platform }) => (
         <li key={label}>
           <PrismicNextLink
             field={field}
@@ -43,6 +56,11 @@ export default function ArtistSocials({
             rel="noopener noreferrer"
             aria-label={name ? `${name} on ${label}` : label}
             className={`flex rounded-[12px] p-2.5 text-foreground transition-opacity hover:opacity-70 ${chipClassName}`}
+            {...umamiEventAttrs('social-click', {
+              platform,
+              location,
+              artist: artist.uid,
+            })}
           >
             <Icon className="size-6" />
           </PrismicNextLink>

@@ -8,6 +8,7 @@ import ButtonLink from '@/components/ui/ButtonLink'
 import GsapIntroStyles from '@/components/layout/GsapIntroStyles'
 import { gsap } from '@/lib/gsap'
 import { useIsomorphicLayoutEffect } from '@/lib/useIsomorphicLayoutEffect'
+import { umamiEventAttrs } from '@/lib/analytics'
 
 export default function NavClient({
   links,
@@ -105,6 +106,7 @@ export default function NavClient({
                   size="sm"
                   href={asLink(link) ?? '#'}
                   target="_blank"
+                  {...umamiEventAttrs('donate-click', { location: 'nav' })}
                 >
                   {link.text}
                 </ButtonLink>
@@ -154,6 +156,9 @@ export default function NavClient({
                   target="_blank"
                   className="w-full justify-center"
                   onClick={() => setMobileOpen(false)}
+                  {...umamiEventAttrs('donate-click', {
+                    location: 'nav-mobile',
+                  })}
                 >
                   {link.text}
                 </ButtonLink>

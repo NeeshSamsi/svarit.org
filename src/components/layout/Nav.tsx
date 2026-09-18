@@ -13,7 +13,7 @@ export default async function Nav() {
     <NavClient
       links={settings?.data.nav[0]?.links ?? []}
       primary={settings?.data.donationLink ?? []}
-      socialLinks={<SocialLinks />}
+      socialLinks={<SocialLinks location="nav" />}
     />
   )
 }

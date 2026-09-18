@@ -6,6 +6,7 @@ import {
   subscribeToUpdates,
   type NewsletterState,
 } from '@/lib/actions/newsletter'
+import { track } from '@/lib/analytics'
 
 export default function NewsletterSignup({
   // Any page can carry a timeline (event_list's timeline variation isn't
@@ -44,6 +45,17 @@ export default function NewsletterSignup({
   useEffect(() => {
     if (tsRef.current) tsRef.current.value = String(Date.now())
   }, [])
+
+  useEffect(() => {
+    if (state.result) {
+      track('newsletter-signup', {
+        list: eventType === '$opt.in.centenary' ? 'centenary' : 'general',
+        result: state.result,
+      })
+    } else if (state.reason) {
+      track('newsletter-signup-failed', { reason: state.reason })
+    }
+  }, [state, eventType])
 
   const fieldClassName = staggerFields ? 'gsap-reveal newsletter-field' : ''
 

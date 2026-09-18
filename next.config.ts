@@ -1,4 +1,5 @@
 import type { NextConfig } from 'next'
+import { campaignRedirects, buildCampaignRedirects } from './src/lib/redirects'
 
 const nextConfig: NextConfig = {
   /* config options here */
@@ -18,12 +19,6 @@ const nextConfig: NextConfig = {
       //   destination: "https://forms.gle/9Nz9JoopR4j7soLe8",
       //   permanent: true,
       // },
-      {
-        source: '/singingdinarang',
-        destination:
-          'https://docs.google.com/forms/d/e/1FAIpQLScTKRRpb9_VtaYkIZnECzL3Q2sT40oJIuP6sFIn70q_qzHDyA/viewform?usp=header',
-        permanent: true,
-      },
       // The /events index and its 24 event pages moved to /initiatives; keep the
       // live old URLs working.
       {
@@ -57,6 +52,9 @@ const nextConfig: NextConfig = {
       //   destination: "https://instagram.com/svaritorg",
       //   permanent: true,
       // },
+      // Campaign/vanity links (svarit.org/<slug>): see src/lib/redirects.ts,
+      // the single home for those, for the playbook and validation.
+      ...buildCampaignRedirects(campaignRedirects),
     ]
   },
   async rewrites() {

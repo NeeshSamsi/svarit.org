@@ -7,6 +7,7 @@ import { PrismicNextImage, PrismicNextLink } from '@prismicio/next'
 import ButtonLink from '@/components/ui/ButtonLink'
 import { gsap } from '@/lib/gsap'
 import { useIsomorphicLayoutEffect } from '@/lib/useIsomorphicLayoutEffect'
+import { track } from '@/lib/analytics'
 
 export default function HeroDefault({
   slice,
@@ -31,13 +32,23 @@ export default function HeroDefault({
   // Text field can read back as `[]` and still pass `isFilled.keyText`.
   let bannerText: string | null = null
   let bannerHref: string | null = null
+  // The tracked identifier for the banner link: the related initiative's
+  // uid when `banner_initiative` is used, otherwise the banner href itself.
+  let bannerTrackId: string | null = null
 
   if (isFilled.contentRelationship(slice.primary.banner_initiative)) {
-    const title = slice.primary.banner_initiative.data?.title
+    // The generated type no longer carries the linked event's expanded
+    // `data` shape (the relationship field selects no sub-fields in the
+    // model), even though `fetchLinks` on the querying page still attaches
+    // it at runtime, so it is read through an unknown-safe cast here.
+    const title = (
+      slice.primary.banner_initiative.data as { title?: unknown } | undefined
+    )?.title
 
     if (typeof title === 'string' && title.trim()) {
       bannerText = title
       bannerHref = asLink(slice.primary.banner_initiative)
+      bannerTrackId = slice.primary.banner_initiative.uid ?? null
     }
   } else if (
     typeof slice.primary.banner_text === 'string' &&
@@ -46,6 +57,7 @@ export default function HeroDefault({
   ) {
     bannerText = slice.primary.banner_text
     bannerHref = asLink(slice.primary.banner_link)
+    bannerTrackId = bannerHref
   }
 
   const bannerCtaLabel =
@@ -117,6 +129,11 @@ export default function HeroDefault({
             data-gsap-intro
             style={{ opacity: 0, transform: 'translateY(20px)' }}
             className="group flex w-full flex-col items-start gap-2 rounded-3xl bg-muted px-6 py-4 transition-opacity hover:opacity-60 sm:flex-row sm:items-center sm:gap-6"
+            onClick={() =>
+              track('hero-banner-click', {
+                initiative: bannerTrackId ?? bannerHref,
+              })
+            }
           >
             <span className="min-w-0 font-body text-base font-medium text-foreground">
               {bannerText}

@@ -7,6 +7,7 @@ import SectionTitle from '@/components/ui/SectionTitle'
 import Button from '@/components/ui/Button'
 import { gsap } from '@/lib/gsap'
 import { submitContact, type ContactState } from '@/lib/actions/contact'
+import { track } from '@/lib/analytics'
 
 export type ContactProps = SliceComponentProps<Content.ContactSlice>
 
@@ -46,6 +47,14 @@ export default function Contact({ slice }: ContactProps) {
   useEffect(() => {
     if (tsRef.current) tsRef.current.value = String(Date.now())
   }, [])
+
+  useEffect(() => {
+    if (state.submitted) {
+      track('contact-submit', {})
+    } else if (state.reason) {
+      track('contact-submit-failed', { reason: state.reason })
+    }
+  }, [state])
 
   return (
     <section

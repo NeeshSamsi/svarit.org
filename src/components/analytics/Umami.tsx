@@ -10,14 +10,17 @@ export default function Umami() {
       <Script
         src="/u/script.js"
         data-website-id={WEBSITE_ID}
+        data-domains="www.svarit.org,svarit.org"
+        data-performance="true"
         strategy="afterInteractive"
       />
+      {/* Replay and heatmap settings (sample rate, mask level, max duration)
+          live in the Umami dashboard under Websites > Edit > Replays &
+          Heatmaps: the recorder only reads data-website-id/data-host-url off
+          this tag and fetches the rest from /api/websites/<id>/recorder. */}
       <Script
         src="/u/recorder.js"
         data-website-id={WEBSITE_ID}
-        data-sample-rate="0.15"
-        data-mask-level="moderate"
-        data-max-duration="300000"
         strategy="afterInteractive"
       />
     </>

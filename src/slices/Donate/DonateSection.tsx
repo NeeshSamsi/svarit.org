@@ -7,6 +7,7 @@ import { PrismicNextImage } from '@prismicio/next'
 import SectionTitle from '@/components/ui/SectionTitle'
 import ButtonLink from '@/components/ui/ButtonLink'
 import { gsap } from '@/lib/gsap'
+import { umamiEventAttrs } from '@/lib/analytics'
 
 const FALLBACK_IMAGE_ALT =
   'An attentive audience enjoying an intimate Hindustani classical music Baithak. In a moment of musical climax, maestros Pandit Yogesh Samsi and Pandit Suresh Talwalkar are seen in the audience with their hands raised in spontaneous approval and enjoyment.'
@@ -79,7 +80,14 @@ export default function DonateSection({
             className="flex w-full flex-col gap-6 sm:w-auto sm:rounded-2xl sm:bg-primary sm:p-4"
           >
             <SectionTitle title={slice.primary.heading ?? ''} />
-            <ButtonLink variant="primary" href={href} target="_blank">
+            <ButtonLink
+              variant="primary"
+              href={href}
+              target="_blank"
+              {...umamiEventAttrs('donate-click', {
+                location: 'donate-section',
+              })}
+            >
               {label}
             </ButtonLink>
           </div>

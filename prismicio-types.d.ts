@@ -151,7 +151,7 @@ interface ArtistDocumentData {
 	 * Meta Title field in *Artist*
 	 *
 	 * - **Field Type**: Text
-	 * - **Placeholder**: A title of the page used for social media and search engines
+	 * - **Placeholder**: Defaults to "{Name} at Svarit"
 	 * - **API ID Path**: artist.meta_title
 	 * - **Tab**: SEO & Metadata
 	 * - **Documentation**: https://prismic.io/docs/fields/text
@@ -162,7 +162,7 @@ interface ArtistDocumentData {
 	 * Meta Description field in *Artist*
 	 *
 	 * - **Field Type**: Text
-	 * - **Placeholder**: A brief summary of the page
+	 * - **Placeholder**: Defaults to the artist's Bio
 	 * - **API ID Path**: artist.meta_description
 	 * - **Tab**: SEO & Metadata
 	 * - **Documentation**: https://prismic.io/docs/fields/text
@@ -404,7 +404,7 @@ interface EventDocumentData {
 	 * Meta Title field in *Event*
 	 *
 	 * - **Field Type**: Text
-	 * - **Placeholder**: A title of the page used for social media and search engines
+	 * - **Placeholder**: Defaults to "{Title} by Svarit"
 	 * - **API ID Path**: event.meta_title
 	 * - **Tab**: SEO & Metadata
 	 * - **Documentation**: https://prismic.io/docs/fields/text
@@ -415,7 +415,7 @@ interface EventDocumentData {
 	 * Meta Description field in *Event*
 	 *
 	 * - **Field Type**: Text
-	 * - **Placeholder**: A brief summary of the page
+	 * - **Placeholder**: Defaults to the Description
 	 * - **API ID Path**: event.meta_description
 	 * - **Tab**: SEO & Metadata
 	 * - **Documentation**: https://prismic.io/docs/fields/text
@@ -464,7 +464,7 @@ interface PageDocumentData {
 	 * Meta Title field in *Page*
 	 *
 	 * - **Field Type**: Text
-	 * - **Placeholder**: A title of the page used for social media and search engines
+	 * - **Placeholder**: Defaults to "{Page name} | Svarit"
 	 * - **API ID Path**: page.meta_title
 	 * - **Tab**: SEO & Metadata
 	 * - **Documentation**: https://prismic.io/docs/fields/text
@@ -475,7 +475,7 @@ interface PageDocumentData {
 	 * Meta Description field in *Page*
 	 *
 	 * - **Field Type**: Text
-	 * - **Placeholder**: A brief summary of the page
+	 * - **Placeholder**: Falls back to the site description
 	 * - **API ID Path**: page.meta_description
 	 * - **Tab**: SEO & Metadata
 	 * - **Documentation**: https://prismic.io/docs/fields/text
@@ -764,92 +764,68 @@ interface SettingsDocumentData {
 export type SettingsDocument<Lang extends string = string> = prismic.PrismicDocumentWithoutUID<Simplify<SettingsDocumentData>, "settings", Lang>;
 
 /**
- * Item in *Welcome Updates → Variants*
+ * Content for Thank You documents
  */
-export interface WelcomeUpdatesDocumentDataVariantsItem {
+interface ThankYouDocumentData {
 	/**
-	 * Source field in *Welcome Updates → Variants*
-	 *
-	 * - **Field Type**: Text
-	 * - **Placeholder**: centenary (leave empty for the default)
-	 * - **API ID Path**: welcome_updates.variants[].source
-	 * - **Documentation**: https://prismic.io/docs/fields/text
-	 */
-	source: prismic.KeyTextField;
-
-	/**
-	 * Title field in *Welcome Updates → Variants*
+	 * Title field in *Thank You*
 	 *
 	 * - **Field Type**: Text
 	 * - **Placeholder**: *None*
-	 * - **API ID Path**: welcome_updates.variants[].title
+	 * - **API ID Path**: thank_you.title
+	 * - **Tab**: Main
 	 * - **Documentation**: https://prismic.io/docs/fields/text
 	 */
 	title: prismic.KeyTextField;
-
+	
 	/**
-	 * Body field in *Welcome Updates → Variants*
+	 * Body field in *Thank You*
 	 *
 	 * - **Field Type**: Rich Text
 	 * - **Placeholder**: *None*
-	 * - **API ID Path**: welcome_updates.variants[].body
+	 * - **API ID Path**: thank_you.body
+	 * - **Tab**: Main
 	 * - **Documentation**: https://prismic.io/docs/fields/rich-text
 	 */
 	body: prismic.RichTextField;
-
+	
 	/**
-	 * CTA Label field in *Welcome Updates → Variants*
+	 * CTA Label field in *Thank You*
 	 *
 	 * - **Field Type**: Text
 	 * - **Placeholder**: Explore our initiatives
-	 * - **API ID Path**: welcome_updates.variants[].cta_label
+	 * - **API ID Path**: thank_you.cta_label
+	 * - **Tab**: Main
 	 * - **Documentation**: https://prismic.io/docs/fields/text
 	 */
 	cta_label: prismic.KeyTextField;
-
+	
 	/**
-	 * CTA Link field in *Welcome Updates → Variants*
+	 * CTA Link field in *Thank You*
 	 *
-	 * - **Field Type**: Link
+	 * - **Field Type**: Content Relationship
 	 * - **Placeholder**: *None*
-	 * - **API ID Path**: welcome_updates.variants[].cta_link
-	 * - **Documentation**: https://prismic.io/docs/fields/link
-	 */
-	cta_link: prismic.ContentRelationshipField<"page" | "event">;
-}
-
-/**
- * Content for Welcome Updates documents
- */
-interface WelcomeUpdatesDocumentData {
-	/**
-	 * Variants field in *Welcome Updates*
-	 *
-	 * - **Field Type**: Group
-	 * - **Placeholder**: *None*
-	 * - **API ID Path**: welcome_updates.variants[]
+	 * - **API ID Path**: thank_you.cta_link
 	 * - **Tab**: Main
-	 * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
+	 * - **Documentation**: https://prismic.io/docs/fields/content-relationship
 	 */
-	variants: prismic.GroupField<Simplify<WelcomeUpdatesDocumentDataVariantsItem>>;
-
-	/**
-	 * Meta Title field in *Welcome Updates*
+	cta_link: prismic.ContentRelationshipField<"page"> | prismic.ContentRelationshipField<"event">;/**
+	 * Meta Title field in *Thank You*
 	 *
 	 * - **Field Type**: Text
-	 * - **Placeholder**: A title of the page used for social media and search engines
-	 * - **API ID Path**: welcome_updates.meta_title
+	 * - **Placeholder**: Defaults to "Thank You | Svarit"
+	 * - **API ID Path**: thank_you.meta_title
 	 * - **Tab**: SEO & Metadata
 	 * - **Documentation**: https://prismic.io/docs/fields/text
 	 */
 	meta_title: prismic.KeyTextField;
-
+	
 	/**
-	 * Meta Description field in *Welcome Updates*
+	 * Meta Description field in *Thank You*
 	 *
 	 * - **Field Type**: Text
-	 * - **Placeholder**: A brief summary of the page
-	 * - **API ID Path**: welcome_updates.meta_description
+	 * - **Placeholder**: Falls back to the site description
+	 * - **API ID Path**: thank_you.meta_description
 	 * - **Tab**: SEO & Metadata
 	 * - **Documentation**: https://prismic.io/docs/fields/text
 	 */
@@ -857,15 +833,15 @@ interface WelcomeUpdatesDocumentData {
 }
 
 /**
- * Welcome Updates document from Prismic
+ * Thank You document from Prismic
  *
- * - **API ID**: `welcome_updates`
+ * - **API ID**: `thank_you`
  * - **Repeatable**: `false`
  * - **Documentation**: https://prismic.io/docs/content-modeling
  *
  * @typeParam Lang - Language API ID of the document.
  */
-export type WelcomeUpdatesDocument<Lang extends string = string> = prismic.PrismicDocumentWithoutUID<Simplify<WelcomeUpdatesDocumentData>, "welcome_updates", Lang>;
+export type ThankYouDocument<Lang extends string = string> = prismic.PrismicDocumentWithoutUID<Simplify<ThankYouDocumentData>, "thank_you", Lang>;
 
 /**
  * Content for Volunteer documents
@@ -916,7 +892,109 @@ interface VolunteerDocumentData {
  */
 export type VolunteerDocument<Lang extends string = string> = prismic.PrismicDocumentWithUID<Simplify<VolunteerDocumentData>, "volunteer", Lang>;
 
-export type AllDocumentTypes = ArtistDocument | EventDocument | PageDocument | SettingsDocument | VolunteerDocument | WelcomeUpdatesDocument;
+/**
+ * Item in *Welcome Updates → Variants*
+ */
+export interface WelcomeUpdatesDocumentDataVariantsItem {
+	/**
+	 * Source field in *Welcome Updates → Variants*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: centenary (leave empty for the default)
+	 * - **API ID Path**: welcome_updates.variants[].source
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	source: prismic.KeyTextField;
+	
+	/**
+	 * Title field in *Welcome Updates → Variants*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: welcome_updates.variants[].title
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	title: prismic.KeyTextField;
+	
+	/**
+	 * Body field in *Welcome Updates → Variants*
+	 *
+	 * - **Field Type**: Rich Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: welcome_updates.variants[].body
+	 * - **Documentation**: https://prismic.io/docs/fields/rich-text
+	 */
+	body: prismic.RichTextField;
+	
+	/**
+	 * CTA Label field in *Welcome Updates → Variants*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Explore our initiatives
+	 * - **API ID Path**: welcome_updates.variants[].cta_label
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	cta_label: prismic.KeyTextField;
+	
+	/**
+	 * CTA Link field in *Welcome Updates → Variants*
+	 *
+	 * - **Field Type**: Content Relationship
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: welcome_updates.variants[].cta_link
+	 * - **Documentation**: https://prismic.io/docs/fields/content-relationship
+	 */
+	cta_link: prismic.ContentRelationshipField<"page"> | prismic.ContentRelationshipField<"event">;
+}
+
+/**
+ * Content for Welcome Updates documents
+ */
+interface WelcomeUpdatesDocumentData {
+	/**
+	 * Variants field in *Welcome Updates*
+	 *
+	 * - **Field Type**: Group
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: welcome_updates.variants[]
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
+	 */
+	variants: prismic.GroupField<Simplify<WelcomeUpdatesDocumentDataVariantsItem>>;/**
+	 * Meta Title field in *Welcome Updates*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Defaults to "Welcome Updates | Svarit"
+	 * - **API ID Path**: welcome_updates.meta_title
+	 * - **Tab**: SEO & Metadata
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	meta_title: prismic.KeyTextField;
+	
+	/**
+	 * Meta Description field in *Welcome Updates*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Falls back to the site description
+	 * - **API ID Path**: welcome_updates.meta_description
+	 * - **Tab**: SEO & Metadata
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	meta_description: prismic.KeyTextField;
+}
+
+/**
+ * Welcome Updates document from Prismic
+ *
+ * - **API ID**: `welcome_updates`
+ * - **Repeatable**: `false`
+ * - **Documentation**: https://prismic.io/docs/content-modeling
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type WelcomeUpdatesDocument<Lang extends string = string> = prismic.PrismicDocumentWithoutUID<Simplify<WelcomeUpdatesDocumentData>, "welcome_updates", Lang>;
+
+export type AllDocumentTypes = ArtistDocument | EventDocument | PageDocument | SettingsDocument | ThankYouDocument | VolunteerDocument | WelcomeUpdatesDocument;
 
 /**
  * Primary content in *About → Default → Primary*
@@ -1382,7 +1460,7 @@ export interface EventListSliceTimelinePrimary {
 	 * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
 	 */
 	initiatives: prismic.GroupField<Simplify<EventListSliceTimelinePrimaryInitiativesItem>>;
-
+	
 	/**
 	 * Max Items field in *EventList → Timeline → Primary*
 	 *
@@ -1392,7 +1470,7 @@ export interface EventListSliceTimelinePrimary {
 	 * - **Documentation**: https://prismic.io/docs/fields/number
 	 */
 	max_items: prismic.NumberField;
-
+	
 	/**
 	 * More Label field in *EventList → Timeline → Primary*
 	 *
@@ -1402,17 +1480,17 @@ export interface EventListSliceTimelinePrimary {
 	 * - **Documentation**: https://prismic.io/docs/fields/text
 	 */
 	more_label: prismic.KeyTextField;
-
+	
 	/**
 	 * More Link field in *EventList → Timeline → Primary*
 	 *
-	 * - **Field Type**: Link
+	 * - **Field Type**: Content Relationship
 	 * - **Placeholder**: *None*
 	 * - **API ID Path**: event_list.timeline.primary.more_link
-	 * - **Documentation**: https://prismic.io/docs/fields/link
+	 * - **Documentation**: https://prismic.io/docs/fields/content-relationship
 	 */
 	more_link: prismic.ContentRelationshipField<"page">;
-
+	
 	/**
 	 * Show signup form field in *EventList → Timeline → Primary*
 	 *
@@ -1443,6 +1521,17 @@ export interface EventListSliceTimelinePrimary {
 	 * - **Documentation**: https://prismic.io/docs/fields/text
 	 */
 	signup_cta_label: prismic.KeyTextField;
+	
+	/**
+	 * Signup Event Type field in *EventList → Timeline → Primary*
+	 *
+	 * - **Field Type**: Select
+	 * - **Placeholder**: *None*
+	 * - **Default Value**: $opt.in
+	 * - **API ID Path**: event_list.timeline.primary.signup_event_type
+	 * - **Documentation**: https://prismic.io/docs/fields/select
+	 */
+	signup_event_type: prismic.SelectField<"$opt.in" | "$opt.in.centenary", "filled">;
 }
 
 /**
@@ -1506,7 +1595,7 @@ export interface HeroSliceDefaultPrimary {
 	 * - **Documentation**: https://prismic.io/docs/fields/rich-text
 	 */
 	subtitle: prismic.RichTextField;
-
+	
 	/**
 	 * Banner Initiative field in *Hero → Default → Primary*
 	 *
@@ -1515,8 +1604,8 @@ export interface HeroSliceDefaultPrimary {
 	 * - **API ID Path**: hero.default.primary.banner_initiative
 	 * - **Documentation**: https://prismic.io/docs/fields/content-relationship
 	 */
-	banner_initiative: prismic.ContentRelationshipField<"event", string, { title: prismic.KeyTextField }>;
-
+	banner_initiative: prismic.ContentRelationshipField<"event">;
+	
 	/**
 	 * Banner Text field in *Hero → Default → Primary*
 	 *
@@ -1526,7 +1615,7 @@ export interface HeroSliceDefaultPrimary {
 	 * - **Documentation**: https://prismic.io/docs/fields/text
 	 */
 	banner_text: prismic.KeyTextField;
-
+	
 	/**
 	 * Banner Link field in *Hero → Default → Primary*
 	 *
@@ -1536,7 +1625,7 @@ export interface HeroSliceDefaultPrimary {
 	 * - **Documentation**: https://prismic.io/docs/fields/link
 	 */
 	banner_link: prismic.LinkField<string, string, unknown, prismic.FieldState, never>;
-
+	
 	/**
 	 * Banner CTA Label field in *Hero → Default → Primary*
 	 *
@@ -1546,7 +1635,7 @@ export interface HeroSliceDefaultPrimary {
 	 * - **Documentation**: https://prismic.io/docs/fields/text
 	 */
 	banner_cta_label: prismic.KeyTextField;
-
+	
 	/**
 	 * CTA Label field in *Hero → Default → Primary*
 	 *
@@ -1983,6 +2072,8 @@ declare module "@prismicio/client" {
 			SettingsDocumentDataNavItem,
 			SettingsDocumentDataFooterItem,
 			SettingsDocumentDataFooterLinksItem,
+			ThankYouDocument,
+			ThankYouDocumentData,
 			VolunteerDocument,
 			VolunteerDocumentData,
 			WelcomeUpdatesDocument,

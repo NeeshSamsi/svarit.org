@@ -5,6 +5,7 @@ import type {
   ArtistDocument,
   EventDocument,
   SettingsDocument,
+  ThankYouDocument,
   VolunteerDocument,
   WelcomeUpdatesDocument,
 } from '../../prismicio-types'
@@ -50,6 +51,14 @@ export const getWelcomeUpdates = cache(
     }
   }
 )
+
+export const getThankYou = cache(async (): Promise<ThankYouDocument | null> => {
+  try {
+    return await createClient().getSingle('thank_you')
+  } catch (error) {
+    return fallback('getThankYou', null, error)
+  }
+})
 
 export const getAllEvents = cache(async (): Promise<EventDocument[]> => {
   try {
