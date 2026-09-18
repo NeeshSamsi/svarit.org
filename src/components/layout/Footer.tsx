@@ -4,6 +4,7 @@ import { PrismicRichText } from '@prismicio/react'
 import ButtonLink from '@/components/ui/ButtonLink'
 import SocialLinks from '@/components/ui/SocialLinks'
 import { getSettings } from '@/lib/queries'
+import { umamiEventAttrs } from '@/lib/analytics'
 
 const CREDITS_CLASS =
   'text-left font-body text-base font-light text-foreground sm:text-center'
@@ -61,7 +62,7 @@ export default async function Footer() {
           {/* Plain img: the logo is a 1KB SVG, so next/image adds a loader round trip for no optimisation benefit. */}
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/assets/logo.svg" alt="Svarit" className="h-8 w-auto" />
-          <SocialLinks />
+          <SocialLinks location="footer" />
         </div>
         <div className="flex flex-col gap-2">
           {/* `a` inherits color and underline from its parent (Tailwind resets
@@ -74,6 +75,7 @@ export default async function Footer() {
                 <a
                   href={`mailto:${email}`}
                   className="transition-opacity hover:opacity-60"
+                  {...umamiEventAttrs('contact-click', { method: 'email' })}
                 >
                   {email}
                 </a>
@@ -84,6 +86,7 @@ export default async function Footer() {
                   <a
                     href={`tel:${phoneE164}`}
                     className="transition-opacity hover:opacity-60"
+                    {...umamiEventAttrs('contact-click', { method: 'phone' })}
                   >
                     {phone}
                   </a>
@@ -125,6 +128,7 @@ export default async function Footer() {
                 size="sm"
                 href={asLink(link) ?? '#'}
                 target="_blank"
+                {...umamiEventAttrs('donate-click', { location: 'footer' })}
               >
                 {link.text}
               </ButtonLink>

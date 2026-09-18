@@ -126,6 +126,7 @@ export default function ArtistHero({
           >
             <ArtistSocials
               artist={artist}
+              location="artist-hero"
               orientation="horizontal"
               chipClassName="bg-muted"
             />

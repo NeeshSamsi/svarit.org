@@ -1,6 +1,7 @@
 import { isFilled } from '@prismicio/client'
 import { PrismicNextLink } from '@prismicio/next'
 import { getSettings } from '@/lib/queries'
+import { umamiEventAttrs, type AnalyticsEvents } from '@/lib/analytics'
 import { FacebookIcon, InstagramIcon, YouTubeIcon } from './social-icons'
 
 const socialLinks = [
@@ -10,9 +11,11 @@ const socialLinks = [
 ] as const
 
 export default async function SocialLinks({
+  location,
   className = '',
   iconClassName = 'size-6',
 }: {
+  location: AnalyticsEvents['social-click']['location']
   className?: string
   iconClassName?: string
 }) {
@@ -33,6 +36,7 @@ export default async function SocialLinks({
             rel="noopener noreferrer"
             aria-label={label}
             className="text-foreground transition-opacity hover:opacity-60"
+            {...umamiEventAttrs('social-click', { platform: key, location })}
           >
             <Icon className={iconClassName} />
           </PrismicNextLink>
