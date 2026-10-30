@@ -38,6 +38,13 @@ const nextConfig: NextConfig = {
         destination: '/artists/ashwini-bhide-deshpande',
         permanent: true,
       },
+      // Shortcut to the Umami dashboard for this site (login required).
+      {
+        source: '/stats',
+        destination:
+          'https://umami.neeshsamsi.com/teams/7b402cda-241b-423c-a08b-72e1af96121c/websites/295db284-4940-4d76-8222-b284f4cbb4ed',
+        permanent: true,
+      },
       // Temporary: /dinarang-centenary is a working name being tried ahead
       // of a final decision. permanent: false makes this a 307, not a 308;
       // a 308 gets cached hard by browsers and is painful to undo if the
