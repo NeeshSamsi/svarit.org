@@ -54,6 +54,13 @@ const nextConfig: NextConfig = {
         destination: '/centenary',
         permanent: false,
       },
+      // Temporary: the Samagam baithak's AllEvents listing, Nov 2026. A 307
+      // so it can be repointed or removed once the event is over.
+      {
+        source: '/samagam',
+        destination: 'https://go.allevents.in/8VJyR',
+        permanent: false,
+      },
       // {
       //   source: "/:path*",
       //   destination: "https://instagram.com/svaritorg",
