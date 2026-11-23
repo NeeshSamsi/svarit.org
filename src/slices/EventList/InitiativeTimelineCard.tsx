@@ -11,7 +11,7 @@ import type { ArtistDocument, EventDocument } from '../../../prismicio-types'
 
 /**
  * A richer timeline card: no hero image, a dot on the rail centred on the
- * title, and a collapsible row of featured artists. NOT a stretched link:
+ * title, and a collapsible row of the event's artists. NOT a stretched link:
  * it carries its own Show more toggle and Learn more CTA, so an overlay
  * would fight both. The title is a plain heading, not a link.
  */

@@ -49,32 +49,20 @@ async function resolveTimelineEvents(
 }
 
 /**
- * Featured artists first (group order preserved among them), then the rest
- * (also in group order). `featured` lives on the event's `artists` group row.
+ * The event's artists in its `artists` group order, which is the order editors
+ * arrange them in Prismic. A row whose artist was not fetched (empty, or not
+ * published) is dropped.
  */
 function resolveEventArtists(
   event: EventDocument,
   artistDocs: ArtistDocument[]
 ): ArtistDocument[] {
-  const rows = event.data.artists
-    .flatMap((item) =>
-      prismic.isFilled.contentRelationship(item.artist)
-        ? [{ featured: item.featured === true, id: item.artist.id }]
-        : []
-    )
-    .map((row) => ({
-      featured: row.featured,
-      doc: artistDocs.find((doc) => doc.id === row.id),
-    }))
-    .filter(
-      (row): row is { featured: boolean; doc: ArtistDocument } =>
-        row.doc !== undefined
-    )
-
-  return [
-    ...rows.filter((row) => row.featured),
-    ...rows.filter((row) => !row.featured),
-  ].map((row) => row.doc)
+  return event.data.artists.flatMap((item) => {
+    if (!prismic.isFilled.contentRelationship(item.artist)) return []
+    const { id } = item.artist
+    const doc = artistDocs.find((artist) => artist.id === id)
+    return doc ? [doc] : []
+  })
 }
 
 /**
