@@ -58,7 +58,7 @@ const nextConfig: NextConfig = {
       // so it can be repointed or removed once the event is over.
       {
         source: '/samagam',
-        destination: 'https://go.allevents.in/8VJyR',
+        destination: 'https://all.events/go/80002737947616',
         permanent: false,
       },
       // {
