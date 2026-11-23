@@ -205,17 +205,6 @@ export interface EventDocumentDataArtistsItem {
 	 * - **Documentation**: https://prismic.io/docs/fields/content-relationship
 	 */
 	artist: prismic.ContentRelationshipField<"artist">;
-	
-	/**
-	 * Featured on card field in *Event → Artists*
-	 *
-	 * - **Field Type**: Boolean
-	 * - **Placeholder**: *None*
-	 * - **Default Value**: false
-	 * - **API ID Path**: event.artists[].featured
-	 * - **Documentation**: https://prismic.io/docs/fields/boolean
-	 */
-	featured: prismic.BooleanField;
 }
 
 /**

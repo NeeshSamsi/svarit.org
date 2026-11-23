@@ -3,9 +3,7 @@
  * (Solo todo P6).
  *
  * The things that must hold: the artists group on an initiative is built in the schedule's
- * own uid order with `featured` true only for uids in that entry's `featured` array, a
- * `featured` uid absent from `artists` aborts validation, an unresolved artist uid aborts
- * rather than silently dropping the artist, description becomes a single rich text paragraph
+ * own uid order, an unresolved artist uid aborts rather than silently dropping the artist, description becomes a single rich text paragraph
  * with the exact source text, the timeline's initiatives group comes out in the schedule's
  * array order, and an existing initiative document is planned as a create, an update (repair
  * for an interrupted migration or ordinary drift), or left unchanged depending on whether -
@@ -54,26 +52,12 @@ const initiative = (
     'maestro\'s "signature" khayal style.',
   feature_label: 'Featuring:',
   artists: ['sangeeta-shankar', 'nandini-shankar', 'ojas-adhiya'],
-  featured: ['sangeeta-shankar'],
   ...overrides,
 })
 
 describe('validateSchedule', () => {
   it('passes a well-formed schedule with no errors', () => {
     assert.deepEqual(validateSchedule([initiative()], CATEGORIES), [])
-  })
-
-  it("aborts (reports) a featured uid absent from that entry's artists", () => {
-    const errors = validateSchedule(
-      [initiative({ featured: ['someone-else'] })],
-      CATEGORIES
-    )
-    assert.ok(
-      errors.some(
-        (e) =>
-          /features "someone-else"/.test(e) && /not in its own artists/.test(e)
-      )
-    )
   })
 
   it('reports a malformed start_date', () => {
@@ -105,12 +89,11 @@ describe('validateSchedule', () => {
         initiative({
           start_date: 'bad',
           category: 'Festival',
-          featured: ['nobody'],
         }),
       ],
       CATEGORIES
     )
-    assert.equal(errors.length, 3)
+    assert.equal(errors.length, 2)
   })
 })
 
@@ -268,10 +251,7 @@ const fetchedInitiativeData = (
   venue: entry.venue,
   description: [{ type: 'paragraph', text: entry.description, spans: [] }],
   feature_label: entry.feature_label,
-  artists: entry.artists.map((uid) => ({
-    artist: artistDocs[uid],
-    featured: entry.featured.includes(uid),
-  })),
+  artists: entry.artists.map((uid) => ({ artist: artistDocs[uid] })),
 })
 
 describe('describeInitiativeDrift', () => {
@@ -304,17 +284,13 @@ describe('describeInitiativeDrift', () => {
   })
 
   it('catches a category that reads as the model default instead of the real value', () => {
-    const entry = initiative({
-      category: 'Workshop',
-      artists: [],
-      featured: [],
-    })
+    const entry = initiative({ category: 'Workshop', artists: [] })
     const diffs = describeInitiativeDrift(modelDefaultInitiativeData(), entry)
     assert.ok(diffs.includes('category'))
   })
 
   it('treats a null venue and an empty-string schedule venue as equal, not a diff', () => {
-    const entry = initiative({ venue: '', artists: [], featured: [] })
+    const entry = initiative({ venue: '', artists: [] })
     const current = fetchedInitiativeData(entry, {})
     current.venue = null
     assert.ok(!describeInitiativeDrift(current, entry).includes('venue'))
@@ -348,11 +324,7 @@ describe('planInitiativeWrite', () => {
   })
 
   it('plans creates and updates side by side for a mixed set, with no abort', () => {
-    const missingEntry = initiative({
-      uid: 'samvaad-baithak-1',
-      artists: [],
-      featured: [],
-    })
+    const missingEntry = initiative({ uid: 'samvaad-baithak-1', artists: [] })
     const brokenEntry = initiative({ uid: 'aarambh-2026' })
     const existingByUid = new Map<string, Record<string, unknown>>([
       [brokenEntry.uid, modelDefaultInitiativeData()],
@@ -468,9 +440,9 @@ describe('buildArtistsGroup', () => {
     const group = buildArtistsGroup(initiative(), handles)
 
     assert.deepEqual(group, [
-      { artist: 'H:sangeeta-shankar', featured: true },
-      { artist: 'H:nandini-shankar', featured: false },
-      { artist: 'H:ojas-adhiya', featured: false },
+      { artist: 'H:sangeeta-shankar' },
+      { artist: 'H:nandini-shankar' },
+      { artist: 'H:ojas-adhiya' },
     ])
   })
 

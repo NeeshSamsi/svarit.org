@@ -30,8 +30,7 @@
       "venue": "Bharatiya Vidya Bhavan Auditorium, Chowpatty, Mumbai",
       "description": "Opening the year-long centenary celebrations of Pandit Dinkar Kaikini, Aarambh brings together leading maestros and distinguished artists across morning and evening sessions at Bharatiya Vidya Bhavan. The festival commemorates the maestro's vocal and compositional legacy through khayal, Carnatic vocal, instrumental duets, and classical dialogue.",
       "feature_label": "Featuring:",
-      "artists": ["sangeeta-shankar", "nandini-shankar", "ojas-adhiya", "ashwini-bhide-deshpande", "vishwanath-shirodkar", "siddhesh-bicholkar", "omkar-dadarkar", "swapnil-bhise", "kushal-das", "yogesh-samsi", "ranjani-balasubramanian", "gayatri-balasubramanian", "l-ramakrishnan", "sridhar-parthasarathi", "s-krishna"],
-      "featured": ["sangeeta-shankar", "nandini-shankar", "ashwini-bhide-deshpande", "omkar-dadarkar", "kushal-das", "ranjani-balasubramanian", "gayatri-balasubramanian"]
+      "artists": ["sangeeta-shankar", "nandini-shankar", "ojas-adhiya", "ashwini-bhide-deshpande", "vishwanath-shirodkar", "siddhesh-bicholkar", "omkar-dadarkar", "swapnil-bhise", "kushal-das", "yogesh-samsi", "ranjani-balasubramanian", "gayatri-balasubramanian", "l-ramakrishnan", "sridhar-parthasarathi", "s-krishna"]
     },
     {
       "uid": "samvaad-baithak-1",
@@ -42,8 +41,7 @@
       "venue": "",
       "description": "The opening chapter of the centenary baithak series, designed to revive the intimacy of traditional acoustic gatherings. This curated session removes formal stage barriers to highlight rising classical talent in an immersive setting that encourages artistic exchange and close listening.",
       "feature_label": "Featuring:",
-      "artists": [],
-      "featured": []
+      "artists": []
     },
     {
       "uid": "samvaad-baithak-2",
@@ -54,8 +52,7 @@
       "venue": "",
       "description": "The second instalment of the quarterly baithak series, offering an unhurried, close-quarters listening environment. Dedicated to nurturing emerging soloists, the session connects promising artists directly with seasoned connoisseurs, scholars, and patrons.",
       "feature_label": "Featuring:",
-      "artists": [],
-      "featured": []
+      "artists": []
     },
     {
       "uid": "sumiran-kathak-festival-2027",
@@ -66,8 +63,7 @@
       "venue": "Bal Shikshan Mandir, Pune",
       "description": "A day-long classical dance festival celebrating Pandit Dinkar Kaikini's compositions through the language of Kathak. Featuring special choreographies conceived by Shama Bhate alongside works by prominent dancers, the festival explores the rhythmic and emotional dialogue between music and movement.",
       "feature_label": "Featuring:",
-      "artists": ["shama-bhate"],
-      "featured": ["shama-bhate"]
+      "artists": ["shama-bhate"]
     },
     {
       "uid": "samvaad-baithak-3",
@@ -78,8 +74,7 @@
       "venue": "",
       "description": "The third session of the intimate baithak initiative, providing a focused platform for exceptional young classical exponents. The gathering honours the baithak tradition with spontaneous exploration, deep audience engagement, and subtle aesthetic nuance.",
       "feature_label": "Featuring:",
-      "artists": [],
-      "featured": []
+      "artists": []
     },
     {
       "uid": "sadhana-workshops-scholarships",
@@ -90,8 +85,7 @@
       "venue": "",
       "description": "An intensive pedagogical initiative carrying forward Pandit Dinkar Kaikini's lifelong devotion to music education. Comprising four maestro-led masterclasses and merit-based annual scholarships, the programme supports advanced student training in gayaki, stagecraft, and classical knowledge.",
       "feature_label": "Conducting:",
-      "artists": [],
-      "featured": []
+      "artists": []
     },
     {
       "uid": "samvaad-baithak-4",
@@ -102,8 +96,7 @@
       "venue": "",
       "description": "The concluding edition of the centenary baithak series, rounding off a year of intimate youth-focused recitals. The session offers an informal platform for emerging musicians to present detailed ragas before an attentive, discerning community of listeners.",
       "feature_label": "Featuring:",
-      "artists": [],
-      "featured": []
+      "artists": []
     },
     {
       "uid": "purnahuti-2027",
@@ -114,8 +107,7 @@
       "venue": "Nehru Centre, Mumbai",
       "description": "The grand culmination of the centenary celebrations at Nehru Centre, Mumbai. Spanning three sessions across the day, the festival features landmark performances by India's pre-eminent classical luminaries, alongside retrospective photographic and archival film exhibitions honouring the enduring influence of \"Dinarang\".",
       "feature_label": "Featuring:",
-      "artists": [],
-      "featured": []
+      "artists": []
     }
   ]
 }

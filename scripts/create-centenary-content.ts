@@ -31,8 +31,8 @@
  *   2. artists    - create, or REPAIR, the 12 new artist documents. Existence is not proof
  *                   of correctness here either: see INTERRUPTION below.
  *   3. initiatives - create, or REPAIR, the 8 event documents. Each entry's `artists` group
- *                    is built from the schedule's uid order, `featured` set from the
- *                    schedule's `featured` array, and its artist references resolved to a
+ *                    is built from the schedule's uid order, which is the order the site
+ *                    renders them in, and its artist references resolved to a
  *                    stage 1 rename, a stage 2 artist, or an EXISTING artist document
  *                    (`kushal-das`, `yogesh-samsi` and `shama-bhate` are in neither file and
  *                    must already exist in Prismic).
@@ -70,8 +70,6 @@
  * VALIDATION, run before anything is written, so the script is safe to re-run after the JSON
  * is hand-edited:
  *   - no duplicate initiative uid within the schedule
- *   - every `featured` uid is present in that same entry's `artists` (the guard against
- *     featuring someone who is not on the event) - ABORTS naming both if not
  *   - every `start_date` matches ^\d{4}-\d{2}-\d{2}$
  *   - every `category` is one of the options `customtypes/event/index.json` declares
  *   - a rename's `from_uid` and `to_uid` do not resolve to two DIFFERENT documents
@@ -151,7 +149,6 @@ export type InitiativeInput = {
   description: string
   feature_label: string
   artists: string[]
-  featured: string[]
 }
 
 const ARTISTS_JSON_PATH = new URL(
@@ -208,8 +205,7 @@ const textField = (value: unknown): string =>
 
 /**
  * The schedule-only checks that need no knowledge of Prismic: duplicate uids, malformed
- * dates, unknown categories, and a `featured` uid that is not in its own `artists` array.
- * Returns every problem found, not just the first, so a single re-run surfaces the whole
+ * dates, and unknown categories. Returns every problem found, not just the first, so a single re-run surfaces the whole
  * list of edits still needed.
  */
 export function validateSchedule(
@@ -237,15 +233,6 @@ export function validateSchedule(
         `initiative "${entry.uid}" has category ${JSON.stringify(entry.category)}, which ` +
           `is not one of: ${allowedCategories.join(', ')}`
       )
-    }
-
-    for (const featuredUid of entry.featured) {
-      if (!entry.artists.includes(featuredUid)) {
-        errors.push(
-          `initiative "${entry.uid}" features "${featuredUid}", who is not in its own ` +
-            'artists array'
-        )
-      }
     }
   }
 
@@ -368,26 +355,21 @@ function richTextPlainText(value: unknown): string {
     .join('\n')
 }
 
-/** uid + featured pairs off a fetched `artists` group, in the order Prismic returned them. */
-function currentArtistsSignature(
-  value: unknown
-): Array<{ uid: string; featured: boolean }> {
+/** Artist uids off a fetched `artists` group, in the order Prismic returned them. */
+function currentArtistUids(value: unknown): string[] {
   const rows = Array.isArray(value) ? value : []
   return rows.map((row) => {
     const entry = (row ?? {}) as Record<string, unknown>
     const artist = (entry.artist ?? {}) as Record<string, unknown>
-    return {
-      uid: typeof artist.uid === 'string' ? artist.uid : '',
-      featured: entry.featured === true,
-    }
+    return typeof artist.uid === 'string' ? artist.uid : ''
   })
 }
 
 /**
  * Names the fields this script owns that differ between a fetched `event` document's data and
  * the schedule entry it should match: title, category, start_date, date_label, venue,
- * description text, feature_label, and the artists group (uid order plus each row's featured
- * flag). Nothing else is inspected - fields the script does not own (hero_image, end_date,
+ * description text, feature_label, and the artists group (uid order). Nothing else is
+ * inspected - fields the script does not own (hero_image, end_date,
  * venue_map_link, ctas, slices) are never compared, so a change an editor made there is never
  * reported as drift. `null` and an empty string compare equal, since an untouched Text/Date
  * field reads back as `null`, not the empty string a blank schedule value (like `venue: ''`)
@@ -413,13 +395,9 @@ export function describeInitiativeDrift(
     diffs.push('feature_label')
   }
 
-  const desiredArtists = entry.artists.map((uid) => ({
-    uid,
-    featured: entry.featured.includes(uid),
-  }))
   if (
-    JSON.stringify(currentArtistsSignature(current.artists)) !==
-    JSON.stringify(desiredArtists)
+    JSON.stringify(currentArtistUids(current.artists)) !==
+    JSON.stringify(entry.artists)
   ) {
     diffs.push('artists')
   }
@@ -500,15 +478,14 @@ export function buildArtistData(artist: ArtistInput): Record<string, unknown> {
 }
 
 /**
- * One `event.artists` group, in the schedule entry's own uid order, `featured` true only for
- * uids in that entry's `featured` array. Generic over the handle type so it is testable with
- * plain uid strings and, at commit time, usable with real Prismic document handles.
+ * One `event.artists` group, in the schedule entry's own uid order. Generic over the handle
+ * type so it is testable with plain uid strings and, at commit time, usable with real Prismic
+ * document handles.
  */
 export function buildArtistsGroup<T>(
   entry: InitiativeInput,
   handles: Map<string, T>
-): Array<{ artist: T; featured: boolean }> {
-  const featured = new Set(entry.featured)
+): Array<{ artist: T }> {
   return entry.artists.map((uid) => {
     const artist = handles.get(uid)
     if (artist === undefined) {
@@ -516,7 +493,7 @@ export function buildArtistsGroup<T>(
         `initiative "${entry.uid}" references unresolved artist uid "${uid}"`
       )
     }
-    return { artist, featured: featured.has(uid) }
+    return { artist }
   })
 }
 
@@ -655,15 +632,11 @@ function parseArgs(argv: string[]) {
 
 type Handle = PrismicDocument | PrismicMigrationDocument<PrismicDocument>
 
-function summariseInitiative(
-  entry: InitiativeInput,
-  totalArtists: number,
-  featuredCount: number
-): string {
+function summariseInitiative(entry: InitiativeInput): string {
   const venue = entry.venue || '(no venue given)'
   return (
     `${entry.uid}: "${entry.title}" | ${entry.date_label} | ${entry.category} | ${venue} | ` +
-    `${totalArtists} artist(s), ${featuredCount} featured`
+    `${entry.artists.length} artist(s)`
   )
 }
 
@@ -926,9 +899,7 @@ async function main() {
   console.log('Stage 3: initiatives')
   for (const { entry, plan } of initiativePlans) {
     if (plan.action === 'create') {
-      console.log(
-        `  create     ${summariseInitiative(entry, entry.artists.length, entry.featured.length)}`
-      )
+      console.log(`  create     ${summariseInitiative(entry)}`)
     } else if (plan.action === 'update') {
       console.log(
         `  update     ${entry.uid} (exists but ${plan.diffs.join(', ')} differ)`
