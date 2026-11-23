@@ -60,8 +60,10 @@ export default function ArtistCard({
             {name}
           </PrismicNextLink>
         </Heading>
+        {/* Clamped so every card in a row keeps the same rhythm whatever the
+            bio length. The full bio lives on the artist's own page (ArtistHero). */}
         {bioText && (
-          <p className="font-body text-xl font-light text-foreground">
+          <p className="line-clamp-3 font-body text-xl font-light text-foreground">
             {bioText}
           </p>
         )}
